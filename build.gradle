@@ -20,3 +20,17 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "ru.nsu.fit.akitov.socks.Main",
+        )
+    }
+    from {
+        configurations.compileClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+}
