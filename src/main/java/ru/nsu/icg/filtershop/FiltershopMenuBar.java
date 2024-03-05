@@ -5,6 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+/*
+Author: Mikhail Sartakov
+Date: 06.03.2024
+ */
 public class FiltershopMenuBar extends JMenuBar implements ActionListener {
     private FiltershopViewPanel viewPanel;
     private JMenu file;

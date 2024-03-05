@@ -3,6 +3,10 @@ package ru.nsu.icg.filtershop;
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
 
+/*
+Author: Mikhail Sartakov
+Date: 06.03.2024
+ */
 public class DottedBorder extends AbstractBorder {
     private final Color color;
     private final int thickness;

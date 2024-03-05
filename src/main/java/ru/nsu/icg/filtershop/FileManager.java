@@ -1,7 +1,6 @@
 package ru.nsu.icg.filtershop;
 
 import javax.imageio.ImageIO;
-import javax.security.sasl.SaslClient;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.image.BufferedImage;
@@ -24,6 +23,8 @@ public class FileManager extends JFileChooser {
     private FileManager() {
         imageFilter = new FileNameExtensionFilter(IMAGE_FILES_DESCRIPTION, "jpg", "jpeg", "png", "gif", "bmp");
         setFileFilter(imageFilter);
+        setMultiSelectionEnabled(false);
+        setDragEnabled(true); // doesn't work for me for some reason (Mikhail Sartakov)
     }
 
     public static FileManager getInstance() {

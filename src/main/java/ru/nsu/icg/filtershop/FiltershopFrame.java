@@ -3,6 +3,10 @@ package ru.nsu.icg.filtershop;
 import javax.swing.*;
 import java.awt.*;
 
+/*
+Author: Mikhail Sartakov
+Date: 06.03.2024
+ */
 public class FiltershopFrame extends JFrame {
     private static final Dimension MINIMUM_SIZE = new Dimension(640, 480);
     private static final Dimension INITIAL_SIZE = new Dimension(1280, 720);
