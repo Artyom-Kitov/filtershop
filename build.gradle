@@ -24,7 +24,7 @@ test {
 jar {
     manifest {
         attributes(
-                "Main-Class": "ru.nsu.fit.akitov.socks.Main",
+                "Main-Class": "ru.nsu.icg.filtershop.Main",
         )
     }
     from {
