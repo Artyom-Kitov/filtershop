@@ -1,4 +1,4 @@
-package ru.nsu.icg.filtershop;
+package ru.nsu.icg.filtershop.components;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class FileManager extends JFileChooser {
     private static final String EXPORT_IMAGE_DIALOG_TITLE = "Export an image";
     private File lastOpenedFile = null;
     private File lastSavedFile = null;
-    private FileNameExtensionFilter imageFilter;
+    private final FileNameExtensionFilter imageFilter;
 
     private FileManager() {
         imageFilter = new FileNameExtensionFilter(IMAGE_FILES_DESCRIPTION, "jpg", "jpeg", "png", "gif", "bmp");

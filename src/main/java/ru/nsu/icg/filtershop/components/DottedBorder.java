@@ -1,4 +1,4 @@
-package ru.nsu.icg.filtershop;
+package ru.nsu.icg.filtershop.components;
 
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
