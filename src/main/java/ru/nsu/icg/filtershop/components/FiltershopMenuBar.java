@@ -16,6 +16,7 @@ public class FiltershopMenuBar extends JMenuBar {
     private JMenu filter;
     private JMenu rendering;
     private JMenu help;
+
     public FiltershopMenuBar(FiltershopViewPanel panel) {
         viewPanel = panel;
         file = new JMenu("File");
