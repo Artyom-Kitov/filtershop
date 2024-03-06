@@ -58,6 +58,30 @@ public class RGBMatrix {
         }
     }
 
+    public void applyFilter(float[][] matrix) {
+        int n = (matrix.length - 1) / 2;
+        for (int y = n; y < resized.getHeight() - n; y++) {
+            for (int x = n; x < resized.getWidth() - n; x++) {
+                float red = 0;
+                float green = 0;
+                float blue = 0;
+                for (int dx = -n; dx <= n; dx++) {
+                    for (int dy = -n; dy <= n; dy++) {
+                        int color = resized.getRGB(x + dx, y + dy);
+                        float factor = matrix[n + dy][n + dx];
+                        red += ((color & 0xff0000) >> 16) * factor;
+                        green += ((color & 0x00ff00) >> 8) * factor;
+                        blue += (color & 0x0000ff) * factor;
+                    }
+                }
+                int newRed = Math.min(Math.max((int) red, 0), 255);
+                int newGreen = Math.min(Math.max((int) green, 0), 255);
+                int newBlue = Math.min(Math.max((int) blue, 0), 255);
+                edited.setRGB(x, y, (newRed << 16) + (newGreen << 8) + (newBlue));
+            }
+        }
+    }
+
     private BufferedImage cloneImage(BufferedImage image) {
         ColorModel cm = image.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
