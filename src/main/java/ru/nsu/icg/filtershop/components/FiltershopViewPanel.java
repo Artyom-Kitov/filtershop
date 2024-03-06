@@ -1,6 +1,7 @@
 package ru.nsu.icg.filtershop.components;
 
 import lombok.Getter;
+import ru.nsu.icg.filtershop.model.RGBMatrix;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,22 +12,27 @@ Author: Mikhail Sartakov
 Date: 06.03.2024
  */
 public class FiltershopViewPanel extends JPanel {
-    @Getter
-    private BufferedImage image = null;
+
+    private final RGBMatrix matrix;
+
+    public FiltershopViewPanel(Dimension size) {
+        matrix = new RGBMatrix(size.width, size.height);
+        setBorder(new DottedBorder(Color.BLACK, 1, 5));
+    }
 
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(image, 0, 0, null);
+        g2.drawImage(matrix.getEdited(), 0, 0, null);
     }
 
-    public FiltershopViewPanel() {
-        setBorder(new DottedBorder(Color.BLACK, 1, 5));
-        setBackground(new Color(0xAAAAFF));
+    public BufferedImage getImage() {
+        return matrix.getEdited();
     }
 
     public void setImage(BufferedImage image) {
-        this.image = image;
+        matrix.setOriginal(image);
         repaint();
     }
+
 }

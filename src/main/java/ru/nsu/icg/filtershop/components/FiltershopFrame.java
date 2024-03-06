@@ -20,7 +20,7 @@ public class FiltershopFrame extends JFrame {
     public FiltershopFrame() {
         setDefaultParameters();
 
-        imageViewWindow = new FiltershopViewPanel();
+        imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
         toolBar = new FiltershopToolBar();
         menuBar = new FiltershopMenuBar(imageViewWindow);
 
