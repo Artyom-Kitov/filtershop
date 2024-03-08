@@ -1,6 +1,9 @@
 package ru.nsu.icg.filtershop.components;
 
 import ru.nsu.icg.filtershop.model.RGBMatrix;
+import ru.nsu.icg.filtershop.model.tools.BlackWhiteTool;
+import ru.nsu.icg.filtershop.model.tools.BlurTool;
+import ru.nsu.icg.filtershop.model.tools.FilterTool;
 
 import javax.swing.*;
 import java.awt.*;
