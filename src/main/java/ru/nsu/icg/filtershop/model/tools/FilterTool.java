@@ -1,6 +1,7 @@
 package ru.nsu.icg.filtershop.model.tools;
 
 import lombok.RequiredArgsConstructor;
+import ru.nsu.icg.filtershop.model.ColorUtils;
 import ru.nsu.icg.filtershop.model.RGBMatrix;
 
 import java.awt.image.BufferedImage;
@@ -24,9 +25,9 @@ public class FilterTool implements Tool {
                     for (int dy = -n; dy <= n; dy++) {
                         int color = resized.getRGB(x + dx, y + dy);
                         float factor = mask[n + dy][n + dx];
-                        red += ((color & 0xff0000) >> 16) * factor;
-                        green += ((color & 0x00ff00) >> 8) * factor;
-                        blue += (color & 0x0000ff) * factor;
+                        red += ColorUtils.getRed(color) * factor;
+                        green += ColorUtils.getGreen(color) * factor;
+                        blue += ColorUtils.getBlue(color) * factor;
                     }
                 }
                 int newRed = Math.min(Math.max((int) red, 0), 255);

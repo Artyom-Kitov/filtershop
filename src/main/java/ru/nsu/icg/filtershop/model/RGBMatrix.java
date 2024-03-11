@@ -16,7 +16,7 @@ public class RGBMatrix {
 
     private BufferedImage original;
 
-    private BufferedImage resized;
+    private BufferedImage resized; // should we add a new field for a rotated image?
 
     private BufferedImage edited;
 
@@ -30,16 +30,10 @@ public class RGBMatrix {
         edited = cloneImage(image);
     }
 
-    public RGBMatrix apply(Tool tool) {
-        tool.applyTo(this);
-        return this;
-    }
-
     private BufferedImage cloneImage(BufferedImage image) {
         ColorModel cm = image.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = image.copyData(null);
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
-
 }
