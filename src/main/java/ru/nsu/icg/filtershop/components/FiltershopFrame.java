@@ -24,8 +24,13 @@ public class FiltershopFrame extends JFrame {
         toolBar = new FiltershopToolBar();
         menuBar = new FiltershopMenuBar(imageViewWindow);
 
+        JScrollPane scrollPane = new JScrollPane(imageViewWindow);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 
-        add(imageViewWindow, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
         add(toolBar, BorderLayout.NORTH);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.WEST);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.EAST);

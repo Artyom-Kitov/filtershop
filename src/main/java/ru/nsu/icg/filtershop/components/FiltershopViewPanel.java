@@ -34,6 +34,9 @@ public class FiltershopViewPanel extends JPanel {
 
     public void setImage(BufferedImage image) {
         matrix.setImage(image);
+        Dimension newSize = new Dimension(image.getWidth(), image.getHeight());
+        setSize(newSize);
+        setPreferredSize(newSize);
         repaint();
     }
 
