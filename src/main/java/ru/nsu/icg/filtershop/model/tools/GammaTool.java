@@ -1,8 +1,7 @@
 package ru.nsu.icg.filtershop.model.tools;
 
 import lombok.RequiredArgsConstructor;
-import ru.nsu.icg.filtershop.model.ColorUtils;
-import ru.nsu.icg.filtershop.model.RGBMatrix;
+import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
 
@@ -12,12 +11,10 @@ public class GammaTool implements Tool {
   private final float gamma;
 
   @Override
-  public void applyTo(RGBMatrix matrix) {
-    BufferedImage resized = matrix.getResized();
-    BufferedImage edited = matrix.getEdited();
-    for (int y = 0; y < resized.getHeight(); y++) {
-      for (int x = 0; x < resized.getWidth(); x++) {
-        int color = resized.getRGB(x, y);
+  public void applyTo(BufferedImage original, BufferedImage edited) {
+    for (int y = 0; y < original.getHeight(); y++) {
+      for (int x = 0; x < original.getWidth(); x++) {
+        int color = original.getRGB(x, y);
         int r = ColorUtils.getRed(color);
         int g = ColorUtils.getGreen(color);
         int b = ColorUtils.getBlue(color);
@@ -27,14 +24,6 @@ public class GammaTool implements Tool {
         edited.setRGB(x, y, (rNew << 16) + (gNew << 8) + bNew);
       }
     }
-  }
-
-//  public void setGamma(float gammaNew) {
-//    gamma = gammaNew;
-//  }
-
-  public float getGamma() {
-    return gamma;
   }
 
 }

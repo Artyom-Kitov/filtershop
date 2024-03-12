@@ -1,4 +1,4 @@
-package ru.nsu.icg.filtershop.model;
+package ru.nsu.icg.filtershop.model.utils;
 
 import lombok.experimental.UtilityClass;
 
