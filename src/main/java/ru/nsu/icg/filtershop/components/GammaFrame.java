@@ -126,11 +126,11 @@ public class GammaFrame extends JDialog {
     int intMax = (int) (max * 10);
     int intValue = (int) (value * 10);
     JSlider slider = new JSlider(intMin, intMax, intValue);
-    slider.setMajorTickSpacing((intMax - intMin) / 2);
     slider.setPaintTicks(true);
     slider.setPaintLabels(true);
     return slider;
   }
+
 
   private JTextField createTextField(JSlider slider) {
     JTextField textField = new JTextField(5);
