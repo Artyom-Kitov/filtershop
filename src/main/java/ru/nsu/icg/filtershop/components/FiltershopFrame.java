@@ -27,7 +27,7 @@ public class FiltershopFrame extends JFrame {
 
         imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
         toolBar = new FiltershopToolBar();
-        menuBar = new FiltershopMenuBar(imageViewWindow);
+        menuBar = new FiltershopMenuBar(imageViewWindow, this);
 
         scrollPane = new JScrollPane(imageViewWindow);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -54,6 +54,7 @@ public class FiltershopFrame extends JFrame {
         setSize(INITIAL_SIZE);
         setPreferredSize(INITIAL_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout(HORIZONTAL_BORDER_LAYOUT_GAP, VERTICAL_BORDER_LAYOUT_GAP));
     }
 

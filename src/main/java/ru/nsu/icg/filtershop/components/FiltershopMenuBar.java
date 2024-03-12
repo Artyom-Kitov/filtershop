@@ -14,14 +14,16 @@ Author: Mikhail Sartakov
 Date: 06.03.2024
  */
 public class FiltershopMenuBar extends JMenuBar {
-    private FiltershopViewPanel viewPanel;
-    private JMenu file;
-    private JMenu modify;
-    private JMenu filter;
-    private JMenu rendering;
-    private JMenu help;
+    private FiltershopFrame frame;
+    private final FiltershopViewPanel viewPanel;
+    private final JMenu file;
+    private final JMenu modify;
+    private final JMenu filter;
+    private final JMenu rendering;
+    private final JMenu help;
 
-    public FiltershopMenuBar(FiltershopViewPanel panel) {
+    public FiltershopMenuBar(FiltershopViewPanel panel, FiltershopFrame frame) {
+        this.frame = frame;
         viewPanel = panel;
         file = new JMenu("File");
         modify = new JMenu("Modify");
@@ -58,16 +60,16 @@ public class FiltershopMenuBar extends JMenuBar {
         JMenuItem inversion = new JMenuItem("Color inversion");
 
         inversion.addActionListener(e -> {
-            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             new InversionTool().applyTo(viewPanel.getMatrix());
             viewPanel.repaint();
-            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
         blackWhite.addActionListener(e -> {
-            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             new BlackWhiteTool().applyTo(viewPanel.getMatrix());
             viewPanel.repaint();
-            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         });
 
         filter.add(blackWhite);
