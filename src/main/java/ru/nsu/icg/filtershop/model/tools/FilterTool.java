@@ -1,8 +1,7 @@
 package ru.nsu.icg.filtershop.model.tools;
 
 import lombok.RequiredArgsConstructor;
-import ru.nsu.icg.filtershop.model.ColorUtils;
-import ru.nsu.icg.filtershop.model.RGBMatrix;
+import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
 
@@ -12,18 +11,16 @@ public class FilterTool implements Tool {
     private final float[][] mask;
 
     @Override
-    public void applyTo(RGBMatrix matrix) {
+    public void applyTo(BufferedImage original, BufferedImage edited) {
         int n = (mask.length - 1) / 2;
-        BufferedImage resized = matrix.getResized();
-        BufferedImage edited = matrix.getEdited();
-        for (int y = n; y < resized.getHeight() - n; y++) {
-            for (int x = n; x < resized.getWidth() - n; x++) {
+        for (int y = n; y < original.getHeight() - n; y++) {
+            for (int x = n; x < original.getWidth() - n; x++) {
                 float red = 0;
                 float green = 0;
                 float blue = 0;
                 for (int dx = -n; dx <= n; dx++) {
                     for (int dy = -n; dy <= n; dy++) {
-                        int color = resized.getRGB(x + dx, y + dy);
+                        int color = original.getRGB(x + dx, y + dy);
                         float factor = mask[n + dy][n + dx];
                         red += ColorUtils.getRed(color) * factor;
                         green += ColorUtils.getGreen(color) * factor;

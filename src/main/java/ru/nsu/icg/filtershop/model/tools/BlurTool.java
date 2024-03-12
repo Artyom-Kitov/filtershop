@@ -1,8 +1,6 @@
 package ru.nsu.icg.filtershop.model.tools;
 
-import ru.nsu.icg.filtershop.model.RGBMatrix;
-
-import java.util.Arrays;
+import java.awt.image.BufferedImage;
 
 public class BlurTool implements Tool {
 
@@ -34,7 +32,8 @@ public class BlurTool implements Tool {
     }
 
     @Override
-    public void applyTo(RGBMatrix matrix) {
-        filter.applyTo(matrix);
+    public void applyTo(BufferedImage original, BufferedImage edited) {
+        filter.applyTo(original, edited);
     }
+
 }
