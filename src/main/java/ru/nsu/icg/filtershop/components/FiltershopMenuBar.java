@@ -1,6 +1,10 @@
 package ru.nsu.icg.filtershop.components;
 
+import ru.nsu.icg.filtershop.model.tools.BlackWhiteTool;
+import ru.nsu.icg.filtershop.model.tools.InversionTool;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -26,6 +30,7 @@ public class FiltershopMenuBar extends JMenuBar {
         help = new JMenu("Help");
 
         configureFileMenu();
+        configureFilterMenu();
 
         add(file);
         add(modify);
@@ -46,6 +51,27 @@ public class FiltershopMenuBar extends JMenuBar {
         file.add(importImage);
         file.add(exportImage);
         file.add(exit);
+    }
+
+    private void configureFilterMenu() {
+        JMenuItem blackWhite = new JMenuItem("Black and white");
+        JMenuItem inversion = new JMenuItem("Color inversion");
+
+        inversion.addActionListener(e -> {
+            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            new InversionTool().applyTo(viewPanel.getMatrix());
+            viewPanel.repaint();
+            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        });
+        blackWhite.addActionListener(e -> {
+            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            new BlackWhiteTool().applyTo(viewPanel.getMatrix());
+            viewPanel.repaint();
+            viewPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        });
+
+        filter.add(blackWhite);
+        filter.add(inversion);
     }
 
     private void importImage() {

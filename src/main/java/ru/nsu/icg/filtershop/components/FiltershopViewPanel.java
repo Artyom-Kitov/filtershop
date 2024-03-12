@@ -1,5 +1,6 @@
 package ru.nsu.icg.filtershop.components;
 
+import lombok.Getter;
 import ru.nsu.icg.filtershop.model.RGBMatrix;
 import ru.nsu.icg.filtershop.model.tools.*;
 
@@ -11,6 +12,7 @@ import java.awt.image.BufferedImage;
 Author: Mikhail Sartakov
 Date: 06.03.2024
  */
+@Getter
 public class FiltershopViewPanel extends JPanel {
 
     private final RGBMatrix matrix;
