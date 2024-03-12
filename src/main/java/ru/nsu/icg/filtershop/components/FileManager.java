@@ -52,7 +52,7 @@ public class FileManager extends JFileChooser {
                 BufferedImage image = ImageIO.read(lastOpenedFile);
                 if (image != null) {
                     // add logging
-                    showSuccessfulImportMessage();
+//                    showSuccessfulImportMessage();
                     return image;
                 }
             }

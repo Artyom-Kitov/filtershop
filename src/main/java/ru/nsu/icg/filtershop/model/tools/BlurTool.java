@@ -1,18 +1,19 @@
 package ru.nsu.icg.filtershop.model.tools;
 
-import ru.nsu.icg.filtershop.model.RGBMatrix;
-
-import java.util.Arrays;
+import java.awt.image.BufferedImage;
 
 public class BlurTool implements Tool {
 
-    private final FilterTool filter;
+    private FilterTool filter;
 
     public BlurTool(float sigma, int n) {
         if (n < 0 || n % 2 == 0) {
             throw new IllegalArgumentException("gaussian blur filter must have an odd dimension");
         }
+        setParameters(sigma, n);
+    }
 
+    public void setParameters(float sigma, int n) {
         float[][] matrix = new float[n][n];
         float sum = 0f;
         for (int y = -n / 2; y <= n / 2; y++) {
@@ -34,7 +35,8 @@ public class BlurTool implements Tool {
     }
 
     @Override
-    public void applyTo(RGBMatrix matrix) {
-        filter.applyTo(matrix);
+    public void applyTo(BufferedImage original, BufferedImage edited) {
+        filter.applyTo(original, edited);
     }
+
 }

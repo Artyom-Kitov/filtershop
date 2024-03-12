@@ -1,6 +1,10 @@
 package ru.nsu.icg.filtershop.components;
 
+import ru.nsu.icg.filtershop.model.tools.BlackWhiteTool;
+import ru.nsu.icg.filtershop.model.tools.InversionTool;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -10,14 +14,18 @@ Author: Mikhail Sartakov
 Date: 06.03.2024
  */
 public class FiltershopMenuBar extends JMenuBar {
-    private FiltershopViewPanel viewPanel;
-    private JMenu file;
-    private JMenu modify;
-    private JMenu filter;
-    private JMenu rendering;
-    private JMenu about;
 
-    public FiltershopMenuBar(FiltershopViewPanel panel) {
+    private FiltershopFrame frame;
+    private final FiltershopViewPanel viewPanel;
+    private final JMenu file;
+    private final JMenu modify;
+    private final JMenu filter;
+    private final JMenu rendering;
+    private final JMenu about;
+
+
+    public FiltershopMenuBar(FiltershopViewPanel panel, FiltershopFrame frame) {
+        this.frame = frame;
         viewPanel = panel;
         file = new JMenu("File");
         modify = new JMenu("Modify");
@@ -27,6 +35,7 @@ public class FiltershopMenuBar extends JMenuBar {
 
         configureAboutMenu();
         configureFileMenu();
+        configureFilterMenu();
 
         add(file);
         add(modify);
@@ -58,6 +67,24 @@ public class FiltershopMenuBar extends JMenuBar {
         file.add(importImage);
         file.add(exportImage);
         file.add(exit);
+    }
+
+    private void configureFilterMenu() {
+        JMenuItem blackWhite = new JMenuItem("Black and white");
+        JMenuItem inversion = new JMenuItem("Color inversion");
+
+        inversion.addActionListener(e -> onClick(() -> new InversionTool().applyTo(viewPanel.getMatrix())));
+        blackWhite.addActionListener(e -> onClick(() -> new BlackWhiteTool().applyTo(viewPanel.getMatrix())));
+
+        filter.add(blackWhite);
+        filter.add(inversion);
+    }
+
+    private void onClick(Runnable r) {
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        r.run();
+        viewPanel.repaint();
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     private void importImage() {

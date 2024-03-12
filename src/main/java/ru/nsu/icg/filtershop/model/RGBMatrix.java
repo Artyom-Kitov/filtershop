@@ -1,11 +1,9 @@
 package ru.nsu.icg.filtershop.model;
 
 import lombok.Getter;
-import ru.nsu.icg.filtershop.model.tools.Tool;
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 
 /*
 Author: Artyom Kitov
@@ -26,14 +24,12 @@ public class RGBMatrix {
 
     public void setImage(BufferedImage image) {
         original = image;
-        resized = cloneImage(image);
-        edited = cloneImage(image);
+        resized = ImageUtils.cloneImage(image);
+        edited = ImageUtils.cloneImage(image);
     }
 
-    private BufferedImage cloneImage(BufferedImage image) {
-        ColorModel cm = image.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = image.copyData(null);
-        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    public void reset() {
+        setImage(original);
     }
+
 }
