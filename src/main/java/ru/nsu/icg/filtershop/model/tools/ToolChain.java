@@ -1,7 +1,6 @@
 package ru.nsu.icg.filtershop.model.tools;
 
 import lombok.NoArgsConstructor;
-import ru.nsu.icg.filtershop.model.RGBMatrix;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
