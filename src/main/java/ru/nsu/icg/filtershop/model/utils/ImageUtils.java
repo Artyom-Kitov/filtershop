@@ -17,7 +17,7 @@ public class ImageUtils {
     }
 
     public void writeTo(BufferedImage from, BufferedImage to) {
-        if (from.getWidth() != to.getWidth() || from.getHeight() != to.getHeight()) {
+        if (from.getWidth() > to.getWidth() || from.getHeight() > to.getHeight()) {
             throw new IllegalArgumentException("different images sized");
         }
         for (int y = 0; y < from.getHeight(); y++) {

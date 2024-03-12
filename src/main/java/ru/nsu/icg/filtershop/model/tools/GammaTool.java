@@ -1,14 +1,17 @@
 package ru.nsu.icg.filtershop.model.tools;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class GammaTool implements Tool {
 
-  private final float gamma;
+  @Setter
+  private float gamma;
 
   @Override
   public void applyTo(BufferedImage original, BufferedImage edited) {
