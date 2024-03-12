@@ -15,7 +15,7 @@ public class FiltershopMenuBar extends JMenuBar {
     private JMenu modify;
     private JMenu filter;
     private JMenu rendering;
-    private JMenu help;
+    private JMenu about;
 
     public FiltershopMenuBar(FiltershopViewPanel panel) {
         viewPanel = panel;
@@ -23,15 +23,27 @@ public class FiltershopMenuBar extends JMenuBar {
         modify = new JMenu("Modify");
         filter = new JMenu("Filter");
         rendering = new JMenu("Rendering");
-        help = new JMenu("Help");
+        about = new JMenu("About");
 
+        configureAboutMenu();
         configureFileMenu();
 
         add(file);
         add(modify);
         add(filter);
         add(rendering);
-        add(help);
+        add(about);
+    }
+
+    private void configureAboutMenu() {
+        JMenuItem helpItem = new JMenuItem("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
+
+        helpItem.addActionListener(e -> new AboutFrame());
+        aboutItem.addActionListener(e -> new HelpFrame());
+
+        about.add(helpItem);
+        about.add(aboutItem);
     }
 
     private void configureFileMenu() {
