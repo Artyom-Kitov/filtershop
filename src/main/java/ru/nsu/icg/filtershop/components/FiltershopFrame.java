@@ -2,6 +2,8 @@ package ru.nsu.icg.filtershop.components;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /*
 Author: Mikhail Sartakov
@@ -17,6 +19,8 @@ public class FiltershopFrame extends JFrame {
     private final FiltershopToolBar toolBar;
     private final FiltershopViewPanel imageViewWindow;
 
+    private Point startDragPoint;
+
     public FiltershopFrame() {
         setDefaultParameters();
 
@@ -29,6 +33,8 @@ public class FiltershopFrame extends JFrame {
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.getVerticalScrollBar().setBorder(null);
+        scrollPane.getHorizontalScrollBar().setBorder(null);
 
         add(scrollPane, BorderLayout.CENTER);
         add(toolBar, BorderLayout.NORTH);
@@ -47,5 +53,14 @@ public class FiltershopFrame extends JFrame {
         setPreferredSize(INITIAL_SIZE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(HORIZONTAL_BORDER_LAYOUT_GAP, VERTICAL_BORDER_LAYOUT_GAP));
+    }
+
+    private void configureMouseDrag() {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+
+            }
+        });
     }
 }
