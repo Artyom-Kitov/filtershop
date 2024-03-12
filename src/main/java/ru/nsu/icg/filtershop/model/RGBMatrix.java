@@ -28,4 +28,8 @@ public class RGBMatrix {
         edited = ImageUtils.cloneImage(image);
     }
 
+    public void reset() {
+        setImage(original);
+    }
+
 }

@@ -59,21 +59,18 @@ public class FiltershopMenuBar extends JMenuBar {
         JMenuItem blackWhite = new JMenuItem("Black and white");
         JMenuItem inversion = new JMenuItem("Color inversion");
 
-        inversion.addActionListener(e -> {
-            frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            new InversionTool().applyTo(viewPanel.getMatrix());
-            viewPanel.repaint();
-            frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        });
-        blackWhite.addActionListener(e -> {
-            frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            new BlackWhiteTool().applyTo(viewPanel.getMatrix());
-            viewPanel.repaint();
-            frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        });
+        inversion.addActionListener(e -> onClick(() -> new InversionTool().applyTo(viewPanel.getMatrix())));
+        blackWhite.addActionListener(e -> onClick(() -> new BlackWhiteTool().applyTo(viewPanel.getMatrix())));
 
         filter.add(blackWhite);
         filter.add(inversion);
+    }
+
+    private void onClick(Runnable r) {
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        r.run();
+        viewPanel.repaint();
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     private void importImage() {
