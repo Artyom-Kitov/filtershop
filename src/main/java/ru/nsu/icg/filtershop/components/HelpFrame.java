@@ -3,13 +3,13 @@ package ru.nsu.icg.filtershop.components;
 import javax.swing.*;
 import java.awt.*;
 
-public class HelpFrame extends JFrame {
+public class HelpFrame extends JDialog {
 
   public HelpFrame() {
     setSize(500, 230);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-    JLabel titleLabel = new JLabel("Welcome to the PaintPlant!");
+    JLabel titleLabel = new JLabel("Welcome to the FilterShop!");
     titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
     titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -41,6 +41,11 @@ public class HelpFrame extends JFrame {
 
     add(panel);
 
+    setTitle("Help");
+    setResizable(false);
+    setLocationRelativeTo(null);
+    setAlwaysOnTop(true);
+    setModal(true);
     setVisible(true);
   }
 

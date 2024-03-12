@@ -48,8 +48,8 @@ public class FiltershopMenuBar extends JMenuBar {
         JMenuItem helpItem = new JMenuItem("Help");
         JMenuItem aboutItem = new JMenuItem("About");
 
-        helpItem.addActionListener(e -> new AboutFrame());
-        aboutItem.addActionListener(e -> new HelpFrame());
+        helpItem.addActionListener(e -> new HelpFrame());
+        aboutItem.addActionListener(e -> new AboutFrame());
 
         about.add(helpItem);
         about.add(aboutItem);
@@ -72,12 +72,15 @@ public class FiltershopMenuBar extends JMenuBar {
     private void configureFilterMenu() {
         JMenuItem blackWhite = new JMenuItem("Black and white");
         JMenuItem inversion = new JMenuItem("Color inversion");
+        JMenuItem gammaCorrection = new JMenuItem("Gamma Correction");
 
         inversion.addActionListener(e -> onClick(() -> new InversionTool().applyTo(viewPanel.getMatrix())));
         blackWhite.addActionListener(e -> onClick(() -> new BlackWhiteTool().applyTo(viewPanel.getMatrix())));
+        gammaCorrection.addActionListener(e -> onClick(() -> new GammaFrame(viewPanel.getMatrix())));
 
         filter.add(blackWhite);
         filter.add(inversion);
+        filter.add(gammaCorrection);
     }
 
     private void onClick(Runnable r) {
