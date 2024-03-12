@@ -21,7 +21,7 @@ public class RGBMatrix {
     private BufferedImage edited;
 
     public RGBMatrix(int width, int height) {
-        setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB));
+        setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
     }
 
     public void setImage(BufferedImage image) {
