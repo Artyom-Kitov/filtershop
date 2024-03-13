@@ -55,7 +55,7 @@ public class GammaFrame extends JDialog {
       gammaTool.setGammaR(newGammaR);
       gammaTool.setGammaG(newGammaG);
       gammaTool.setGammaB(newGammaB);
-      gammaTool.applyTo(matrix.getResized(), matrix.getEdited());
+      matrix.applyTool(gammaTool);
       dispose();
     });
 

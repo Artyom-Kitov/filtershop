@@ -16,7 +16,7 @@ public class GammaTool implements Tool {
 
 
   @Override
-  public void applyTo(BufferedImage original, BufferedImage edited) {
+  public void applyTo(BufferedImage original, BufferedImage result) {
     for (int y = 0; y < original.getHeight(); y++) {
       for (int x = 0; x < original.getWidth(); x++) {
         int color = original.getRGB(x, y);
@@ -26,7 +26,7 @@ public class GammaTool implements Tool {
         int rNew = (int) (Math.pow((r / 255f), gammaR) * 255);
         int gNew = (int) (Math.pow((g / 255f), gammaG) * 255);
         int bNew = (int) (Math.pow((b / 255f), gammaB) * 255);
-        edited.setRGB(x, y, (rNew << 16) + (gNew << 8) + bNew);
+        result.setRGB(x, y, ColorUtils.getRGB(rNew, gNew, bNew));
       }
     }
   }

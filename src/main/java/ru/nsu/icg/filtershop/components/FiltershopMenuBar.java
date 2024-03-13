@@ -5,8 +5,6 @@ import ru.nsu.icg.filtershop.model.tools.InversionTool;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 /*
@@ -74,8 +72,8 @@ public class FiltershopMenuBar extends JMenuBar {
         JMenuItem inversion = new JMenuItem("Color inversion");
         JMenuItem gammaCorrection = new JMenuItem("Gamma Correction");
 
-        inversion.addActionListener(e -> onClick(() -> new InversionTool().applyTo(viewPanel.getMatrix())));
-        blackWhite.addActionListener(e -> onClick(() -> new BlackWhiteTool().applyTo(viewPanel.getMatrix())));
+        inversion.addActionListener(e -> onClick(() -> viewPanel.getMatrix().applyTool(new InversionTool())));
+        blackWhite.addActionListener(e -> onClick(() -> viewPanel.getMatrix().applyTool(new BlackWhiteTool())));
         gammaCorrection.addActionListener(e -> onClick(() -> new GammaFrame(viewPanel.getMatrix())));
 
         filter.add(blackWhite);
