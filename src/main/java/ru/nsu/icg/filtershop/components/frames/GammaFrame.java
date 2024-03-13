@@ -1,4 +1,4 @@
-package ru.nsu.icg.filtershop.components;
+package ru.nsu.icg.filtershop.components.frames;
 
 import javax.swing.*;
 import lombok.AllArgsConstructor;
@@ -55,7 +55,7 @@ public class GammaFrame extends JDialog {
       gammaTool.setGammaR(newGammaR);
       gammaTool.setGammaG(newGammaG);
       gammaTool.setGammaB(newGammaB);
-      gammaTool.applyTo(matrix.getResized(), matrix.getEdited());
+      matrix.applyTool(gammaTool);
       dispose();
     });
 

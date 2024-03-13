@@ -1,4 +1,7 @@
-package ru.nsu.icg.filtershop.components;
+package ru.nsu.icg.filtershop.components.frames;
+
+import ru.nsu.icg.filtershop.components.*;
+import ru.nsu.icg.filtershop.model.tools.Tool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,13 +23,17 @@ public class FiltershopFrame extends JFrame {
     private final FiltershopViewPanel imageViewWindow;
     private final JScrollPane scrollPane;
 
+    private final FiltersList filtersList;
+
     private Point origin;
 
     public FiltershopFrame() {
         setDefaultParameters();
 
+        filtersList = new FiltersList(this::onToolSelect, this::onReset);
+
         imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
-        toolBar = new FiltershopToolBar();
+        toolBar = filtersList.getToolBar();
         menuBar = new FiltershopMenuBar(imageViewWindow, this);
 
         scrollPane = new JScrollPane(imageViewWindow);
@@ -43,10 +50,24 @@ public class FiltershopFrame extends JFrame {
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.WEST);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.EAST);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.SOUTH);
+
+        menuBar.add(filtersList.getToolsMenu());
         setJMenuBar(menuBar);
 
         pack();
         setVisible(true);
+    }
+
+    private void onToolSelect(Tool tool) {
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        imageViewWindow.getMatrix().applyTool(tool);
+        imageViewWindow.repaint();
+        setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    private void onReset() {
+        imageViewWindow.getMatrix().reset();
+        repaint();
     }
 
     private void setDefaultParameters() {

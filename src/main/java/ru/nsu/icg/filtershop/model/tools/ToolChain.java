@@ -7,6 +7,27 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * A class for building a chain of image conversions, which is an image conversion itself.
+ * The tools are being applied in the order they were appended.
+ * <br/>
+ * Example:
+ * <pre>
+ *     BufferedImage original;
+ *     BufferedImage result;
+ *
+ *     ToolChain toolChain = new ToolChain();
+ *     toolChain.append(new BlackWhiteTool())
+ *              .append(new InversionTool())
+ *              .applyTo(original, result);
+ * </pre>
+ * This code applies a {@link BlackWhiteTool} and then an {@link InversionTool} to the original image.
+ * <p/>
+ * Author: Artyom Kitov
+ * <br/>
+ * Date: 12.03.2024
+ */
 @NoArgsConstructor
 public class ToolChain implements Tool {
 
@@ -18,9 +39,9 @@ public class ToolChain implements Tool {
     }
 
     @Override
-    public void applyTo(BufferedImage original, BufferedImage edited) {
+    public void applyTo(BufferedImage original, BufferedImage result) {
         BufferedImage img1 = ImageUtils.cloneImage(original);
-        BufferedImage img2 = edited;
+        BufferedImage img2 = result;
         boolean isTmpLast = true;
         for (Tool tool : tools) {
             tool.applyTo(img1, img2);
@@ -30,7 +51,7 @@ public class ToolChain implements Tool {
             isTmpLast = !isTmpLast;
         }
         if (isTmpLast) {
-            ImageUtils.writeTo(img1, edited);
+            ImageUtils.writeTo(img1, result);
         }
     }
 

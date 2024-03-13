@@ -1,12 +1,10 @@
 package ru.nsu.icg.filtershop.components;
 
-import ru.nsu.icg.filtershop.model.tools.BlackWhiteTool;
-import ru.nsu.icg.filtershop.model.tools.InversionTool;
+import ru.nsu.icg.filtershop.components.frames.AboutFrame;
+import ru.nsu.icg.filtershop.components.frames.FiltershopFrame;
+import ru.nsu.icg.filtershop.components.frames.HelpFrame;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 /*
@@ -15,12 +13,10 @@ Date: 06.03.2024
  */
 public class FiltershopMenuBar extends JMenuBar {
 
-    private FiltershopFrame frame;
+    private final FiltershopFrame frame;
     private final FiltershopViewPanel viewPanel;
     private final JMenu file;
     private final JMenu modify;
-    private final JMenu filter;
-    private final JMenu rendering;
     private final JMenu about;
 
 
@@ -29,18 +25,13 @@ public class FiltershopMenuBar extends JMenuBar {
         viewPanel = panel;
         file = new JMenu("File");
         modify = new JMenu("Modify");
-        filter = new JMenu("Filter");
-        rendering = new JMenu("Rendering");
         about = new JMenu("About");
 
         configureAboutMenu();
         configureFileMenu();
-        configureFilterMenu();
 
         add(file);
         add(modify);
-        add(filter);
-        add(rendering);
         add(about);
     }
 
@@ -67,27 +58,6 @@ public class FiltershopMenuBar extends JMenuBar {
         file.add(importImage);
         file.add(exportImage);
         file.add(exit);
-    }
-
-    private void configureFilterMenu() {
-        JMenuItem blackWhite = new JMenuItem("Black and white");
-        JMenuItem inversion = new JMenuItem("Color inversion");
-        JMenuItem gammaCorrection = new JMenuItem("Gamma Correction");
-
-        inversion.addActionListener(e -> onClick(() -> new InversionTool().applyTo(viewPanel.getMatrix())));
-        blackWhite.addActionListener(e -> onClick(() -> new BlackWhiteTool().applyTo(viewPanel.getMatrix())));
-        gammaCorrection.addActionListener(e -> onClick(() -> new GammaFrame(viewPanel.getMatrix())));
-
-        filter.add(blackWhite);
-        filter.add(inversion);
-        filter.add(gammaCorrection);
-    }
-
-    private void onClick(Runnable r) {
-        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        r.run();
-        viewPanel.repaint();
-        frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 
     private void importImage() {
