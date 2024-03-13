@@ -21,8 +21,6 @@ public class ToolOption {
     @Getter
     private final JRadioButtonMenuItem menuItem;
 
-    private boolean isPreviouslySelected = false;
-
     public ToolOption(String name, Tool tool, Consumer<? super Tool> onSelect,
                       Runnable onCancel) {
         this.tool = tool;
@@ -45,13 +43,11 @@ public class ToolOption {
     }
 
     private void handleSelection(Consumer<? super Tool> onSelect, Runnable onCancel) {
-        if (isPreviouslySelected && radioButton.isSelected()) {
-            setSelected(false);
-            onCancel.run();
-        } else {
+        if (radioButton.isSelected()) {
             onSelect.accept(tool);
+        } else {
+            onCancel.run();
         }
-        isPreviouslySelected = radioButton.isSelected();
     }
 
     private void setSelected(boolean b) {

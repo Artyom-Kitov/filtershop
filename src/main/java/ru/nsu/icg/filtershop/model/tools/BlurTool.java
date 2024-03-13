@@ -4,13 +4,9 @@ import java.awt.image.BufferedImage;
 
 public class BlurTool implements Tool {
 
-    private FilterTool filter;
+    private final FilterTool filter;
 
     public BlurTool(float sigma, int n) {
-        setParameters(sigma, n);
-    }
-
-    public void setParameters(float sigma, int n) {
         if (sigma == 0f) {
             throw new IllegalArgumentException("zero standard deviation");
         }

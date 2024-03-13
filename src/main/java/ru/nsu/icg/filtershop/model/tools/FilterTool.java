@@ -20,8 +20,7 @@ public class FilterTool implements Tool {
         this.filter = filter;
     }
 
-    @Setter
-    private float[][] filter;
+    private final float[][] filter;
 
     @Override
     public void applyTo(BufferedImage original, BufferedImage result) {

@@ -42,6 +42,7 @@ public class FiltersList {
         for (ToolOption tool : tools) {
             toolBar.add(tool.getRadioButton());
             toolBarGroup.add(tool.getRadioButton());
+
             toolsMenu.add(tool.getMenuItem());
             menuBarGroup.add(tool.getMenuItem());
         }
