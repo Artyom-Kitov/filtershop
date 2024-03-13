@@ -1,7 +1,7 @@
 package ru.nsu.icg.filtershop;
 
 import lombok.extern.log4j.Log4j2;
-import ru.nsu.icg.filtershop.components.FiltershopFrame;
+import ru.nsu.icg.filtershop.components.frames.FiltershopFrame;
 
 import javax.swing.*;
 

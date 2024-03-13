@@ -1,4 +1,4 @@
-package ru.nsu.icg.filtershop.components;
+package ru.nsu.icg.filtershop.components.frames;
 
 import javax.swing.*;
 import lombok.AllArgsConstructor;
