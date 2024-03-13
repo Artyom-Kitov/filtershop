@@ -6,14 +6,14 @@ import java.awt.*;
 public class AboutFrame extends JDialog {
 
   public AboutFrame() {
-    setSize(300, 100);
+    setSize(300, 100); // create constants
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-    JLabel titleLabel = new JLabel("FilterShop v1.0");
-    titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+    JLabel titleLabel = new JLabel("FilterShop v1.0"); // create constant
+    titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16)); // create constant
     titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-    JLabel authorLabel = new JLabel("Authors: Artyom Kitov, " +
+    JLabel authorLabel = new JLabel("Authors: Artyom Kitov, " + // create constant
                                                   "Mikhail Sartakov, " +
                                                   "Anton Nazarov");
     authorLabel.setHorizontalAlignment(SwingConstants.CENTER);
