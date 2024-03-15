@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import java.awt.image.BufferedImage;
 
 @AllArgsConstructor
-public class NazarovWave implements Tool {
+public class CircleWaveTool implements Tool {
 
-  // TODO: from 0 to 100
   private int intensity;
 
   @Override

@@ -14,8 +14,8 @@ public class BlurTool implements Tool {
         float sum = 0f;
         for (int y = -n / 2; y <= n / 2; y++) {
             for (int x = -n / 2; x <= n / 2; x++) {
-                matrix[n / 2 + y][n / 2 + x] = (float) (Math.exp((double) (-x * x - y * y) / (2 * sigma * sigma))
-                        / (2 * Math.PI * sigma * sigma));
+                matrix[n / 2 + y][n / 2 + x] = (float) (Math.exp((-x * x - y * y) / (2. * sigma * sigma))
+                        / (2. * Math.PI * sigma * sigma));
                 sum += matrix[n / 2 + y][n / 2 + x];
             }
         }

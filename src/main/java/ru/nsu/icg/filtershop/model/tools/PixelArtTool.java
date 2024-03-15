@@ -6,9 +6,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 @AllArgsConstructor
-public class NazarovPixel implements Tool {
+public class PixelArtTool implements Tool {
 
-  // TODO: from 0 to 50
   private int blockSize;
 
   @Override

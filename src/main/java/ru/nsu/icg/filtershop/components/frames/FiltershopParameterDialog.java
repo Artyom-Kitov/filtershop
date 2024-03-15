@@ -40,6 +40,7 @@ public class FiltershopParameterDialog extends JDialog {
         cancelButton.addActionListener(e -> setVisible(false));
 
         setLocationRelativeTo(null);
+        dispose();
     }
 
     public void addParameter(Parameters params) {
