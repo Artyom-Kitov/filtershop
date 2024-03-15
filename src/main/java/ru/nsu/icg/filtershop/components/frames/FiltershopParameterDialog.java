@@ -1,8 +1,8 @@
 package ru.nsu.icg.filtershop.components.frames;
 
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 import ru.nsu.icg.filtershop.components.ParameterPanel;
+import ru.nsu.icg.filtershop.components.Parameters;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,18 +15,22 @@ Date: 15.03.2024
 */
 public class FiltershopParameterDialog extends JDialog {
 
-    private Map<String, ParameterPanel> parameters;
+    private final Map<String, ParameterPanel> parameters;
 
     private final JButton applyButton;
     private final JButton cancelButton;
 
     @Setter
-    private Runnable onApply;
+    private transient Runnable onApply;
 
     public FiltershopParameterDialog() {
+        setTitle("Parameters");
+
         parameters = new HashMap<>();
+
         setLayout(new FlowLayout(FlowLayout.CENTER));
         setVisible(false);
+
         applyButton = new JButton("Apply");
         applyButton.addActionListener(e -> {
             dispose();
@@ -34,26 +38,23 @@ public class FiltershopParameterDialog extends JDialog {
         });
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> setVisible(false));
+
+        setLocationRelativeTo(null);
     }
 
-    public FiltershopParameterDialog addParameter(String name, float min, float max, float initial,
-                                                     String warning) {
+    public void addParameter(Parameters params) {
         remove(applyButton);
         remove(cancelButton);
-        ParameterPanel panel = ParameterPanel.builder()
-                .name(name)
-                .initial(initial)
-                .min(min)
-                .max(max)
-                .warning(warning)
-                .build();
-        parameters.put(name, panel);
+
+        ParameterPanel panel = new ParameterPanel(params);
+        parameters.put(params.name(), panel);
+
         add(panel, BorderLayout.CENTER);
         add(applyButton);
         add(cancelButton);
+
         pack();
         setSize(new Dimension(panel.getWidth(), panel.getHeight() * parameters.size() + 100));
-        return this;
     }
 
     public float getParameterValue(String parameter) {

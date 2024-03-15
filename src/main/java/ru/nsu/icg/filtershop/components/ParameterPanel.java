@@ -1,33 +1,34 @@
 package ru.nsu.icg.filtershop.components;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 /*
 Author: Mikhail Sartakov
 Date: 15.03.2024
 */
-
 public class ParameterPanel extends JPanel {
 
     private final int coefficient;
 
-    private final JLabel parameterLabel;
     private final JSlider parameterSlider;
-    private final JTextField parameterTextField;
 
-    @Builder
-    public ParameterPanel(float min, float max, float initial, String name, String warning) {
-        coefficient = countCoefficient(min, max);
+    public ParameterPanel(Parameters params) {
+        coefficient = countCoefficient(params.min(), params.max());
 
-        parameterLabel = new JLabel(name);
-        parameterSlider = createToolSettingsSlider(min, max, initial);
-        parameterTextField = createToolSettingsTextField(parameterSlider, warning);
+        JLabel parameterLabel = new JLabel(params.name());
+        parameterSlider = createToolSettingsSlider(params.min(), params.max(), params.initial());
+        if (params.step() != null) {
+            parameterSlider.addChangeListener(e -> {
+                int value = parameterSlider.getValue();
+                int newValue = (int) params.min();
+                while (newValue < value) {
+                    newValue += params.step();
+                }
+                parameterSlider.setValue(newValue);
+            });
+        }
+        JTextField parameterTextField = createToolSettingsTextField(parameterSlider, String.valueOf(params.initial()));
 
         add(parameterLabel);
         add(parameterSlider);
@@ -54,7 +55,10 @@ public class ParameterPanel extends JPanel {
     private JTextField createToolSettingsTextField(JSlider slider, String warningMessage) {
         JTextField textField = new JTextField(4);
         textField.setText(getSliderValue(slider.getValue()));
-        slider.addChangeListener(e -> textField.setText(getSliderValue(slider.getValue())));
+        slider.addChangeListener(e -> {
+            textField.setText(getSliderValue(slider.getValue()));
+            slider.setValue((int) (Float.parseFloat(textField.getText()) * coefficient));
+        });
         textField.addActionListener(e -> trySetSliderValueFromText(slider, textField, warningMessage));
         return textField;
     }
