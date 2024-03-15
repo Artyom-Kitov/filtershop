@@ -1,6 +1,7 @@
 package ru.nsu.icg.filtershop.components.frames;
 
 import ru.nsu.icg.filtershop.components.*;
+import ru.nsu.icg.filtershop.components.DisplayMode;
 import ru.nsu.icg.filtershop.model.tools.Tool;
 
 import javax.swing.*;
@@ -85,31 +86,37 @@ public class FiltershopFrame extends JFrame {
         scrollPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                origin = e.getPoint();
-                setDragCursor();
+                if (imageViewWindow.getDisplayMode() == DisplayMode.FULL_SIZE) {
+                    origin = e.getPoint();
+                    setDragCursor();
+                }
             }
         });
 
         scrollPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                setDefaultCursor();
+                if (imageViewWindow.getDisplayMode() == DisplayMode.FULL_SIZE) {
+                    setDefaultCursor();
+                }
             }
         });
 
         scrollPane.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                int horizontalShift = e.getX() - origin.x;
-                int verticalShift = e.getY() - origin.y;
-                scrollPane.getVerticalScrollBar().setValue(
-                        scrollPane.getVerticalScrollBar().getValue() - verticalShift
-                );
-                scrollPane.getHorizontalScrollBar().setValue(
-                        scrollPane.getHorizontalScrollBar().getValue() - horizontalShift
-                );
+                if (imageViewWindow.getDisplayMode() == DisplayMode.FULL_SIZE) {
+                    int horizontalShift = e.getX() - origin.x;
+                    int verticalShift = e.getY() - origin.y;
+                    scrollPane.getVerticalScrollBar().setValue(
+                            scrollPane.getVerticalScrollBar().getValue() - verticalShift
+                    );
+                    scrollPane.getHorizontalScrollBar().setValue(
+                            scrollPane.getHorizontalScrollBar().getValue() - horizontalShift
+                    );
 
-                origin = e.getPoint();
+                    origin = e.getPoint();
+                }
             }
         });
     }
