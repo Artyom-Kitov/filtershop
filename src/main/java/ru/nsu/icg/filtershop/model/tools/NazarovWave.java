@@ -22,7 +22,6 @@ public class NazarovWave implements Tool {
         double distance = Math.sqrt(dx * dx + dy * dy);
         double angle = Math.atan2(dy, dx);
 
-        // Умножаем интенсивность на синус расстояния для создания волны
         double shiftFactor = intensity * Math.sin(distance / 20.0);
 
         int newX = (int) (x + shiftFactor * Math.cos(angle));
