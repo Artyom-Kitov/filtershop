@@ -26,7 +26,10 @@ public class FiltershopViewPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(matrix.getFiltered(), 0, 0, null);
+        BufferedImage image = matrix.getFiltered();
+        int x = getWidth() > image.getWidth() ? (getWidth() - image.getWidth()) / 2 : 0;
+        int y = getHeight() > image.getHeight() ? (getHeight() - image.getHeight()) / 2 : 0;
+        g2.drawImage(matrix.getFiltered(), x, y, null);
     }
 
     public BufferedImage getImage() {

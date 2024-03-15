@@ -4,6 +4,7 @@ import ru.nsu.icg.filtershop.components.*;
 import ru.nsu.icg.filtershop.model.tools.Tool;
 
 import javax.swing.*;
+import javax.swing.border.StrokeBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -43,6 +44,7 @@ public class FiltershopFrame extends JFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         scrollPane.getVerticalScrollBar().setBorder(null);
         scrollPane.getHorizontalScrollBar().setBorder(null);
+        scrollPane.getViewport().setView(imageViewWindow);
         configureMouseDragListener();
 
         add(scrollPane, BorderLayout.CENTER);
