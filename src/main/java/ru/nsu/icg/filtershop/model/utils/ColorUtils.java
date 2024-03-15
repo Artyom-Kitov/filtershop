@@ -17,6 +17,6 @@ public class ColorUtils {
     }
 
     public int getRGB(int r, int g, int b) {
-        return (r << 16) | (g << 8) | b;
+        return 0xff000000 | (r << 16) | (g << 8) | b;
     }
 }
