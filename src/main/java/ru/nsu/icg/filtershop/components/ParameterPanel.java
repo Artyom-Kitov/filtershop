@@ -1,8 +1,10 @@
 package ru.nsu.icg.filtershop.components;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -11,94 +13,78 @@ Author: Mikhail Sartakov
 Date: 15.03.2024
 */
 
-@Getter
-public class ParameterPanel<T extends Number> extends JPanel {
-    private final T lowerBound;
-    private final T higherBound;
-    private final String parameterName;
-    private final String warningMessage;
-    private T currentValue;
+public class ParameterPanel extends JPanel {
+
     private final int coefficient;
 
     private final JLabel parameterLabel;
     private final JSlider parameterSlider;
     private final JTextField parameterTextField;
 
-    public ParameterPanel(T cv, T lb, T hb, String name, String wm) {
-        lowerBound = lb;
-        higherBound = hb;
-        parameterName = name;
-        warningMessage = wm;
-        currentValue = cv;
-        coefficient = countCoefficient();
+    @Builder
+    public ParameterPanel(float min, float max, float initial, String name, String warning) {
+        coefficient = countCoefficient(min, max);
 
-        parameterLabel = new JLabel(parameterName);
-        parameterSlider = createToolSettingsSlider(lowerBound, higherBound, currentValue);
-        parameterTextField = createToolSettingsTextField(parameterSlider, warningMessage);
+        parameterLabel = new JLabel(name);
+        parameterSlider = createToolSettingsSlider(min, max, initial);
+        parameterTextField = createToolSettingsTextField(parameterSlider, warning);
 
         add(parameterLabel);
         add(parameterSlider);
         add(parameterTextField);
+        setPreferredSize(new Dimension(340, 60));
     }
 
-    private JSlider createToolSettingsSlider(T min, T max, T current) {
-        int intMin = toInt(min);
-        int intMax = toInt(max);
-        int intCurrent = toInt(current);
+    public float getValue() {
+        return (float) parameterSlider.getValue() / coefficient;
+    }
+
+    private JSlider createToolSettingsSlider(float min, float max, float current) {
+        int intMin = (int) (min * coefficient);
+        int intMax = (int) (max * coefficient);
+        int intCurrent = (int) (current * coefficient);
 
         JSlider slider = new JSlider(intMin, intMax, intCurrent);
         slider.setMajorTickSpacing((intMax - intMin) / 2);
         slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
 
         return slider;
     }
 
     private JTextField createToolSettingsTextField(JSlider slider, String warningMessage) {
-        JTextField textField = new JTextField();
-        textField.setText(toString(slider.getValue()));
-        slider.addChangeListener(e -> textField.setText(toString(slider.getValue())));
+        JTextField textField = new JTextField(4);
+        textField.setText(getSliderValue(slider.getValue()));
+        slider.addChangeListener(e -> textField.setText(getSliderValue(slider.getValue())));
         textField.addActionListener(e -> trySetSliderValueFromText(slider, textField, warningMessage));
-        textField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                trySetSliderValueFromText(slider, textField, warningMessage);
-            }
-        });
         return textField;
     }
 
     private void trySetSliderValueFromText(JSlider slider, JTextField textField, String warningMessage) {
         try {
-            int value = Integer.parseInt(textField.getText());
-            if (value >= slider.getMinimum() && value <= slider.getMaximum()) {
-                slider.setValue(value);
+            float value = Float.parseFloat(textField.getText());
+            if (value * coefficient >= slider.getMinimum() && value * coefficient <= slider.getMaximum()) {
+                slider.setValue((int) (value * coefficient));
+            } else {
+                textField.setText(Float.toString((float) slider.getValue() / coefficient));
+                JOptionPane.showMessageDialog(this, warningMessage,
+                        "Warning!", JOptionPane.WARNING_MESSAGE);
             }
-            else {
-                JOptionPane.showMessageDialog(null, warningMessage, "Warning!", JOptionPane.WARNING_MESSAGE);
-                textField.setText(Integer.toString(slider.getValue()));
-            }
-        }
-        catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, warningMessage, "Warning!", JOptionPane.WARNING_MESSAGE);
-            textField.setText(Integer.toString(slider.getValue()));
+            textField.setText(Float.toString((float) slider.getValue() / coefficient));
         }
     }
 
-    private int toInt(T value) {
-        return (int) (value.doubleValue() * coefficient);
-    }
-
-    private int countCoefficient() {
+    private int countCoefficient(float lowerBound, float higherBound) {
         int higherBoundCoeff = 1;
-        double absoluteMaxValue = Math.abs(higherBound.doubleValue());
+        double absoluteMaxValue = Math.abs(higherBound);
         while ((int) Math.floor(absoluteMaxValue) < 1) {
             higherBoundCoeff *= 10;
             absoluteMaxValue *= 10;
         }
 
         int lowerBoundCoeff = 1;
-        double absoluteMinValue = Math.abs(lowerBound.doubleValue());
+        double absoluteMinValue = Math.abs(lowerBound);
         while ((int) Math.floor(absoluteMinValue) < 1 && absoluteMinValue != 0) {
             lowerBoundCoeff *= 10;
             absoluteMinValue *= 10;
@@ -106,8 +92,9 @@ public class ParameterPanel<T extends Number> extends JPanel {
         return Math.max(higherBoundCoeff, lowerBoundCoeff);
     }
 
-    private String toString(int value) {
+    private String getSliderValue(int value) {
         double trueValue = (double) value / coefficient;
         return Double.toString(trueValue);
     }
+
 }

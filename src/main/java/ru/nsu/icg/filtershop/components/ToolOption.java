@@ -12,6 +12,7 @@ public class ToolOption {
 
     private static final int BUTTON_SIZE = 32;
 
+    @Getter
     @Setter
     private Tool tool;
 
