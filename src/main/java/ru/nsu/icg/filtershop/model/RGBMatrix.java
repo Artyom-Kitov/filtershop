@@ -1,6 +1,7 @@
 package ru.nsu.icg.filtershop.model;
 
 import lombok.Getter;
+import lombok.Setter;
 import ru.nsu.icg.filtershop.model.tools.Tool;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
@@ -19,6 +20,7 @@ public class RGBMatrix {
 
     private BufferedImage original;
 
+    @Setter
     private BufferedImage modified;
 
     private BufferedImage filtered;

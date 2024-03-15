@@ -7,17 +7,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+
 /*
 Author: Mikhail Sartakov
 Date: 06.03.2024
- */
+*/
 @Getter
 public class FiltershopViewPanel extends JPanel {
+    private Object interpolationType;
+    private DisplayMode displayMode = DisplayMode.SCALED_TO_SCREEN_SIZE;
 
     private final RGBMatrix matrix;
 
     public FiltershopViewPanel(Dimension size) {
         matrix = new RGBMatrix(size.width, size.height);
+        interpolationType = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
         setBorder(new DottedBorder(Color.BLACK, 1, 5));
         setDoubleBuffered(true);
     }
@@ -26,7 +30,24 @@ public class FiltershopViewPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(matrix.getFiltered(), 0, 0, null);
+        BufferedImage image = matrix.getFiltered();
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interpolationType);
+        switch (displayMode) {
+            case FULL_SIZE -> {
+                int x = getWidth() > image.getWidth() ? (getWidth() - image.getWidth()) / 2 : 0;
+                int y = getHeight() > image.getHeight() ? (getHeight() - image.getHeight()) / 2 : 0;
+                g2.drawImage(matrix.getFiltered(), x, y, null);
+            }
+            case SCALED_TO_SCREEN_SIZE -> {
+                float factor = findScaleFactor(image.getWidth(), image.getHeight(), getWidth(), getHeight());
+                int newWidth = (int) (factor * image.getWidth());
+                int newHeight = (int) (factor * image.getHeight());
+                Image scaledImage = image.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+                int x = getWidth() > scaledImage.getWidth(null) ? (getWidth() - scaledImage.getWidth(null)) / 2 : 0;
+                int y = getHeight() > scaledImage.getHeight(null) ? (getHeight() - scaledImage.getHeight(null)) / 2 : 0;
+                g2.drawImage(scaledImage, x, y, null);
+            }
+        }
     }
 
     public BufferedImage getImage() {
@@ -35,10 +56,28 @@ public class FiltershopViewPanel extends JPanel {
 
     public void setImage(BufferedImage image) {
         matrix.setImage(image);
-        Dimension newSize = new Dimension(image.getWidth(), image.getHeight());
-        setSize(newSize);
-        setPreferredSize(newSize);
+        if (displayMode == DisplayMode.FULL_SIZE) {
+            resizePanelToImage();
+        }
         repaint();
     }
 
+    public void setDisplayMode(DisplayMode displayMode) {
+        this.displayMode = displayMode;
+        if (displayMode == DisplayMode.FULL_SIZE) {
+            resizePanelToImage();
+        }
+    }
+
+    private float findScaleFactor(int imageWidth, int imageHeight, int panelWidth, int panelHeight) {
+        float scaleX = (float) panelWidth / imageWidth;
+        float scaleY = (float) panelHeight / imageHeight;
+        return Math.min(scaleX, scaleY);
+    }
+
+    private void resizePanelToImage() {
+        Dimension newSize = new Dimension(matrix.getOriginal().getWidth(), matrix.getOriginal().getHeight());
+        setSize(newSize);
+        setPreferredSize(newSize);
+    }
 }
