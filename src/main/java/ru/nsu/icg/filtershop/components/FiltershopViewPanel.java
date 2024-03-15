@@ -2,6 +2,8 @@ package ru.nsu.icg.filtershop.components;
 
 import lombok.Getter;
 import ru.nsu.icg.filtershop.model.RGBMatrix;
+import ru.nsu.icg.filtershop.model.tools.NazarovPixel;
+import ru.nsu.icg.filtershop.model.tools.ToolChain;
 
 import javax.swing.*;
 import java.awt.*;
