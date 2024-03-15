@@ -32,7 +32,6 @@ public class EmbossingTool implements Tool {
         result.setRGB(x, y, ColorUtils.getRGB(rNew, gNew, bNew));
       }
     }
-
   }
 
 }
