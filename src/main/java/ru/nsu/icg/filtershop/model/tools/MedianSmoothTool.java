@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MedianSmoothTool implements Tool {
 
-  private static final int KERNEL_SIZE = 5;
+  private static final int kernelSize = 5;
 
   @Override
   public void applyTo(BufferedImage original, BufferedImage result) {
@@ -22,8 +22,8 @@ public class MedianSmoothTool implements Tool {
         List<Integer> greenValues = new ArrayList<>();
         List<Integer> blueValues = new ArrayList<>();
 
-        for (int dy = -KERNEL_SIZE / 2; dy <= KERNEL_SIZE / 2; dy++) {
-          for (int dx = -KERNEL_SIZE / 2; dx <= KERNEL_SIZE / 2; dx++) {
+        for (int dy = -kernelSize / 2; dy <= kernelSize / 2; dy++) {
+          for (int dx = -kernelSize / 2; dx <= kernelSize / 2; dx++) {
             int nx = Math.min(Math.max(x + dx, 0), width - 1);
             int ny = Math.min(Math.max(y + dy, 0), height - 1);
 
