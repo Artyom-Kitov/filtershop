@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class FiltersList {
+    private static final int TOOLBAR_BUTTON_SIZE = 32;
+    private static final int MENU_BUTTON_SIZE = 16;
 
     @Getter
     private final FiltershopToolBar toolBar;
@@ -28,11 +30,17 @@ public class FiltersList {
         ToolOption blackWhiteOption = new ToolOption("Black white",
                 new BlackWhiteTool(), onToolSelect, () -> cancelSelection(onCancel));
         tools.add(blackWhiteOption);
+        blackWhiteOption.setIcons("/icons/black_white_icon.png",
+                "/icons/black_white_selected_icon.png"
+        );
 
         // inversion
         ToolOption inversionOption = new ToolOption("Inversion",
                 new InversionTool(), onToolSelect, () -> cancelSelection(onCancel));
         tools.add(inversionOption);
+        inversionOption.setIcons("/icons/inversion_icon.png",
+                "/icons/inversion_selected_icon.png"
+        );
 
         // gamma
         ParameterToolOption gammaOption = new ParameterToolOption("Gamma correction", onToolSelect, onCancel,
@@ -46,6 +54,10 @@ public class FiltersList {
                 gammaOption.getParameter("gamma green"),
                 gammaOption.getParameter("gamma blue")));
         tools.add(gammaOption.getToolOption());
+        gammaOption.getToolOption().setIcons("/icons/gamma_icon.png",
+                "/icons/gamma_selected_icon.png"
+        );
+
 
         // blur
         ParameterToolOption blurOption = new ParameterToolOption("Gaussian blur", onToolSelect,
@@ -59,11 +71,17 @@ public class FiltersList {
                 (int) blurOption.getParameter("n")
         ));
         tools.add(blurOption.getToolOption());
+        blurOption.getToolOption().setIcons("/icons/blur_icon.png",
+                "/icons/blur_selected_icon.png"
+        );
 
         // embossing
         ToolOption embossingOption = new ToolOption("Embossing",
                 new EmbossingTool(), onToolSelect, () -> cancelSelection(onCancel));
         tools.add(embossingOption);
+        embossingOption.setIcons("/icons/embossing_icon.png",
+                "/icons/embossing_selected_icon.png"
+        );
 
         // median smooth
         ParameterToolOption medianOption = new ParameterToolOption("Median smooth", onToolSelect,
@@ -75,16 +93,25 @@ public class FiltersList {
                 (int) medianOption.getParameter("n")
         ));
         tools.add(medianOption.getToolOption());
+        medianOption.getToolOption().setIcons("/icons/median_smooth_icon.png",
+                "/icons/median_smooth_selected_icon.png"
+        );
 
         // border highlight
         ToolOption highlightOption = new ToolOption("Border highlight",
                 new BorderHighlightTool(), onToolSelect, () -> cancelSelection(onCancel));
         tools.add(highlightOption);
+        highlightOption.setIcons("/icons/border1_icon.png",
+                "/icons/border1_selected_icon.png"
+        );
 
         // sharpness
         ToolOption sharpnessOption = new ToolOption("Increase sharpness",
                 new SharpnessTool(), onToolSelect, () -> cancelSelection(onCancel));
         tools.add(sharpnessOption);
+        sharpnessOption.setIcons("/icons/sharpness_icon.png",
+                "/icons/sharpness_selected_icon.png"
+        );
 
         // pixel
         ParameterToolOption pixelOption = new ParameterToolOption("Pixel art", onToolSelect,
@@ -96,6 +123,9 @@ public class FiltersList {
                 (int) pixelOption.getParameter("pixel size")
         ));
         tools.add(pixelOption.getToolOption());
+        pixelOption.getToolOption().setIcons("/icons/pixel_icon.png",
+                "/icons/pixel_selected_icon.png"
+        );
 
         // wave
         ParameterToolOption waveOption = new ParameterToolOption("Waves", onToolSelect,
@@ -107,6 +137,9 @@ public class FiltersList {
                 (int) waveOption.getParameter("height")
         ));
         tools.add(waveOption.getToolOption());
+        waveOption.getToolOption().setIcons("/icons/drop_waves_icon.png",
+                "/icons/drop_waves_selected.png"
+        );
 
         toolBarGroup = new ButtonGroup();
         menuBarGroup = new ButtonGroup();

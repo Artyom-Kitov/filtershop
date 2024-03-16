@@ -1,10 +1,15 @@
 package ru.nsu.icg.filtershop.model.utils;
 
 import lombok.experimental.UtilityClass;
+import ru.nsu.icg.filtershop.Main;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.net.URL;
+import java.util.Objects;
 
 /**
  * Author: Artyom Kitov
@@ -32,4 +37,23 @@ public class ImageUtils {
         }
     }
 
+    public static ImageIcon getImageFromResources(String path) {
+        URL imageURL = Main.class.getResource(path);
+        if (imageURL != null) {
+            return new ImageIcon(imageURL);
+        }
+        else {
+            // add logging
+            return null;
+        }
+    }
+
+    public static ImageIcon getScaledImageFromResources(String path, int width, int height) {
+        ImageIcon imageFromResources = getImageFromResources(path);
+        if (imageFromResources == null) {
+            return null;
+        }
+        Image image = imageFromResources.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(image);
+    }
 }
