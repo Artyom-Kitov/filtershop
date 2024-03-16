@@ -24,9 +24,9 @@ public class FloydSteinbergDitheringTool implements Tool {
         ImageUtils.writeTo(original, result);
 
         for (int mask = 0; mask <= 16; mask += 8) {
+            int[] quantization = makeQuantization((quantNumbers & (0xff << mask)) >> mask);
             for (int y = 0; y < result.getHeight(); y++) {
                 for (int x = 0; x < result.getWidth(); x++) {
-                    int[] quantization = makeQuantization((quantNumbers & (0xff << mask)) >> mask);
                     int color = (result.getRGB(x, y) & (0xff << mask)) >> mask;
                     int closest = findClosest(color, quantization);
                     result.setRGB(x, y, (result.getRGB(x, y) & ~(0xff << mask)) | (closest << mask));
