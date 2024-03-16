@@ -12,5 +12,6 @@ public class FiltershopToolBar extends JToolBar {
 
     public FiltershopToolBar() {
         setPreferredSize(DEFAULT_SIZE);
+        setFloatable(false);
     }
 }

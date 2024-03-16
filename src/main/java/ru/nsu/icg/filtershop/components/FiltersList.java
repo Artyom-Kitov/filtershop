@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class FiltersList {
-    private static final int TOOLBAR_BUTTON_SIZE = 32;
-    private static final int MENU_BUTTON_SIZE = 16;
 
     @Getter
     private final FiltershopToolBar toolBar;

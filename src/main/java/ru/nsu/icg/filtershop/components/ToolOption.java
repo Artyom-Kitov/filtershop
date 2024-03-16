@@ -9,19 +9,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
 
+@Getter
 public class ToolOption {
 
     private static final int BUTTON_SIZE = 32;
     private static final int MENU_BUTTON_SIZE = 16;
 
-    @Getter
     @Setter
     private Tool tool;
 
-    @Getter
     private final JRadioButton radioButton;
 
-    @Getter
     private final JRadioButtonMenuItem menuItem;
 
     public ToolOption(String name, Tool tool, Consumer<? super Tool> onSelect,
