@@ -33,7 +33,7 @@ public class ParameterPanel extends JPanel {
         add(parameterLabel);
         add(parameterSlider);
         add(parameterTextField);
-        setPreferredSize(new Dimension(340, 60));
+        setPreferredSize(new Dimension(380, 60));
     }
 
     public float getValue() {
