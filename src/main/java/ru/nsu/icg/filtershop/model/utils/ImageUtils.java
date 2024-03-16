@@ -1,6 +1,8 @@
 package ru.nsu.icg.filtershop.model.utils;
 
 import lombok.experimental.UtilityClass;
+import lombok.extern.flogger.Flogger;
+import lombok.extern.log4j.Log4j2;
 import ru.nsu.icg.filtershop.Main;
 
 import javax.swing.*;
@@ -17,6 +19,7 @@ import java.util.Objects;
  * Date: 12.03.2024
  */
 @UtilityClass
+@Log4j2
 public class ImageUtils {
 
     public BufferedImage cloneImage(BufferedImage image) {
@@ -43,7 +46,7 @@ public class ImageUtils {
             return new ImageIcon(imageURL);
         }
         else {
-            // add logging
+            log.error("Couldn't get an image from resource path: " + path);
             return null;
         }
     }

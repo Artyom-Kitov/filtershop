@@ -1,6 +1,7 @@
 package ru.nsu.icg.filtershop.model.tools;
 
 import lombok.AllArgsConstructor;
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
 
@@ -11,6 +12,7 @@ public class CircleWaveTool implements Tool {
 
   @Override
   public void applyTo(BufferedImage original, BufferedImage result) {
+    ImageUtils.writeTo(original, result);
     int centerX = original.getWidth() / 2;
     int centerY = original.getHeight() / 2;
 
