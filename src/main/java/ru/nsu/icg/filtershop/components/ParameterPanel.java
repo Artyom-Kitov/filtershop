@@ -17,7 +17,7 @@ public class ParameterPanel extends JPanel {
         coefficient = countCoefficient(params.min(), params.max());
 
         JLabel parameterLabel = new JLabel(params.name());
-        parameterSlider = createToolSettingsSlider(params.min(), params.max(), params.initial());
+        parameterSlider = createToolSettingsSlider(params.min(), params.max(), params.initial(), params.step());
         if (params.step() != null) {
             parameterSlider.addChangeListener(e -> {
                 int value = parameterSlider.getValue();
@@ -40,13 +40,17 @@ public class ParameterPanel extends JPanel {
         return (float) parameterSlider.getValue() / coefficient;
     }
 
-    private JSlider createToolSettingsSlider(float min, float max, float current) {
+    private JSlider createToolSettingsSlider(float min, float max, float current, Float step) {
         int intMin = (int) (min * coefficient);
         int intMax = (int) (max * coefficient);
         int intCurrent = (int) (current * coefficient);
 
         JSlider slider = new JSlider(intMin, intMax, intCurrent);
-        slider.setMajorTickSpacing((intMax - intMin) / 2);
+        if (step == null) {
+            slider.setMajorTickSpacing(1);
+        } else {
+            slider.setMajorTickSpacing((int) step.floatValue());
+        }
         slider.setPaintTicks(true);
 
         return slider;
@@ -54,9 +58,9 @@ public class ParameterPanel extends JPanel {
 
     private JTextField createToolSettingsTextField(JSlider slider, String warningMessage) {
         JTextField textField = new JTextField(4);
-        textField.setText(getSliderValue(slider.getValue()));
+        setTextFieldValue(getSliderValue(slider.getValue()), textField);
         slider.addChangeListener(e -> {
-            textField.setText(getSliderValue(slider.getValue()));
+            setTextFieldValue(getSliderValue(slider.getValue()), textField);
             slider.setValue((int) (Float.parseFloat(textField.getText()) * coefficient));
         });
         textField.addActionListener(e -> trySetSliderValueFromText(slider, textField, warningMessage));
@@ -69,7 +73,7 @@ public class ParameterPanel extends JPanel {
             if (value * coefficient >= slider.getMinimum() && value * coefficient <= slider.getMaximum()) {
                 slider.setValue((int) (value * coefficient));
             } else {
-                textField.setText(Float.toString((float) slider.getValue() / coefficient));
+                setTextFieldValue(getSliderValue(slider.getValue()), textField);
                 JOptionPane.showMessageDialog(this, warningMessage,
                         "Warning!", JOptionPane.WARNING_MESSAGE);
             }
@@ -77,6 +81,16 @@ public class ParameterPanel extends JPanel {
             JOptionPane.showMessageDialog(null, warningMessage, "Warning!", JOptionPane.WARNING_MESSAGE);
             textField.setText(Float.toString((float) slider.getValue() / coefficient));
         }
+    }
+
+    private void setTextFieldValue(float value, JTextField textField) {
+        String text;
+        if (value - (int) value > 0f) {
+            text = Float.toString(value);
+        } else {
+            text = Integer.toString((int) value);
+        }
+        textField.setText(text);
     }
 
     private int countCoefficient(float lowerBound, float higherBound) {
@@ -96,9 +110,8 @@ public class ParameterPanel extends JPanel {
         return Math.max(higherBoundCoeff, lowerBoundCoeff);
     }
 
-    private String getSliderValue(int value) {
-        double trueValue = (double) value / coefficient;
-        return Double.toString(trueValue);
+    private float getSliderValue(int value) {
+        return (float) value / coefficient;
     }
 
 }
