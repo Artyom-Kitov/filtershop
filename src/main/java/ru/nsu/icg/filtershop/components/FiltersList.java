@@ -64,6 +64,8 @@ public class FiltersList {
                 (int) ditheringOption.getParameter("blue quantization")
         ));
         tools.add(ditheringOption.getToolOption());
+        ditheringOption.getToolOption().setIcons("/icons/dithering1_icon.png",
+                "/icons/dithering1_selected_icon.png");
     }
 
     private void createWave(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
