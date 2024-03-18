@@ -33,6 +33,7 @@ public class FiltersList {
         createMedian(onToolSelect, onCancel);
         createBorderHighlight(onToolSelect, onCancel);
         createSharpness(onToolSelect, onCancel);
+        createWatercolor(onToolSelect, onCancel);
         createPixelArt(onToolSelect, onCancel);
         createWave(onToolSelect, onCancel);
         createFloydSteinbergDithering(onToolSelect, onCancel);
@@ -96,6 +97,14 @@ public class FiltersList {
         pixelOption.getToolOption().setIcons("/icons/pixel_icon.png",
                 "/icons/pixel_selected_icon.png"
         );
+    }
+
+    private void createWatercolor(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
+        ToolOption watercolorOption = new ToolOption("Watercolor", new WatercolorTool(),
+                onToolSelect, () -> cancelSelection(onCancel));
+        tools.add(watercolorOption);
+        watercolorOption.setIcons("/icons/aqua_icon.png",
+                "/icons/aqua_selected_icon.png");
     }
 
     private void createSharpness(Consumer<? super Tool> onToolSelect, Runnable onCancel) {

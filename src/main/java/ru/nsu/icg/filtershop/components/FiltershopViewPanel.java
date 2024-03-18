@@ -15,7 +15,7 @@ Date: 06.03.2024
 @Getter
 public class FiltershopViewPanel extends JPanel {
     private Object interpolationType;
-    private DisplayMode displayMode = DisplayMode.SCALED_TO_SCREEN_SIZE;
+    private DisplayMode displayMode = DisplayMode.FULL_SIZE;
 
     private final RGBMatrix matrix;
 
