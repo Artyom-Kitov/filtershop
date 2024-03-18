@@ -1,10 +1,12 @@
 package ru.nsu.icg.filtershop.components;
 
+import lombok.Setter;
 import ru.nsu.icg.filtershop.components.frames.AboutFrame;
 import ru.nsu.icg.filtershop.components.frames.FiltershopFrame;
 import ru.nsu.icg.filtershop.components.frames.HelpFrame;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /*
@@ -18,6 +20,7 @@ public class FiltershopMenuBar extends JMenuBar {
     private final FiltershopViewPanel viewPanel;
     private final JMenu file;
     private final JMenu modify;
+    private JMenu filter;
     private final JMenu about;
 
 
@@ -26,6 +29,7 @@ public class FiltershopMenuBar extends JMenuBar {
         viewPanel = panel;
         file = new JMenu("File");
         modify = new JMenu("Modify");
+        filter = new JMenu("Filter");
         about = new JMenu("About");
 
         configureAboutMenu();
@@ -33,7 +37,16 @@ public class FiltershopMenuBar extends JMenuBar {
 
         add(file);
         add(modify);
+        add(filter);
         add(about);
+    }
+
+    public void setFilter(JMenu filter) {
+        this.filter.removeAll();
+        for (Component c : filter.getMenuComponents()) {
+            this.filter.add(c);
+        }
+        this.filter.revalidate();
     }
 
     private void configureAboutMenu() {
