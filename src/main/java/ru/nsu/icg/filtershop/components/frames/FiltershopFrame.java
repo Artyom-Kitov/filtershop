@@ -32,11 +32,10 @@ public class FiltershopFrame extends JFrame {
     public FiltershopFrame() {
         setDefaultParameters();
 
-        filtersList = new FiltersList(this::onToolSelect, this::onReset);
-
         imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
-        toolBar = filtersList.getToolBar();
+        toolBar = new FiltershopToolBar();
         menuBar = new FiltershopMenuBar(imageViewWindow, this);
+        filtersList = new FiltersList(this::onToolSelect, this::onReset, toolBar);
 
         scrollPane = new JScrollPane(imageViewWindow);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -66,6 +65,11 @@ public class FiltershopFrame extends JFrame {
         imageViewWindow.getMatrix().applyTool(tool);
         imageViewWindow.repaint();
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    private void onDisplayModeSelect(DisplayMode mode) {
+        imageViewWindow.setDisplayMode(mode);
+        repaint();
     }
 
     private void onReset() {

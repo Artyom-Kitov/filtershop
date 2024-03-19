@@ -20,8 +20,10 @@ public class FiltersList {
     private final ButtonGroup toolBarGroup;
     private final ButtonGroup menuBarGroup;
 
-    public FiltersList(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
-        toolBar = new FiltershopToolBar();
+    public FiltersList(Consumer<? super Tool> onToolSelect,
+                       Runnable onCancel,
+                       FiltershopToolBar mainToolBar) {
+        toolBar = mainToolBar;
         toolsMenu = new JMenu("Filter");
         tools = new ArrayList<>();
 
