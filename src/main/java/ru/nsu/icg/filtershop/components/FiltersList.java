@@ -87,7 +87,7 @@ public class FiltersList {
     private void createPixelArt(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
         ParameterToolOption pixelOption = new ParameterToolOption("Pixel art", onToolSelect,
                 onCancel, List.of(
-                Parameters.builder().name("pixel size").min(0).max(50).initial(10).warning("invalid pixel size")
+                Parameters.builder().name("pixel size").min(2).max(50).initial(10).warning("invalid pixel size")
                         .build()
         ));
         pixelOption.setToolSupplier(() -> new PixelArtTool(

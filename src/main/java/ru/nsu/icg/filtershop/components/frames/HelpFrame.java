@@ -16,14 +16,13 @@ public class HelpFrame extends JDialog {
     JTextArea instructionArea = new JTextArea();
     instructionArea.setText(
             """
-                    Here are some instructions on how to use the tools:
-                    - Line: Click to set the starting point, then click again to set the end point of the line.
-                    - Clear: Click to clear all drawing.
-                    - Fill: Click inside a closed shape to fill it with the selected color.
-                    - Star: Click to draw a star shape.
-                    - Polygon: Click to draw a polygon shape.
-
-                    Feel free to explore and create amazing artwork!"""
+                    This application, FilterShop, provides the following features:
+                   
+                    - Apply various filters listed in the toolbar to enhance your images.
+                    - Save and load photos to work on them later.
+                    - Resize and rotate images to fit your preferences.
+                    
+                    Feel free to explore and create amazing images!"""
     );
     instructionArea.setEditable(false);
     instructionArea.setLineWrap(true);

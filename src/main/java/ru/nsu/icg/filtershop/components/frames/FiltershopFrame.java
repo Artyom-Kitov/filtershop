@@ -54,7 +54,7 @@ public class FiltershopFrame extends JFrame {
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.EAST);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.SOUTH);
 
-        menuBar.add(filtersList.getToolsMenu());
+        menuBar.setFilter(filtersList.getToolsMenu());
         setJMenuBar(menuBar);
 
         pack();
