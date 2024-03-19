@@ -3,11 +3,13 @@ package ru.nsu.icg.filtershop.components.frames;
 import lombok.Setter;
 import ru.nsu.icg.filtershop.components.ParameterPanel;
 import ru.nsu.icg.filtershop.components.Parameters;
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /*
 Author: Mikhail Sartakov
@@ -25,6 +27,10 @@ public class FiltershopParameterDialog extends JDialog {
 
     public FiltershopParameterDialog() {
         setTitle("Parameters");
+        setIconImage(Objects.requireNonNull(
+                        ImageUtils.getImageFromResources("/icons/filtershop_logo_icon.png"))
+                .getImage()
+        );
 
         parameters = new HashMap<>();
 

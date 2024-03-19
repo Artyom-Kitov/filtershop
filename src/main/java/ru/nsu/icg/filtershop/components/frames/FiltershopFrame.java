@@ -3,6 +3,7 @@ package ru.nsu.icg.filtershop.components.frames;
 import ru.nsu.icg.filtershop.components.*;
 import ru.nsu.icg.filtershop.components.DisplayMode;
 import ru.nsu.icg.filtershop.model.tools.Tool;
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 /*
 Author: Mikhail Sartakov
@@ -33,6 +35,11 @@ public class FiltershopFrame extends JFrame {
 
     public FiltershopFrame() {
         setDefaultParameters();
+        setTitle("Filtershop");
+        setIconImage(Objects.requireNonNull(
+                        ImageUtils.getImageFromResources("/icons/filtershop_logo_icon.png"))
+                        .getImage()
+        );
 
         imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
         toolBar = new FiltershopToolBar();

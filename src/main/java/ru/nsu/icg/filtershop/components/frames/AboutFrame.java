@@ -1,11 +1,18 @@
 package ru.nsu.icg.filtershop.components.frames;
 
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class AboutFrame extends JDialog {
 
   public AboutFrame() {
+    setIconImage(Objects.requireNonNull(
+                    ImageUtils.getImageFromResources("/icons/filtershop_logo_icon.png"))
+            .getImage()
+    );
     setSize(300, 100); // create constants
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 

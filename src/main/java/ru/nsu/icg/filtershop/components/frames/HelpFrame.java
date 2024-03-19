@@ -1,11 +1,18 @@
 package ru.nsu.icg.filtershop.components.frames;
 
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class HelpFrame extends JDialog {
 
   public HelpFrame() {
+    setIconImage(Objects.requireNonNull(
+                    ImageUtils.getImageFromResources("/icons/filtershop_logo_icon.png"))
+            .getImage()
+    );
     setSize(500, 230);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
