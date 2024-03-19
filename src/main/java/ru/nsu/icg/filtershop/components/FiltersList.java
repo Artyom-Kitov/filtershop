@@ -39,7 +39,8 @@ public class FiltersList {
         createBlur();
         createEmbossing();
         createMedian();
-        createBorderHighlight();
+        createRobertsHighlight();
+        createSobelHighlight();
         createSharpness();
         createWatercolor();
         createPixelArt();
@@ -139,12 +140,34 @@ public class FiltersList {
         );
     }
 
-    private void createBorderHighlight() {
-        ToolOption highlightOption = new ToolOption("Border highlight",
-                new BorderHighlightTool(), () -> cancelSelection(onCancel));
-        highlightOption.setOnSelect(tool -> select(tool, highlightOption));
-        tools.add(highlightOption);
-        highlightOption.setIcons("/icons/border1_icon.png",
+    private void createSobelHighlight() {
+        ParameterToolOption highlightOption = new ParameterToolOption("Sobel border", onCancel,
+                List.of(
+                        Parameters.builder().name("binarization").min(0).max(200).initial(100).warning("invalid binarization")
+                                .build()
+                ));
+        highlightOption.setOnToolSelect(tool -> select(tool, highlightOption.getToolOption()));
+        highlightOption.setToolSupplier(() -> new RobertsBorderHighlightTool(
+                (int) highlightOption.getParameter("binarization")
+        ));
+        tools.add(highlightOption.getToolOption());
+        highlightOption.getToolOption().setIcons("/icons/border2_icon.png",
+                "/icons/border2_selected_icon.png"
+        );
+    }
+
+    private void createRobertsHighlight() {
+        ParameterToolOption highlightOption = new ParameterToolOption("Roberts border", onCancel,
+                List.of(
+                        Parameters.builder().name("binarization").min(0).max(500).initial(100).warning("invalid binarization")
+                                .build()
+                ));
+        highlightOption.setOnToolSelect(tool -> select(tool, highlightOption.getToolOption()));
+        highlightOption.setToolSupplier(() -> new RobertsBorderHighlightTool(
+                (int) highlightOption.getParameter("binarization")
+        ));
+        tools.add(highlightOption.getToolOption());
+        highlightOption.getToolOption().setIcons("/icons/border1_icon.png",
                 "/icons/border1_selected_icon.png"
         );
     }
@@ -225,9 +248,13 @@ public class FiltersList {
         );
     }
 
-    private void cancelSelection(Runnable onCancel) {
+    public void cancelSelection() {
         toolBarGroup.forEach(b -> b.setSelected(false));
         menuBarGroup.forEach(b -> b.setSelected(false));
+    }
+
+    private void cancelSelection(Runnable onCancel) {
+        cancelSelection();
         onCancel.run();
     }
 
