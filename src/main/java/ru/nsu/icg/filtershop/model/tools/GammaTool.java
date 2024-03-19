@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 @AllArgsConstructor
 public class GammaTool implements Tool {
 
-  private float gammaR, gammaG, gammaB;
+  private float gamma;
 
   @Override
   public void applyTo(BufferedImage original, BufferedImage result) {
@@ -18,9 +18,9 @@ public class GammaTool implements Tool {
         int r = ColorUtils.getRed(color);
         int g = ColorUtils.getGreen(color);
         int b = ColorUtils.getBlue(color);
-        int rNew = (int) (Math.pow((r / 255f), gammaR) * 255);
-        int gNew = (int) (Math.pow((g / 255f), gammaG) * 255);
-        int bNew = (int) (Math.pow((b / 255f), gammaB) * 255);
+        int rNew = (int) (Math.pow((r / 255f), gamma) * 255);
+        int gNew = (int) (Math.pow((g / 255f), gamma) * 255);
+        int bNew = (int) (Math.pow((b / 255f), gamma) * 255);
         result.setRGB(x, y, ColorUtils.getRGB(rNew, gNew, bNew));
       }
     }

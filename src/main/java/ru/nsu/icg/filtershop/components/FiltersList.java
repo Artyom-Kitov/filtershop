@@ -17,31 +17,38 @@ public class FiltersList {
     private final JMenu toolsMenu;
 
     private final List<ToolOption> tools;
-    private final ButtonGroup toolBarGroup;
-    private final ButtonGroup menuBarGroup;
+    private final List<AbstractButton> toolBarGroup;
+    private final List<AbstractButton> menuBarGroup;
+
+    private final Consumer<? super Tool> onToolSelect;
+    private final Runnable onCancel;
 
     public FiltersList(Consumer<? super Tool> onToolSelect,
                        Runnable onCancel,
                        FiltershopToolBar mainToolBar) {
+        this.onToolSelect = onToolSelect;
+        this.onCancel = onCancel;
+
         toolBar = mainToolBar;
         toolsMenu = new JMenu("Filter");
         tools = new ArrayList<>();
 
-        createBlackWhite(onToolSelect, onCancel);
-        createInversion(onToolSelect, onCancel);
-        createGamma(onToolSelect, onCancel);
-        createBlur(onToolSelect, onCancel);
-        createEmbossing(onToolSelect, onCancel);
-        createMedian(onToolSelect, onCancel);
-        createBorderHighlight(onToolSelect, onCancel);
-        createSharpness(onToolSelect, onCancel);
-        createWatercolor(onToolSelect, onCancel);
-        createPixelArt(onToolSelect, onCancel);
-        createWave(onToolSelect, onCancel);
-        createFloydSteinbergDithering(onToolSelect, onCancel);
+        createBlackWhite();
+        createInversion();
+        createGamma();
+        createBlur();
+        createEmbossing();
+        createMedian();
+        createRobertsHighlight();
+        createSobelHighlight();
+        createSharpness();
+        createWatercolor();
+        createPixelArt();
+        createWave();
+        createFloydSteinbergDithering();
 
-        toolBarGroup = new ButtonGroup();
-        menuBarGroup = new ButtonGroup();
+        toolBarGroup = new ArrayList<>();
+        menuBarGroup = new ArrayList<>();
         for (ToolOption tool : tools) {
             toolBar.add(tool.getRadioButton());
             toolBarGroup.add(tool.getRadioButton());
@@ -51,9 +58,19 @@ public class FiltersList {
         }
     }
 
-    private void createFloydSteinbergDithering(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
+    private void select(Tool tool, ToolOption option) {
+        toolBarGroup.forEach(b -> b.setSelected(false));
+        menuBarGroup.forEach(b -> b.setSelected(false));
+
+        option.getRadioButton().setSelected(true);
+        option.getMenuItem().setSelected(true);
+
+        onToolSelect.accept(tool);
+    }
+
+    private void createFloydSteinbergDithering() {
         ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg dithering",
-                onToolSelect, onCancel, List.of(
+                onCancel, List.of(
                         Parameters.builder().name("red quantization").min(2).max(128).initial(2).warning("invalid red quantization")
                                 .build(),
                         Parameters.builder().name("green quantization").min(2).max(128).initial(2).warning("invalid green quantization")
@@ -61,6 +78,7 @@ public class FiltersList {
                         Parameters.builder().name("blue quantization").min(2).max(128).initial(2).warning("invalid blue quantization")
                                 .build()
         ));
+        ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
         ditheringOption.setToolSupplier(() -> new FloydSteinbergDitheringTool(
                 (int) ditheringOption.getParameter("red quantization"),
                 (int) ditheringOption.getParameter("green quantization"),
@@ -71,12 +89,13 @@ public class FiltersList {
                 "/icons/dithering1_selected_icon.png");
     }
 
-    private void createWave(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
-        ParameterToolOption waveOption = new ParameterToolOption("Waves", onToolSelect,
-                onCancel, List.of(
+    private void createWave() {
+        ParameterToolOption waveOption = new ParameterToolOption("Waves", onCancel,
+                List.of(
                         Parameters.builder().name("height").min(0).max(100).initial(50).warning("invalid height")
                                 .build()
         ));
+        waveOption.setOnToolSelect(tool -> select(tool, waveOption.getToolOption()));
         waveOption.setToolSupplier(() -> new CircleWaveTool(
                 (int) waveOption.getParameter("height")
         ));
@@ -86,12 +105,13 @@ public class FiltersList {
         );
     }
 
-    private void createPixelArt(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
-        ParameterToolOption pixelOption = new ParameterToolOption("Pixel art", onToolSelect,
-                onCancel, List.of(
+    private void createPixelArt() {
+        ParameterToolOption pixelOption = new ParameterToolOption("Pixel art", onCancel,
+                List.of(
                 Parameters.builder().name("pixel size").min(0).max(50).initial(10).warning("invalid pixel size")
                         .build()
         ));
+        pixelOption.setOnToolSelect(tool -> select(tool, pixelOption.getToolOption()));
         pixelOption.setToolSupplier(() -> new PixelArtTool(
                 (int) pixelOption.getParameter("pixel size")
         ));
@@ -101,38 +121,64 @@ public class FiltersList {
         );
     }
 
-    private void createWatercolor(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
+    private void createWatercolor() {
         ToolOption watercolorOption = new ToolOption("Watercolor", new WatercolorTool(),
-                onToolSelect, () -> cancelSelection(onCancel));
+                () -> cancelSelection(onCancel));
+        watercolorOption.setOnSelect(tool -> select(tool, watercolorOption));
         tools.add(watercolorOption);
         watercolorOption.setIcons("/icons/aqua_icon.png",
                 "/icons/aqua_selected_icon.png");
     }
 
-    private void createSharpness(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
+    private void createSharpness() {
         ToolOption sharpnessOption = new ToolOption("Increase sharpness",
-                new SharpnessTool(), onToolSelect, () -> cancelSelection(onCancel));
+                new SharpnessTool(), () -> cancelSelection(onCancel));
+        sharpnessOption.setOnSelect(tool -> select(tool, sharpnessOption));
         tools.add(sharpnessOption);
         sharpnessOption.setIcons("/icons/sharpness_icon.png",
                 "/icons/sharpness_selected_icon.png"
         );
     }
 
-    private void createBorderHighlight(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
-        ToolOption highlightOption = new ToolOption("Border highlight",
-                new BorderHighlightTool(), onToolSelect, () -> cancelSelection(onCancel));
-        tools.add(highlightOption);
-        highlightOption.setIcons("/icons/border1_icon.png",
+    private void createSobelHighlight() {
+        ParameterToolOption highlightOption = new ParameterToolOption("Sobel border", onCancel,
+                List.of(
+                        Parameters.builder().name("binarization").min(0).max(200).initial(100).warning("invalid binarization")
+                                .build()
+                ));
+        highlightOption.setOnToolSelect(tool -> select(tool, highlightOption.getToolOption()));
+        highlightOption.setToolSupplier(() -> new RobertsBorderHighlightTool(
+                (int) highlightOption.getParameter("binarization")
+        ));
+        tools.add(highlightOption.getToolOption());
+        highlightOption.getToolOption().setIcons("/icons/border2_icon.png",
+                "/icons/border2_selected_icon.png"
+        );
+    }
+
+    private void createRobertsHighlight() {
+        ParameterToolOption highlightOption = new ParameterToolOption("Roberts border", onCancel,
+                List.of(
+                        Parameters.builder().name("binarization").min(0).max(500).initial(100).warning("invalid binarization")
+                                .build()
+                ));
+        highlightOption.setOnToolSelect(tool -> select(tool, highlightOption.getToolOption()));
+        highlightOption.setToolSupplier(() -> new RobertsBorderHighlightTool(
+                (int) highlightOption.getParameter("binarization")
+        ));
+        tools.add(highlightOption.getToolOption());
+        highlightOption.getToolOption().setIcons("/icons/border1_icon.png",
                 "/icons/border1_selected_icon.png"
         );
     }
 
-    private void createMedian(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
-        ParameterToolOption medianOption = new ParameterToolOption("Median smooth", onToolSelect,
-                onCancel, List.of(
+    private void createMedian() {
+        ParameterToolOption medianOption = new ParameterToolOption("Median smooth", onCancel,
+                List.of(
                         Parameters.builder().name("n").min(3).max(11).initial(3).step(2f).warning("invalid n")
                                 .build()
         ));
+        medianOption.setOnToolSelect(tool -> select(tool, medianOption.getToolOption()));
         medianOption.setToolSupplier(() -> new MedianSmoothTool(
                 (int) medianOption.getParameter("n")
         ));
@@ -142,23 +188,25 @@ public class FiltersList {
         );
     }
 
-    private void createEmbossing(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
+    private void createEmbossing() {
         ToolOption embossingOption = new ToolOption("Embossing",
-                new EmbossingTool(), onToolSelect, () -> cancelSelection(onCancel));
+                new EmbossingTool(), () -> cancelSelection(onCancel));
+        embossingOption.setOnSelect(tool -> select(tool, embossingOption));
         tools.add(embossingOption);
         embossingOption.setIcons("/icons/embossing_icon.png",
                 "/icons/embossing_selected_icon.png"
         );
     }
 
-    private void createBlur(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
-        ParameterToolOption blurOption = new ParameterToolOption("Gaussian blur", onToolSelect,
-                onCancel, List.of(
+    private void createBlur() {
+        ParameterToolOption blurOption = new ParameterToolOption("Gaussian blur", onCancel,
+                List.of(
                         Parameters.builder().name("n").min(3).max(11).initial(3).step(2.0f).warning("invalid n")
                                 .build(),
                         Parameters.builder().name("sigma").min(0.1f).max(20).initial(1).warning("invalid standard deviation")
                                 .build()
         ));
+        blurOption.setOnToolSelect(tool -> select(tool, blurOption.getToolOption()));
         blurOption.setToolSupplier(() -> new BlurTool(blurOption.getParameter("sigma"),
                 (int) blurOption.getParameter("n")
         ));
@@ -168,44 +216,45 @@ public class FiltersList {
         );
     }
 
-    private void createGamma(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
-        ParameterToolOption gammaOption = new ParameterToolOption("Gamma correction", onToolSelect, onCancel,
-                List.of(Parameters.builder().name("gamma red").min(0.1f).max(10).initial(1).warning("invalid red gamma value")
-                        .build(),
-                Parameters.builder().name("gamma green").min(0.1f).max(10).initial(1).warning("invalid green gamma value")
-                        .build(),
-                Parameters.builder().name("gamma blue").min(0.1f).max(10).initial(1).warning("invalid blue gamma value")
+    private void createGamma() {
+        ParameterToolOption gammaOption = new ParameterToolOption("Gamma correction", onCancel,
+                List.of(Parameters.builder().name("gamma").min(0.1f).max(10).initial(1).warning("invalid gamma value")
                         .build()));
-        gammaOption.setToolSupplier(() -> new GammaTool(gammaOption.getParameter("gamma red"),
-                gammaOption.getParameter("gamma green"),
-                gammaOption.getParameter("gamma blue")));
+        gammaOption.setOnToolSelect(tool -> select(tool, gammaOption.getToolOption()));
+        gammaOption.setToolSupplier(() -> new GammaTool(gammaOption.getParameter("gamma")));
         tools.add(gammaOption.getToolOption());
         gammaOption.getToolOption().setIcons("/icons/gamma_icon.png",
                 "/icons/gamma_selected_icon.png"
         );
     }
 
-    private void createInversion(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
+    private void createInversion() {
         ToolOption inversionOption = new ToolOption("Inversion",
-                new InversionTool(), onToolSelect, () -> cancelSelection(onCancel));
+                new InversionTool(), () -> cancelSelection(onCancel));
+        inversionOption.setOnSelect(tool -> select(tool, inversionOption));
         tools.add(inversionOption);
         inversionOption.setIcons("/icons/inversion_icon.png",
                 "/icons/inversion_selected_icon.png"
         );
     }
 
-    private void createBlackWhite(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
+    private void createBlackWhite() {
         ToolOption blackWhiteOption = new ToolOption("Black white",
-                new BlackWhiteTool(), onToolSelect, () -> cancelSelection(onCancel));
+                new BlackWhiteTool(), () -> cancelSelection(onCancel));
+        blackWhiteOption.setOnSelect(tool -> select(tool, blackWhiteOption));
         tools.add(blackWhiteOption);
         blackWhiteOption.setIcons("/icons/black_white_icon.png",
                 "/icons/black_white_selected_icon.png"
         );
     }
 
+    public void cancelSelection() {
+        toolBarGroup.forEach(b -> b.setSelected(false));
+        menuBarGroup.forEach(b -> b.setSelected(false));
+    }
+
     private void cancelSelection(Runnable onCancel) {
-        toolBarGroup.clearSelection();
-        menuBarGroup.clearSelection();
+        cancelSelection();
         onCancel.run();
     }
 

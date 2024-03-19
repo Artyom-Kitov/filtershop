@@ -19,4 +19,8 @@ public class ColorUtils {
     public int getRGB(int r, int g, int b) {
         return 0xff000000 | (r << 16) | (g << 8) | b;
     }
+
+    public int getMiddleRGB(int c) {
+        return (int) ((getRed(c) + getGreen(c) + getBlue(c)) / 3.);
+    }
 }
