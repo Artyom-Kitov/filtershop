@@ -5,6 +5,7 @@ import lombok.Setter;
 import ru.nsu.icg.filtershop.model.tools.Tool;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -25,6 +26,15 @@ public class RGBMatrix {
 
     private BufferedImage filtered;
 
+    private BufferedImage rotated;
+
+    private int rotatingAngle = 0;
+
+    public void setRotatingAngle(int rotatingAngle) {
+        this.rotatingAngle = rotatingAngle;
+        rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
+    }
+
     public RGBMatrix(int width, int height) {
         setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
     }
@@ -33,6 +43,7 @@ public class RGBMatrix {
         original = image;
         modified = ImageUtils.cloneImage(image);
         filtered = ImageUtils.cloneImage(image);
+        rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
     }
 
     public void applyTool(Tool tool) {
