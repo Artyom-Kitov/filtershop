@@ -5,8 +5,9 @@ import ru.nsu.icg.filtershop.components.DisplayMode;
 import ru.nsu.icg.filtershop.model.tools.Tool;
 
 import javax.swing.*;
-import javax.swing.border.StrokeBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -25,6 +26,7 @@ public class FiltershopFrame extends JFrame {
     private final FiltershopViewPanel imageViewWindow;
     private final JScrollPane scrollPane;
 
+    private final DisplayModesList displayModesList;
     private final FiltersList filtersList;
 
     private Point origin;
@@ -35,7 +37,13 @@ public class FiltershopFrame extends JFrame {
         imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
         toolBar = new FiltershopToolBar();
         menuBar = new FiltershopMenuBar(imageViewWindow, this);
+
         filtersList = new FiltersList(this::onToolSelect, this::onReset, toolBar);
+        toolBar.addSeparator();
+        displayModesList = new DisplayModesList(this::onDisplayModeSelect, angle -> {
+            imageViewWindow.getMatrix().setRotatingAngle(angle);
+            imageViewWindow.repaint();
+        }, toolBar);
 
         scrollPane = new JScrollPane(imageViewWindow);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -47,25 +55,34 @@ public class FiltershopFrame extends JFrame {
         scrollPane.getViewport().setView(imageViewWindow);
         configureMouseDragListener();
 
-        JSlider angleSlider = new JSlider(-180, 180, 0);
-        angleSlider.setMajorTickSpacing(360 / 24);
-        angleSlider.setPaintLabels(true);
-        angleSlider.addChangeListener(e -> {
-            imageViewWindow.getMatrix().setRotatingAngle(angleSlider.getValue());
-            imageViewWindow.resizePanelToImage();
-        });
-
         add(scrollPane, BorderLayout.CENTER);
         add(toolBar, BorderLayout.NORTH);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.WEST);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.EAST);
-        add(angleSlider, BorderLayout.SOUTH);
 
         menuBar.add(filtersList.getToolsMenu());
+        menuBar.add(displayModesList.getDisplayModesMenu());
         setJMenuBar(menuBar);
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                onResize();
+            }
+        });
 
         pack();
         setVisible(true);
+    }
+
+    private void onResize() {
+        if (imageViewWindow.getDisplayMode() == DisplayMode.FIT_TO_SCREEN_SIZE) {
+            int width = getWidth() - 100;
+            int height = getHeight() - 100;
+            imageViewWindow.setSize(width, height);
+            imageViewWindow.setPreferredSize(new Dimension(width, height));
+        }
     }
 
     private void onToolSelect(Tool tool) {
@@ -77,6 +94,7 @@ public class FiltershopFrame extends JFrame {
 
     private void onDisplayModeSelect(DisplayMode mode) {
         imageViewWindow.setDisplayMode(mode);
+        onResize();
         repaint();
     }
 
@@ -103,9 +121,6 @@ public class FiltershopFrame extends JFrame {
                     setDragCursor();
                 }
             }
-        });
-
-        scrollPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (imageViewWindow.getDisplayMode() == DisplayMode.FULL_SIZE) {
@@ -113,7 +128,6 @@ public class FiltershopFrame extends JFrame {
                 }
             }
         });
-
         scrollPane.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {

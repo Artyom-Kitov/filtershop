@@ -1,11 +1,15 @@
 package ru.nsu.icg.filtershop.components;
 
 import lombok.Getter;
+import ru.nsu.icg.filtershop.components.frames.FiltershopParameterDialog;
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public class DisplayModesList {
     @Getter
@@ -18,15 +22,15 @@ public class DisplayModesList {
     private final ButtonGroup toolBarGroup;
     private final ButtonGroup menuBarGroup;
 
-    public DisplayModesList(Consumer<? super DisplayMode> onSelect,
-                            Runnable onCancel,
+    public DisplayModesList(Consumer<? super DisplayMode> onModeSelect,
+                            IntConsumer onAngleChange,
                             FiltershopToolBar mainToolBar) {
         toolBar = mainToolBar;
-        displayModesMenu = new JMenu("Display modes");
+        displayModesMenu = new JMenu("Display");
         displayModes = new ArrayList<>();
 
-        createFullSizeMode(onSelect, onCancel);
-        createFitToScreenMode(onSelect, onCancel);
+        createFullSizeMode(onModeSelect);
+        createFitToScreenMode(onModeSelect);
 
         toolBarGroup = new ButtonGroup();
         menuBarGroup = new ButtonGroup();
@@ -37,33 +41,51 @@ public class DisplayModesList {
             displayModesMenu.add(displayMode.getMenuItem());
             menuBarGroup.add(displayMode.getMenuItem());
         }
+        createRotationMode(onAngleChange);
     }
 
-    private void createFullSizeMode(Consumer<? super DisplayMode> onSelect, Runnable onCancel) {
+    private void createRotationMode(IntConsumer onAngleChange) {
+        JButton rotationButton = new JButton();
+        rotationButton.setPreferredSize(new Dimension(32, 32));
+        rotationButton.setIcon(
+                ImageUtils.getScaledImageFromResources("/icons/rotate_icon.png", 32, 32)
+        );
+        JMenuItem rotationItem = new JMenuItem("Rotation");
+        rotationButton.setToolTipText("Rotation");
+
+        FiltershopParameterDialog rotationDialog = new FiltershopParameterDialog();
+        rotationDialog.addParameter(Parameters.builder()
+                        .name("angle").min(-180).max(180).initial(0).warning("invalid angle")
+                .build());
+        rotationDialog.setOnApply(() -> onAngleChange.accept(
+                (int) rotationDialog.getParameterValue("angle")
+        ));
+        rotationButton.addActionListener(e -> rotationDialog.setVisible(true));
+        rotationItem.addActionListener(e -> rotationDialog.setVisible(true));
+
+        toolBar.add(rotationButton);
+        displayModesMenu.add(rotationItem);
+    }
+
+    private void createFullSizeMode(Consumer<? super DisplayMode> onSelect) {
         DisplayModeOption fullSizeOption = new DisplayModeOption("Full size (1:1)",
-                onSelect,
-                () -> cancelSelection(onCancel)
-        );
+                DisplayMode.FULL_SIZE, onSelect);
         displayModes.add(fullSizeOption);
-        fullSizeOption.setIcons("/icons/",
-                "/icons/"
+        fullSizeOption.getRadioButton().setSelected(true);
+        fullSizeOption.getMenuItem().setSelected(true);
+        fullSizeOption.setIcons("/icons/one_to_one_mode_icon.png",
+                "/icons/one_to_one_mode_selected_icon.png"
         );
     }
 
-    private void createFitToScreenMode(Consumer<? super DisplayMode> onSelect, Runnable onCancel) {
+    private void createFitToScreenMode(Consumer<? super DisplayMode> onSelect) {
         DisplayModeOption fitToScreenOption = new DisplayModeOption("Fit to screen size",
-                onSelect,
-                () -> cancelSelection(onCancel)
+                DisplayMode.FIT_TO_SCREEN_SIZE, onSelect
         );
         displayModes.add(fitToScreenOption);
-        fitToScreenOption.setIcons("/icons/",
-                "/icons/"
+        fitToScreenOption.setIcons("/icons/fit_to_screen_size_mode_icon.png",
+                "/icons/fit_to_screen_size_mode_selected_icon.png"
         );
     }
 
-    private void cancelSelection(Runnable onCancel) {
-        toolBarGroup.clearSelection();
-        menuBarGroup.clearSelection();
-        onCancel.run();
-    }
 }

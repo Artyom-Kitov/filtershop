@@ -13,11 +13,11 @@ public class FloydSteinbergDitheringTool implements Tool {
 
     private static final float[] FACTORS = {7f/16, 1f/16, 5f/16, 3f/16};
 
-    public FloydSteinbergDitheringTool(int quantizationR, int quantizationG, int quantizationB) {
-        quantNumbers =  (quantizationR << 16) | (quantizationG << 8) | quantizationB;
-    }
-
     private final int quantNumbers;
+
+    public FloydSteinbergDitheringTool(int quantizationR, int quantizationG, int quantizationB) {
+        quantNumbers = (quantizationR << 16) | (quantizationG << 8) | quantizationB;
+    }
 
     @Override
     public void applyTo(BufferedImage original, BufferedImage result) {

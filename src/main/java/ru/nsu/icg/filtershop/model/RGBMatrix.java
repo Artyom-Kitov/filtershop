@@ -1,11 +1,9 @@
 package ru.nsu.icg.filtershop.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import ru.nsu.icg.filtershop.model.tools.Tool;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -20,9 +18,6 @@ import java.awt.image.BufferedImage;
 public class RGBMatrix {
 
     private BufferedImage original;
-
-    @Setter
-    private BufferedImage modified;
 
     private BufferedImage filtered;
 
@@ -41,13 +36,12 @@ public class RGBMatrix {
 
     public void setImage(BufferedImage image) {
         original = image;
-        modified = ImageUtils.cloneImage(image);
         filtered = ImageUtils.cloneImage(image);
         rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
     }
 
     public void applyTool(Tool tool) {
-        tool.applyTo(modified, filtered);
+        tool.applyTo(original, filtered);
         rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
     }
 

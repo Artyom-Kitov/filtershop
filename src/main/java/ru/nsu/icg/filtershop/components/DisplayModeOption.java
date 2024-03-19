@@ -13,13 +13,14 @@ public class DisplayModeOption {
     private static final int BUTTON_SIZE = 32;
     private static final int MENU_BUTTON_SIZE = 16;
 
-    @Setter
     private DisplayMode displayMode;
 
     private final JRadioButton radioButton;
     private final JRadioButtonMenuItem menuItem;
 
-    public DisplayModeOption(String name, Consumer<? super DisplayMode> onSelect, Runnable onCancel) {
+    public DisplayModeOption(String name, DisplayMode displayMode, Consumer<? super DisplayMode> onSelect) {
+        this.displayMode = displayMode;
+
         radioButton = new JRadioButton();
         radioButton.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
         radioButton.setToolTipText(name);
@@ -28,7 +29,11 @@ public class DisplayModeOption {
 
         radioButton.addActionListener(e -> {
             setSelected(radioButton.isSelected());
-            handleSelection(onSelect, onCancel);
+            handleSelection(onSelect);
+        });
+        menuItem.addActionListener(e -> {
+            setSelected(menuItem.isSelected());
+            handleSelection(onSelect);
         });
     }
 
@@ -38,11 +43,9 @@ public class DisplayModeOption {
         radioButton.setSelectedIcon(ImageUtils.getScaledImageFromResources(selectedIconPath, BUTTON_SIZE, BUTTON_SIZE));
     }
 
-    private void handleSelection(Consumer<? super DisplayMode> onSelect, Runnable onCancel) {
+    private void handleSelection(Consumer<? super DisplayMode> onSelect) {
         if (radioButton.isSelected()) {
             onSelect.accept(displayMode);
-        } else {
-            onCancel.run();
         }
     }
 
