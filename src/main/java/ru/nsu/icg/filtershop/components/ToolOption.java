@@ -18,11 +18,13 @@ public class ToolOption {
     @Setter
     private Tool tool;
 
-    private final JRadioButton radioButton;
+    @Setter
+    private Consumer<? super Tool> onSelect;
 
+    private final JRadioButton radioButton;
     private final JRadioButtonMenuItem menuItem;
 
-    public ToolOption(String name, Tool tool, Consumer<? super Tool> onSelect,
+    public ToolOption(String name, Tool tool,
                       Runnable onCancel) {
         this.tool = tool;
 
@@ -51,6 +53,7 @@ public class ToolOption {
 
     private void handleSelection(Consumer<? super Tool> onSelect, Runnable onCancel) {
         if (radioButton.isSelected()) {
+            setSelected(false);
             onSelect.accept(tool);
         } else {
             onCancel.run();

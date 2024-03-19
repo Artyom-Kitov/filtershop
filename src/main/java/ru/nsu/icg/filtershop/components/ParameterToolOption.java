@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class ParameterToolOption {
 
-    private final FiltershopParameterDialog dialog = new FiltershopParameterDialog();
+    private final FiltershopParameterDialog dialog;
 
     @Getter
     private final ToolOption toolOption;
@@ -19,12 +19,17 @@ public class ParameterToolOption {
     @Setter
     private Supplier<? extends Tool> toolSupplier;
 
+    @Setter
+    private Consumer<? super Tool> onToolSelect;
+
     public ParameterToolOption(String toolName,
-                               Consumer<? super Tool> onToolSelect,
-                               Runnable onCancel,
+                               Runnable onToolCancel,
                                List<Parameters> parameters) {
-        parameters.forEach(p -> dialog.addParameter(p));
-        toolOption = new ToolOption(toolName, null, tool -> dialog.setVisible(true), onCancel);
+        dialog = new FiltershopParameterDialog();
+
+        parameters.forEach(dialog::addParameter);
+        toolOption = new ToolOption(toolName, null, onToolCancel);
+        toolOption.setOnSelect(tool -> dialog.setVisible(true));
         dialog.setOnApply(() -> {
             toolOption.setTool(toolSupplier.get());
             onToolSelect.accept(toolOption.getTool());
