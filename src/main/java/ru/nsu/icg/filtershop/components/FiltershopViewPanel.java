@@ -2,7 +2,6 @@ package ru.nsu.icg.filtershop.components;
 
 import lombok.Getter;
 import ru.nsu.icg.filtershop.model.RGBMatrix;
-import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +38,7 @@ public class FiltershopViewPanel extends JPanel {
                 int y = getHeight() > image.getHeight() ? (getHeight() - image.getHeight()) / 2 : 0;
                 g2.drawImage(image, x, y, null);
             }
-            case SCALED_TO_SCREEN_SIZE -> {
+            case FIT_TO_SCREEN_SIZE -> {
                 float factor = findScaleFactor(image.getWidth(), image.getHeight(), getWidth(), getHeight());
                 int newWidth = (int) (factor * image.getWidth());
                 int newHeight = (int) (factor * image.getHeight());
@@ -52,7 +51,7 @@ public class FiltershopViewPanel extends JPanel {
     }
 
     public BufferedImage getImage() {
-        return matrix.getFiltered();
+        return matrix.getRotated();
     }
 
     public void setImage(BufferedImage image) {
@@ -76,7 +75,7 @@ public class FiltershopViewPanel extends JPanel {
         return Math.min(scaleX, scaleY);
     }
 
-    private void resizePanelToImage() {
+    public void resizePanelToImage() {
         Dimension newSize = new Dimension(matrix.getRotated().getWidth(), matrix.getRotated().getHeight());
         setSize(newSize);
         setPreferredSize(newSize);

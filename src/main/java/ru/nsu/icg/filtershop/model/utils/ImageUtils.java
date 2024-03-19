@@ -61,37 +61,24 @@ public class ImageUtils {
     }
 
     public static BufferedImage getRotatedImage(BufferedImage image, int rotationAngle) {
-        double angle = Math.toRadians(rotationAngle);
+        float angle = (float) Math.toRadians(rotationAngle);
         Point center = new Point(image.getWidth() / 2, image.getHeight() / 2);
+        float cos = (float) Math.cos(-angle);
+        float sin = (float) Math.sin(-angle);
 
-        int minX = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int maxY = Integer.MIN_VALUE;
+        Dimension newSize = findSizeAfterRotation(image.getWidth(), image.getHeight(), cos, sin);
+        Point newCenter = new Point(newSize.width / 2, newSize.height / 2);
 
-        List<Point> corners = new ArrayList<>();
-        corners.add(new Point(0, 0));
-        corners.add(new Point(0, image.getHeight() - 1));
-        corners.add(new Point(image.getWidth() - 1, image.getHeight() - 1));
-        corners.add(new Point(image.getWidth() - 1, 0));
-
-        for (Point corner : corners) {
-            minX = Math.min(minX, rotateX(corner.x, corner.y, angle, center));
-            maxX = Math.max(maxX, rotateX(corner.x, corner.y, angle, center));
-            minY = Math.min(minY, rotateY(corner.x, corner.y, angle, center));
-            maxY = Math.max(maxY, rotateY(corner.x, corner.y, angle, center));
-        }
-        int newWidth = maxX - minX;
-        int newHeight = maxY - minY;
-
-        BufferedImage newImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-
-        for (int y = 0; y < image.getHeight(); ++y) {
-            for (int x = 0; x < image.getWidth(); ++x) {
-                int x1 = rotateX(x, y, angle, center) - minX;
-                int y1 = rotateY(x, y, angle, center) - minY;
-                if (x1 >= 0 && x1 <= newImage.getWidth() - 1 && y1 >= 0 && y1 <= newImage.getHeight() - 1) {
-                    newImage.setRGB(x1, y1, image.getRGB(x, y));
+        BufferedImage newImage = new BufferedImage(newSize.width, newSize.height, BufferedImage.TYPE_INT_ARGB);
+        for (int y = 0; y < newImage.getHeight(); ++y) {
+            for (int x = 0; x < newImage.getWidth(); ++x) {
+                int x1 = (int) ((x - newCenter.x) * cos - (y - newCenter.y) * sin) + center.x;
+                int y1 = (int) ((x - newCenter.x) * sin + (y - newCenter.y) * cos) + center.y;
+                if (x1 >= 0 && x1 < image.getWidth() && y1 >= 0 && y1 < image.getHeight()) {
+                    newImage.setRGB(x, y, image.getRGB(x1, y1));
+                }
+                else {
+                    newImage.setRGB(x, y, 0xFFFFFFFF);
                 }
             }
         }
@@ -99,13 +86,26 @@ public class ImageUtils {
         return newImage;
     }
 
-    private static int rotateX(int x, int y, double angle, Point center) {
-        return (int) (Math.cos(angle) * x - Math.sin(angle) * y
-               + (1 - Math.cos(angle)) * center.x - Math.sin(angle) * center.y);
-    }
+    private static Dimension findSizeAfterRotation(int oldWidth, int oldHeight, float cos, float sin) {
+        int minX = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxY = Integer.MIN_VALUE;
 
-    private static int rotateY(int x, int y, double angle, Point center) {
-        return (int) (Math.sin(angle) * x + Math.cos(angle) * y
-                + Math.sin(angle) * center.x + (1 - Math.cos(angle)) * center.y);
+        List<Point> corners = new ArrayList<>();
+        corners.add(new Point(0, 0));
+        corners.add(new Point(0, oldHeight - 1));
+        corners.add(new Point(oldWidth - 1, oldHeight - 1));
+        corners.add(new Point(oldWidth - 1, 0));
+
+        for (Point corner : corners) {
+            minX = Math.min(minX, (int) (corner.x * cos - corner.y * sin));
+            maxX = Math.max(maxX, (int) (corner.x * cos - corner.y * sin));
+            minY = Math.min(minY, (int) (corner.x * sin + corner.y * cos));
+            maxY = Math.max(maxY, (int) (corner.x * sin + corner.y * cos));
+        }
+        int newWidth = maxX - minX;
+        int newHeight = maxY - minY;
+        return new Dimension(newWidth, newHeight);
     }
 }

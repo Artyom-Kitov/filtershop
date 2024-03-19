@@ -47,11 +47,19 @@ public class FiltershopFrame extends JFrame {
         scrollPane.getViewport().setView(imageViewWindow);
         configureMouseDragListener();
 
+        JSlider angleSlider = new JSlider(-180, 180, 0);
+        angleSlider.setMajorTickSpacing(360 / 24);
+        angleSlider.setPaintLabels(true);
+        angleSlider.addChangeListener(e -> {
+            imageViewWindow.getMatrix().setRotatingAngle(angleSlider.getValue());
+            imageViewWindow.resizePanelToImage();
+        });
+
         add(scrollPane, BorderLayout.CENTER);
         add(toolBar, BorderLayout.NORTH);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.WEST);
         add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.EAST);
-        add(Box.createRigidArea(new Dimension(0, 0)), BorderLayout.SOUTH);
+        add(angleSlider, BorderLayout.SOUTH);
 
         menuBar.add(filtersList.getToolsMenu());
         setJMenuBar(menuBar);
