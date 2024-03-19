@@ -56,6 +56,7 @@ public class FiltersList {
             toolsMenu.add(tool.getMenuItem());
             menuBarGroup.add(tool.getMenuItem());
         }
+        toolBar.addSeparator();
     }
 
     private void select(Tool tool, ToolOption option) {

@@ -11,6 +11,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Objects;
 
 /*
@@ -43,7 +45,19 @@ public class FiltershopFrame extends JFrame {
 
         imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
         toolBar = new FiltershopToolBar();
-        menuBar = new FiltershopMenuBar(imageViewWindow, this);
+        menuBar = new FiltershopMenuBar(imageViewWindow);
+
+        toolBar.add(createToolBarButton("/icons/import_image_icon.png", "Import", () -> {
+            BufferedImage importedImage = FileManager.getInstance().importImage();
+            if (importedImage != null) {
+                imageViewWindow.setImage(importedImage);
+            }
+        }));
+        toolBar.add(createToolBarButton("/icons/export_image_icon.png", "Export",
+                () -> FileManager.getInstance().exportImageAsPNG(imageViewWindow.getImage())));
+        toolBar.add(createToolBarButton("/icons/exit_button_icon.png", "Exit",
+                () -> System.exit(0)));
+        toolBar.addSeparator();
 
         filtersList = new FiltersList(this::onToolSelect, this::onReset, toolBar);
         toolBar.addSeparator();
@@ -81,6 +95,15 @@ public class FiltershopFrame extends JFrame {
 
         pack();
         setVisible(true);
+    }
+
+    private JButton createToolBarButton(String iconPath, String toolTip, Runnable onClick) {
+        JButton button = new JButton();
+        button.setSize(32, 32);
+        button.setToolTipText(toolTip);
+        button.setIcon(ImageUtils.getScaledImageFromResources(iconPath, 32, 32));
+        button.addActionListener(e -> onClick.run());
+        return button;
     }
 
     private void onResize() {

@@ -1,7 +1,6 @@
 package ru.nsu.icg.filtershop.components;
 
 import ru.nsu.icg.filtershop.components.frames.AboutFrame;
-import ru.nsu.icg.filtershop.components.frames.FiltershopFrame;
 import ru.nsu.icg.filtershop.components.frames.HelpFrame;
 
 import javax.swing.*;
@@ -14,37 +13,31 @@ Date: 06.03.2024
 
 public class FiltershopMenuBar extends JMenuBar {
 
-    private final FiltershopFrame frame;
     private final FiltershopViewPanel viewPanel;
     private final JMenu file;
-    private final JMenu modify;
-    private final JMenu about;
+    private final JMenu info;
 
-
-    public FiltershopMenuBar(FiltershopViewPanel panel, FiltershopFrame frame) {
-        this.frame = frame;
+    public FiltershopMenuBar(FiltershopViewPanel panel) {
         viewPanel = panel;
         file = new JMenu("File");
-        modify = new JMenu("Modify");
-        about = new JMenu("About");
+        info = new JMenu("Info");
 
         configureAboutMenu();
         configureFileMenu();
 
         add(file);
-        add(modify);
-        add(about);
+        add(info);
     }
 
     private void configureAboutMenu() {
         JMenuItem helpItem = new JMenuItem("Help");
         JMenuItem aboutItem = new JMenuItem("About");
 
-        helpItem.addActionListener(e -> new HelpFrame());
-        aboutItem.addActionListener(e -> new AboutFrame());
+        helpItem.addActionListener(e -> HelpFrame.INSTANCE.setVisible(true));
+        aboutItem.addActionListener(e -> AboutFrame.INSTANCE.setVisible(true));
 
-        about.add(helpItem);
-        about.add(aboutItem);
+        info.add(helpItem);
+        info.add(aboutItem);
     }
 
     private void configureFileMenu() {

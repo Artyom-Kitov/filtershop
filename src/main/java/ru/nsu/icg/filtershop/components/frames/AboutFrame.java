@@ -8,7 +8,9 @@ import java.util.Objects;
 
 public class AboutFrame extends JDialog {
 
-  public AboutFrame() {
+  public static final AboutFrame INSTANCE = new AboutFrame();
+
+  private AboutFrame() {
     setIconImage(Objects.requireNonNull(
                     ImageUtils.getImageFromResources("/icons/filtershop_logo_icon.png"))
             .getImage()
@@ -40,7 +42,7 @@ public class AboutFrame extends JDialog {
     setLocationRelativeTo(null);
     setAlwaysOnTop(true);
     setModal(true);
-    setVisible(true);
+    setVisible(false);
   }
 
 }

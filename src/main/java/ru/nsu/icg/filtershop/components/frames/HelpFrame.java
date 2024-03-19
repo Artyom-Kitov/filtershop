@@ -8,7 +8,9 @@ import java.util.Objects;
 
 public class HelpFrame extends JDialog {
 
-  public HelpFrame() {
+  public static final HelpFrame INSTANCE = new HelpFrame();
+
+  private HelpFrame() {
     setIconImage(Objects.requireNonNull(
                     ImageUtils.getImageFromResources("/icons/filtershop_logo_icon.png"))
             .getImage()
@@ -53,7 +55,7 @@ public class HelpFrame extends JDialog {
     setLocationRelativeTo(null);
     setAlwaysOnTop(true);
     setModal(true);
-    setVisible(true);
+    setVisible(false);
   }
 
 }
