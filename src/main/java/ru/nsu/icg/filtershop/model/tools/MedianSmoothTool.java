@@ -4,6 +4,7 @@ import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,31 +21,33 @@ public class MedianSmoothTool implements Tool {
     int width = original.getWidth();
     int height = original.getHeight();
 
+    int[] redValues = new int[n * n];
+    int[] greenValues = new int[n * n];
+    int[] blueValues = new int[n * n];
+
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        List<Integer> redValues = new ArrayList<>();
-        List<Integer> greenValues = new ArrayList<>();
-        List<Integer> blueValues = new ArrayList<>();
-
+        int idx = 0;
         for (int dy = -n / 2; dy <= n / 2; dy++) {
           for (int dx = -n / 2; dx <= n / 2; dx++) {
             int nx = Math.min(Math.max(x + dx, 0), width - 1);
             int ny = Math.min(Math.max(y + dy, 0), height - 1);
 
             int color = original.getRGB(nx, ny);
-            redValues.add(ColorUtils.getRed(color));
-            greenValues.add(ColorUtils.getGreen(color));
-            blueValues.add(ColorUtils.getBlue(color));
+            redValues[idx] = ColorUtils.getRed(color);
+            greenValues[idx] = ColorUtils.getGreen(color);
+            blueValues[idx] = ColorUtils.getBlue(color);
+            idx++;
           }
         }
 
-        Collections.sort(redValues);
-        Collections.sort(greenValues);
-        Collections.sort(blueValues);
+        Arrays.sort(redValues);
+        Arrays.sort(greenValues);
+        Arrays.sort(blueValues);
 
-        int medianRed = redValues.get(redValues.size() / 2);
-        int medianGreen = greenValues.get(greenValues.size() / 2);
-        int medianBlue = blueValues.get(blueValues.size() / 2);
+        int medianRed = redValues[redValues.length / 2];
+        int medianGreen = greenValues[greenValues.length / 2];
+        int medianBlue = blueValues[blueValues.length / 2];
 
         result.setRGB(x, y, ColorUtils.getRGB(medianRed, medianGreen, medianBlue));
       }

@@ -168,15 +168,9 @@ public class FiltersList {
 
     private void createGamma(Consumer<? super Tool> onToolSelect, Runnable onCancel) {
         ParameterToolOption gammaOption = new ParameterToolOption("Gamma correction", onToolSelect, onCancel,
-                List.of(Parameters.builder().name("gamma red").min(0.1f).max(10).initial(1).warning("invalid red gamma value")
-                        .build(),
-                Parameters.builder().name("gamma green").min(0.1f).max(10).initial(1).warning("invalid green gamma value")
-                        .build(),
-                Parameters.builder().name("gamma blue").min(0.1f).max(10).initial(1).warning("invalid blue gamma value")
+                List.of(Parameters.builder().name("gamma").min(0.1f).max(10).initial(1).warning("invalid blue gamma value")
                         .build()));
-        gammaOption.setToolSupplier(() -> new GammaTool(gammaOption.getParameter("gamma red"),
-                gammaOption.getParameter("gamma green"),
-                gammaOption.getParameter("gamma blue")));
+        gammaOption.setToolSupplier(() -> new GammaTool(gammaOption.getParameter("gamma")));
         tools.add(gammaOption.getToolOption());
         gammaOption.getToolOption().setIcons("/icons/gamma_icon.png",
                 "/icons/gamma_selected_icon.png"

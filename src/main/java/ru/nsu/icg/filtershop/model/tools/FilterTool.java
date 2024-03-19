@@ -1,10 +1,11 @@
 package ru.nsu.icg.filtershop.model.tools;
 
-import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
 
+@Log4j2
 public class FilterTool implements Tool {
 
     public FilterTool(float[][] filter) {
@@ -25,15 +26,15 @@ public class FilterTool implements Tool {
     @Override
     public void applyTo(BufferedImage original, BufferedImage result) {
         int n = (filter.length - 1) / 2;
-        for (int y = 0; y < original.getHeight(); y++) {
-            for (int x = 0; x < original.getWidth(); x++) {
+        for (int y = 0; y < result.getHeight(); y++) {
+            for (int x = 0; x < result.getWidth(); x++) {
                 float r = 0;
                 float g = 0;
                 float b = 0;
-                for (int dx = -n; dx <= n; dx++) {
-                    for (int dy = -n; dy <= n; dy++) {
-                        int xFixed = Math.min(Math.max(x, n), original.getWidth() - n - 1);
-                        int yFixed = Math.min(Math.max(y, n), original.getHeight() - n - 1);
+                for (int dy = -n; dy <= n; dy++) {
+                    for (int dx = -n; dx <= n; dx++) {
+                        int xFixed = Math.min(Math.max(x, n), result.getWidth() - n - 1);
+                        int yFixed = Math.min(Math.max(y, n), result.getHeight() - n - 1);
 
                         int color = original.getRGB(xFixed + dx, yFixed + dy);
                         float factor = filter[n + dy][n + dx];

@@ -5,6 +5,8 @@ import ru.nsu.icg.filtershop.model.RGBMatrix;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
@@ -24,6 +26,13 @@ public class FiltershopViewPanel extends JPanel {
         interpolationType = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
         setBorder(new DottedBorder(Color.BLACK, 1, 5));
         setDoubleBuffered(true);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                matrix.reset();
+                repaint();
+            }
+        });
     }
 
     @Override
