@@ -46,7 +46,8 @@ public class ToolOption {
     }
 
     public void setIcons(String defaultIconPath, String selectedIconPath) {
-        menuItem.setIcon(ImageUtils.getScaledImageFromResources(defaultIconPath, MENU_BUTTON_SIZE, MENU_BUTTON_SIZE));
+//        menuItem.setIcon(ImageUtils.getScaledImageFromResources(defaultIconPath, MENU_BUTTON_SIZE, MENU_BUTTON_SIZE));
+//        menuItem.setSelectedIcon(ImageUtils.getScaledImageFromResources(selectedIconPath, MENU_BUTTON_SIZE, MENU_BUTTON_SIZE));
         radioButton.setIcon(ImageUtils.getScaledImageFromResources(defaultIconPath, BUTTON_SIZE, BUTTON_SIZE));
         radioButton.setSelectedIcon(ImageUtils.getScaledImageFromResources(selectedIconPath, BUTTON_SIZE, BUTTON_SIZE));
     }

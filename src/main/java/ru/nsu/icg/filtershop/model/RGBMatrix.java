@@ -48,6 +48,7 @@ public class RGBMatrix {
 
     public void applyTool(Tool tool) {
         tool.applyTo(modified, filtered);
+        rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
     }
 
     public void reset() {
