@@ -1,6 +1,5 @@
 package ru.nsu.icg.filtershop.model.tools;
 
-import lombok.Setter;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
@@ -35,11 +34,10 @@ public class FilterTool implements Tool {
                         int xFixed = Math.min(Math.max(x, n), original.getWidth() - n - 1);
                         int yFixed = Math.min(Math.max(y, n), original.getHeight() - n - 1);
 
-                        int color = original.getRGB(xFixed + dx, yFixed + dy);
                         float factor = filter[n + dy][n + dx];
-                        r += ColorUtils.getRed(color) * factor;
-                        g += ColorUtils.getGreen(color) * factor;
-                        b += ColorUtils.getBlue(color) * factor;
+                        r += ColorUtils.getRed(original, xFixed + dx, yFixed + dy) * factor;
+                        g += ColorUtils.getGreen(original, xFixed + dx, yFixed + dy) * factor;
+                        b += ColorUtils.getBlue(original, xFixed + dx, yFixed + dy) * factor;
                     }
                 }
                 int newR = Math.min(Math.max((int) r, 0), 255);

@@ -29,7 +29,7 @@ public class RobertsBorderHighlightTool implements Tool {
     private int colorAt(BufferedImage image, int x, int y) {
         int xFixed = Math.max(0, Math.min(x, image.getWidth() - 1));
         int yFixed = Math.max(0, Math.min(y, image.getHeight() - 1));
-        return ColorUtils.getMiddleRGB(image.getRGB(xFixed, yFixed));
+        return ColorUtils.getMiddleRGB(ColorUtils.getRGB(image, xFixed, yFixed));
     }
 
 }

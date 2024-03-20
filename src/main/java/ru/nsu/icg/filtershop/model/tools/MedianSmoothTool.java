@@ -32,10 +32,9 @@ public class MedianSmoothTool implements Tool {
             int nx = Math.min(Math.max(x + dx, 0), width - 1);
             int ny = Math.min(Math.max(y + dy, 0), height - 1);
 
-            int color = original.getRGB(nx, ny);
-            redValues[index] = ColorUtils.getRed(color);
-            greenValues[index] = ColorUtils.getGreen(color);
-            blueValues[index] = ColorUtils.getBlue(color);
+            redValues[index] = ColorUtils.getRed(original, nx, ny);
+            greenValues[index] = ColorUtils.getGreen(original, nx, ny);
+            blueValues[index] = ColorUtils.getBlue(original, nx, ny);
             index++;
           }
         }

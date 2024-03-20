@@ -12,7 +12,7 @@ class ToolTest {
     private BufferedImage testImage;
 
     ToolTest() {
-        testImage = new BufferedImage(1 << 12, 1 << 12, BufferedImage.TYPE_INT_RGB);
+        testImage = new BufferedImage(1 << 12, 1 << 12, BufferedImage.TYPE_3BYTE_BGR);
         int color = 0;
         for (int y = 0; y < testImage.getHeight(); y++) {
             for (int x = 0; x < testImage.getWidth(); x++) {
@@ -28,7 +28,7 @@ class ToolTest {
         BufferedImage image = testImage;
 
         // when
-        BufferedImage result = new BufferedImage(1 << 12, 1 << 12, BufferedImage.TYPE_INT_RGB);
+        BufferedImage result = new BufferedImage(1 << 12, 1 << 12, BufferedImage.TYPE_3BYTE_BGR);
         new InversionTool().applyTo(image, result);
 
         // then

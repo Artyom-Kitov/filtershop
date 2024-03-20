@@ -1,6 +1,7 @@
 package ru.nsu.icg.filtershop.model.tools;
 
 import lombok.AllArgsConstructor;
+import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
@@ -29,7 +30,7 @@ public class CircleWaveTool implements Tool {
         int newY = (int) (y + shiftFactor * Math.sin(angle));
 
         if (newX >= 0 && newX < original.getWidth() && newY >= 0 && newY < original.getHeight()) {
-          int color = original.getRGB(newX, newY);
+          int color = ColorUtils.getRGB(original, newX, newY);
           result.setRGB(x, y, color);
         }
       }

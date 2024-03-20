@@ -50,6 +50,7 @@ public class FileManager extends JFileChooser {
             lastOpenedFile = getSelectedFile();
             try {
                 BufferedImage image = ImageIO.read(lastOpenedFile);
+                System.out.println(image.getType());
                 if (image != null) {
                     // add logging
 //                    showSuccessfulImportMessage();

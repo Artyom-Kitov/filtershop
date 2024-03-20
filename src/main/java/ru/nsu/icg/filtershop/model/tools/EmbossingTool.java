@@ -22,10 +22,9 @@ public class EmbossingTool implements Tool {
 
     for (int y = 0; y < original.getHeight(); y++) {
       for (int x = 0; x < original.getWidth(); x++) {
-        int color = result.getRGB(x, y);
-        int r = ColorUtils.getRed(color);
-        int g = ColorUtils.getGreen(color);
-        int b = ColorUtils.getBlue(color);
+        int r = ColorUtils.getRed(result, x, y);
+        int g = ColorUtils.getGreen(result, x, y);
+        int b = ColorUtils.getBlue(result, x, y);
         int rNew = Math.min((r + 128), 255);
         int gNew = Math.min((g + 128), 255);
         int bNew = Math.min((b + 128), 255);

@@ -1,5 +1,6 @@
 package ru.nsu.icg.filtershop.model.tools;
 
+import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
@@ -27,9 +28,9 @@ public class FloydSteinbergDitheringTool implements Tool {
             int[] quantization = makeQuantization((quantNumbers & (0xff << mask)) >> mask);
             for (int y = 0; y < result.getHeight(); y++) {
                 for (int x = 0; x < result.getWidth(); x++) {
-                    int color = (result.getRGB(x, y) & (0xff << mask)) >> mask;
+                    int color = (ColorUtils.getRGB(result, x, y) & (0xff << mask)) >> mask;
                     int closest = findClosest(color, quantization);
-                    result.setRGB(x, y, (result.getRGB(x, y) & ~(0xff << mask)) | (closest << mask));
+                    result.setRGB(x, y, (ColorUtils.getRGB(result, x, y) & ~(0xff << mask)) | (closest << mask));
                     int error = color - closest;
                     propagateError(result, x + 1, y, error, mask, FACTORS[0]);
                     propagateError(result, x + 1, y + 1, error, mask, FACTORS[1]);
@@ -68,7 +69,7 @@ public class FloydSteinbergDitheringTool implements Tool {
         }
         int color = (image.getRGB(x, y) & (0xff << mask)) >> mask;
         color = Math.min(Math.max(0, color + (int) (factor * error)), 255);
-        image.setRGB(x, y, (image.getRGB(x, y) & ~(0xff << mask)) | (color << mask));
+        image.setRGB(x, y, (ColorUtils.getRGB(image, x, y) & ~(0xff << mask)) | (color << mask));
     }
 
 }
