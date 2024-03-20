@@ -110,7 +110,7 @@ public class FiltershopFrame extends JFrame {
     private void onResize() {
         if (imageViewWindow.getDisplayMode() == DisplayMode.FIT_TO_SCREEN_SIZE) {
             int width = getWidth() - 100;
-            int height = getHeight() - 100;
+            int height = getHeight() - 200;
             imageViewWindow.setSize(width, height);
             imageViewWindow.setPreferredSize(new Dimension(width, height));
         }

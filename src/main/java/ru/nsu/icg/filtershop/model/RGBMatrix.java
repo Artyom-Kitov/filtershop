@@ -54,10 +54,6 @@ public class RGBMatrix {
         result = rotatedFiltered;
     }
 
-    public void reset() {
-        setImage(original);
-    }
-
     public void swap() {
         if (result == rotatedFiltered) {
             result = rotated;

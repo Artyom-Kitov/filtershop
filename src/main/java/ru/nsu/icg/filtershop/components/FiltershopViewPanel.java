@@ -5,8 +5,6 @@ import ru.nsu.icg.filtershop.model.RGBMatrix;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
@@ -36,6 +34,7 @@ public class FiltershopViewPanel extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interpolationType);
         switch (displayMode) {
             case FULL_SIZE -> {
+                resizePanelToImage();
                 int x = getWidth() > image.getWidth() ? (getWidth() - image.getWidth()) / 2 : 0;
                 int y = getHeight() > image.getHeight() ? (getHeight() - image.getHeight()) / 2 : 0;
                 g2.drawImage(image, x, y, null);
