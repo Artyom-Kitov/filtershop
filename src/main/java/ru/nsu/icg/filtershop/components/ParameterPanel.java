@@ -11,9 +11,15 @@ public class ParameterPanel extends JPanel {
 
     private final int coefficient;
 
+    private final String warningMessage;
+
     private final JSlider parameterSlider;
 
     public ParameterPanel(Parameters params) {
+        warningMessage = String.format("""
+                Warning! The %s value must be between %.1f and %.1f
+                """, params.name(), params.min(), params.max());
+
         coefficient = countCoefficient(params.min(), params.max());
 
         JLabel parameterLabel = new JLabel(params.name());
@@ -28,7 +34,7 @@ public class ParameterPanel extends JPanel {
                 parameterSlider.setValue(newValue);
             });
         }
-        JTextField parameterTextField = createToolSettingsTextField(parameterSlider, String.valueOf(params.initial()));
+        JTextField parameterTextField = createToolSettingsTextField(parameterSlider);
 
         add(parameterLabel);
         add(parameterSlider);
@@ -56,29 +62,30 @@ public class ParameterPanel extends JPanel {
         return slider;
     }
 
-    private JTextField createToolSettingsTextField(JSlider slider, String warningMessage) {
+    private JTextField createToolSettingsTextField(JSlider slider) {
         JTextField textField = new JTextField(4);
         setTextFieldValue(getSliderValue(slider.getValue()), textField);
         slider.addChangeListener(e -> {
             setTextFieldValue(getSliderValue(slider.getValue()), textField);
             slider.setValue((int) (Float.parseFloat(textField.getText()) * coefficient));
+            setTextFieldValue(getSliderValue(slider.getValue()), textField);
         });
-        textField.addActionListener(e -> trySetSliderValueFromText(slider, textField, warningMessage));
+        textField.addActionListener(e -> trySetSliderValueFromText(slider, textField));
         return textField;
     }
 
-    private void trySetSliderValueFromText(JSlider slider, JTextField textField, String warningMessage) {
+    private void trySetSliderValueFromText(JSlider slider, JTextField textField) {
         try {
             float value = Float.parseFloat(textField.getText());
             if (value * coefficient >= slider.getMinimum() && value * coefficient <= slider.getMaximum()) {
                 slider.setValue((int) (value * coefficient));
             } else {
                 setTextFieldValue(getSliderValue(slider.getValue()), textField);
-                JOptionPane.showMessageDialog(this, warningMessage,
+                JOptionPane.showMessageDialog(this, this.warningMessage,
                         "Warning!", JOptionPane.WARNING_MESSAGE);
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, warningMessage, "Warning!", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, this.warningMessage, "Warning!", JOptionPane.WARNING_MESSAGE);
             textField.setText(Float.toString((float) slider.getValue() / coefficient));
         }
     }

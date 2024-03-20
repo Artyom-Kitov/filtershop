@@ -84,11 +84,11 @@ public class FiltersList {
     private void createFloydSteinbergDithering() {
         ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg dithering",
                 onCancel, List.of(
-                        Parameters.builder().name("red quantization").min(2).max(128).initial(2).warning("invalid red quantization")
+                        Parameters.builder().name("red quantization").min(2).max(128).initial(2)
                                 .build(),
-                        Parameters.builder().name("green quantization").min(2).max(128).initial(2).warning("invalid green quantization")
+                        Parameters.builder().name("green quantization").min(2).max(128).initial(2)
                                 .build(),
-                        Parameters.builder().name("blue quantization").min(2).max(128).initial(2).warning("invalid blue quantization")
+                        Parameters.builder().name("blue quantization").min(2).max(128).initial(2)
                                 .build()
         ));
         ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
@@ -105,7 +105,7 @@ public class FiltersList {
     private void createWave() {
         ParameterToolOption waveOption = new ParameterToolOption("Waves", onCancel,
                 List.of(
-                        Parameters.builder().name("height").min(0).max(100).initial(50).warning("invalid height")
+                        Parameters.builder().name("height").min(0).max(100).initial(50)
                                 .build()
         ));
         waveOption.setOnToolSelect(tool -> select(tool, waveOption.getToolOption()));
@@ -121,7 +121,7 @@ public class FiltersList {
     private void createPixelArt() {
         ParameterToolOption pixelOption = new ParameterToolOption("Pixel art", onCancel,
                 List.of(
-                Parameters.builder().name("pixel size").min(0).max(50).initial(10).warning("invalid pixel size")
+                Parameters.builder().name("pixel size").min(0).max(50).initial(10)
                         .build()
         ));
         pixelOption.setOnToolSelect(tool -> select(tool, pixelOption.getToolOption()));
@@ -156,7 +156,7 @@ public class FiltersList {
     private void createSobelHighlight() {
         ParameterToolOption highlightOption = new ParameterToolOption("Sobel border", onCancel,
                 List.of(
-                        Parameters.builder().name("binarization").min(0).max(200).initial(100).warning("invalid binarization")
+                        Parameters.builder().name("binarization").min(0).max(200).initial(100)
                                 .build()
                 ));
         highlightOption.setOnToolSelect(tool -> select(tool, highlightOption.getToolOption()));
@@ -172,7 +172,7 @@ public class FiltersList {
     private void createRobertsHighlight() {
         ParameterToolOption highlightOption = new ParameterToolOption("Roberts border", onCancel,
                 List.of(
-                        Parameters.builder().name("binarization").min(0).max(500).initial(100).warning("invalid binarization")
+                        Parameters.builder().name("binarization").min(0).max(500).initial(100)
                                 .build()
                 ));
         highlightOption.setOnToolSelect(tool -> select(tool, highlightOption.getToolOption()));
@@ -188,7 +188,7 @@ public class FiltersList {
     private void createMedian() {
         ParameterToolOption medianOption = new ParameterToolOption("Median smooth", onCancel,
                 List.of(
-                        Parameters.builder().name("n").min(3).max(11).initial(3).step(2f).warning("invalid n")
+                        Parameters.builder().name("n").min(3).max(11).initial(3).step(2f)
                                 .build()
         ));
         medianOption.setOnToolSelect(tool -> select(tool, medianOption.getToolOption()));
@@ -214,9 +214,9 @@ public class FiltersList {
     private void createBlur() {
         ParameterToolOption blurOption = new ParameterToolOption("Gaussian blur", onCancel,
                 List.of(
-                        Parameters.builder().name("n").min(3).max(11).initial(3).step(2.0f).warning("invalid n")
+                        Parameters.builder().name("n").min(3).max(11).initial(3).step(2.0f)
                                 .build(),
-                        Parameters.builder().name("sigma").min(0.1f).max(20).initial(1).warning("invalid standard deviation")
+                        Parameters.builder().name("sigma").min(0.1f).max(20).initial(1)
                                 .build()
         ));
         blurOption.setOnToolSelect(tool -> select(tool, blurOption.getToolOption()));
@@ -231,7 +231,7 @@ public class FiltersList {
 
     private void createGamma() {
         ParameterToolOption gammaOption = new ParameterToolOption("Gamma correction", onCancel,
-                List.of(Parameters.builder().name("gamma").min(0.1f).max(10).initial(1).warning("invalid gamma value")
+                List.of(Parameters.builder().name("gamma").min(0.1f).max(10).initial(1)
                         .build()));
         gammaOption.setOnToolSelect(tool -> select(tool, gammaOption.getToolOption()));
         gammaOption.setToolSupplier(() -> new GammaTool(gammaOption.getParameter("gamma")));

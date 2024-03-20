@@ -55,7 +55,7 @@ public class DisplayModesList {
 
         FiltershopParameterDialog rotationDialog = new FiltershopParameterDialog();
         rotationDialog.addParameter(Parameters.builder()
-                        .name("angle").min(-180).max(180).initial(0).warning("invalid angle")
+                        .name("angle").min(-180).max(180).initial(0)
                 .build());
         rotationDialog.setOnApply(() -> onAngleChange.accept(
                 (int) rotationDialog.getParameterValue("angle")
