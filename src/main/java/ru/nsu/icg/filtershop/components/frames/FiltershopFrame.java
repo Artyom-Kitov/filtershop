@@ -129,7 +129,7 @@ public class FiltershopFrame extends JFrame {
     }
 
     private void onReset() {
-        imageViewWindow.getMatrix().reset();
+        imageViewWindow.getMatrix().swap();
         repaint();
     }
 
@@ -144,6 +144,13 @@ public class FiltershopFrame extends JFrame {
 
     private void configureMouseDragListener() {
         scrollPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                imageViewWindow.getMatrix().swap();
+                filtersList.setLastSelected(!imageViewWindow.getMatrix().isSwapped());
+                repaint();
+            }
+
             @Override
             public void mousePressed(MouseEvent e) {
                 if (imageViewWindow.getDisplayMode() == DisplayMode.FULL_SIZE) {

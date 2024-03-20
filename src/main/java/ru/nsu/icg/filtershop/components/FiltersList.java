@@ -23,6 +23,8 @@ public class FiltersList {
     private final Consumer<? super Tool> onToolSelect;
     private final Runnable onCancel;
 
+    private ToolOption lastSelected;
+
     public FiltersList(Consumer<? super Tool> onToolSelect,
                        Runnable onCancel,
                        FiltershopToolBar mainToolBar) {
@@ -59,7 +61,17 @@ public class FiltersList {
         toolBar.addSeparator();
     }
 
+    public void setLastSelected(boolean b) {
+        if (lastSelected == null) {
+            return;
+        }
+        lastSelected.getRadioButton().setSelected(b);
+        lastSelected.getMenuItem().setSelected(b);
+    }
+
     private void select(Tool tool, ToolOption option) {
+        lastSelected = option;
+
         toolBarGroup.forEach(b -> b.setSelected(false));
         menuBarGroup.forEach(b -> b.setSelected(false));
 

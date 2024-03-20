@@ -18,16 +18,18 @@ import java.awt.image.BufferedImage;
 public class RGBMatrix {
 
     private BufferedImage original;
-
     private BufferedImage filtered;
-
     private BufferedImage rotated;
+    private BufferedImage rotatedFiltered;
+    private BufferedImage result;
 
     private int rotatingAngle = 0;
 
     public void setRotatingAngle(int rotatingAngle) {
         this.rotatingAngle = rotatingAngle;
-        rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
+        rotated = ImageUtils.getRotatedImage(original, rotatingAngle);
+        rotatedFiltered = ImageUtils.getRotatedImage(filtered, rotatingAngle);
+        result = rotatedFiltered;
     }
 
     public RGBMatrix(int width, int height) {
@@ -35,18 +37,37 @@ public class RGBMatrix {
     }
 
     public void setImage(BufferedImage image) {
+        if (image == original) {
+            swap();
+            return;
+        }
         original = image;
+        rotated = ImageUtils.getRotatedImage(original, rotatingAngle);
         filtered = ImageUtils.cloneImage(image);
-        rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
+        rotatedFiltered = ImageUtils.getRotatedImage(filtered, rotatingAngle);
+        result = rotatedFiltered;
     }
 
     public void applyTool(Tool tool) {
         tool.applyTo(original, filtered);
-        rotated = ImageUtils.getRotatedImage(filtered, rotatingAngle);
+        rotatedFiltered = ImageUtils.getRotatedImage(filtered, rotatingAngle);
+        result = rotatedFiltered;
     }
 
     public void reset() {
         setImage(original);
+    }
+
+    public void swap() {
+        if (result == rotatedFiltered) {
+            result = rotated;
+        } else {
+            result = rotatedFiltered;
+        }
+    }
+
+    public boolean isSwapped() {
+        return result == rotated;
     }
 
 }

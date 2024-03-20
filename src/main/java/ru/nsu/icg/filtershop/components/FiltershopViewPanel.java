@@ -5,6 +5,8 @@ import ru.nsu.icg.filtershop.model.RGBMatrix;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
@@ -30,7 +32,7 @@ public class FiltershopViewPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        BufferedImage image = matrix.getRotated();
+        BufferedImage image = matrix.getResult();
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interpolationType);
         switch (displayMode) {
             case FULL_SIZE -> {
@@ -51,7 +53,7 @@ public class FiltershopViewPanel extends JPanel {
     }
 
     public BufferedImage getImage() {
-        return matrix.getRotated();
+        return matrix.getRotatedFiltered();
     }
 
     public void setImage(BufferedImage image) {
@@ -76,7 +78,7 @@ public class FiltershopViewPanel extends JPanel {
     }
 
     public void resizePanelToImage() {
-        Dimension newSize = new Dimension(matrix.getRotated().getWidth(), matrix.getRotated().getHeight());
+        Dimension newSize = new Dimension(matrix.getRotatedFiltered().getWidth(), matrix.getRotatedFiltered().getHeight());
         setSize(newSize);
         setPreferredSize(newSize);
     }
