@@ -40,7 +40,7 @@ public class FloydSteinbergDitheringTool implements Tool {
         }
     }
 
-    private int[] makeQuantization(int quantNumber) {
+    static int[] makeQuantization(int quantNumber) {
         int[] quantization = new int[quantNumber];
         float step = 255f / (quantization.length - 1);
         for (int i = 0; i < quantization.length; i++) {
@@ -49,7 +49,7 @@ public class FloydSteinbergDitheringTool implements Tool {
         return quantization;
     }
 
-    private int findClosest(int color, int[] quantization) {
+    static int findClosest(int color, int[] quantization) {
         int closest = 0;
         int minDistance = Integer.MAX_VALUE;
         for (int q : quantization) {

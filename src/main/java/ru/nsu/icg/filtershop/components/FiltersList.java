@@ -48,6 +48,7 @@ public class FiltersList {
         createPixelArt();
         createWave();
         createFloydSteinbergDithering();
+        createOrderedDithering();
 
         toolBarGroup = new ArrayList<>();
         menuBarGroup = new ArrayList<>();
@@ -79,6 +80,27 @@ public class FiltersList {
         option.getMenuItem().setSelected(true);
 
         onToolSelect.accept(tool);
+    }
+
+    private void createOrderedDithering() {
+        ParameterToolOption ditheringOption = new ParameterToolOption("Ordered dithering",
+                onCancel, List.of(
+                        Parameters.builder().name("quantization red").min(2).max(128).initial(2)
+                                .build(),
+                        Parameters.builder().name("quantization green").min(2).max(128).initial(2)
+                                .build(),
+                        Parameters.builder().name("quantization blue").min(2).max(128).initial(2)
+                                .build()
+        ));
+        ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
+        ditheringOption.setToolSupplier(() -> new OrderedDitheringTool(
+                (int) ditheringOption.getParameter("quantization red"),
+                (int) ditheringOption.getParameter("quantization green"),
+                (int) ditheringOption.getParameter("quantization blue")
+        ));
+        tools.add(ditheringOption.getToolOption());
+        ditheringOption.getToolOption().setIcons("/icons/dithering2_icon.png",
+                "/icons/dithering2_selected_icon.png");
     }
 
     private void createFloydSteinbergDithering() {
