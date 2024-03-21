@@ -121,7 +121,7 @@ public class FiltersList {
     private void createPixelArt() {
         ParameterToolOption pixelOption = new ParameterToolOption("Pixel art", onCancel,
                 List.of(
-                Parameters.builder().name("pixel size").min(0).max(50).initial(10)
+                Parameters.builder().name("pixel size").min(1).max(50).initial(10)
                         .build()
         ));
         pixelOption.setOnToolSelect(tool -> select(tool, pixelOption.getToolOption()));
