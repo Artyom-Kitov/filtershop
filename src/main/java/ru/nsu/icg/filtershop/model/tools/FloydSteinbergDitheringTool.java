@@ -5,6 +5,8 @@ import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 import java.awt.image.BufferedImage;
 
 /**
+ * DON'T EVEN F***ING TRY TO STEAL MY CODE!!!
+ * <p/>
  * Author: Artyom Kitov
  * <br/>
  * Date: 16.03.2024

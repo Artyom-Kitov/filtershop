@@ -1,13 +1,18 @@
 package ru.nsu.icg.filtershop.model.tools;
 
-import lombok.AllArgsConstructor;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 import static ru.nsu.icg.filtershop.model.tools.FloydSteinbergDitheringTool.*;
 
+/**
+ * DON'T EVEN F***ING TRY TO STEAL MY CODE!!!
+ * <p/>
+ * Author: Artyom Kitov
+ * <br/>
+ * Date: 16.03.2024
+ */
 public class OrderedDitheringTool implements Tool {
 
     private final int quantNumbers;
