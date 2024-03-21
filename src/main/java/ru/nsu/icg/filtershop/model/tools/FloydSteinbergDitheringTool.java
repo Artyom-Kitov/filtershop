@@ -6,6 +6,8 @@ import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 import java.awt.image.BufferedImage;
 
 /**
+ * DON'T EVEN F***ING TRY TO STEAL MY CODE!!!
+ * <p/>
  * Author: Artyom Kitov
  * <br/>
  * Date: 16.03.2024
@@ -41,7 +43,7 @@ public class FloydSteinbergDitheringTool implements Tool {
         }
     }
 
-    private int[] makeQuantization(int quantNumber) {
+    static int[] makeQuantization(int quantNumber) {
         int[] quantization = new int[quantNumber];
         float step = 255f / (quantization.length - 1);
         for (int i = 0; i < quantization.length; i++) {
@@ -50,7 +52,7 @@ public class FloydSteinbergDitheringTool implements Tool {
         return quantization;
     }
 
-    private int findClosest(int color, int[] quantization) {
+    static int findClosest(int color, int[] quantization) {
         int closest = 0;
         int minDistance = Integer.MAX_VALUE;
         for (int q : quantization) {

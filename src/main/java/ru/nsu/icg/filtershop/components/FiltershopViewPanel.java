@@ -77,7 +77,9 @@ public class FiltershopViewPanel extends JPanel {
     }
 
     public void resizePanelToImage() {
-        Dimension newSize = new Dimension(matrix.getRotatedFiltered().getWidth(), matrix.getRotatedFiltered().getHeight());
+        int width = Math.max(matrix.getRotatedFiltered().getWidth(), getParent().getWidth());
+        int height = Math.max(matrix.getRotatedFiltered().getHeight(), getParent().getHeight());
+        Dimension newSize = new Dimension(width, height);
         setSize(newSize);
         setPreferredSize(newSize);
     }
