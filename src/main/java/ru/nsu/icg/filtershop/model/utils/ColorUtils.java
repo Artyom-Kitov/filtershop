@@ -2,6 +2,8 @@ package ru.nsu.icg.filtershop.model.utils;
 
 import lombok.experimental.UtilityClass;
 
+import java.awt.image.BufferedImage;
+
 @UtilityClass
 public class ColorUtils {
     public int getRed(int rgb) {

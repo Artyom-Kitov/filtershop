@@ -5,10 +5,10 @@ import java.awt.image.BufferedImage;
 
 public class SharpnessTool implements Tool {
 
-  FilterTool sharpnessTool;
+  private final FilterTool filter;
 
   public SharpnessTool() {
-    sharpnessTool = new FilterTool(new float[][] {
+    filter = new FilterTool(new float[][] {
             {0,  -1,  0},
             {-1,  5, -1},
             { 0, -1,  0}
@@ -18,7 +18,7 @@ public class SharpnessTool implements Tool {
   @Override
   public void applyTo(BufferedImage original, BufferedImage result) {
 
-    sharpnessTool.applyTo(original, result);
+    filter.applyTo(original, result);
 
   }
 

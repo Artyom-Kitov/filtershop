@@ -3,10 +3,7 @@ package ru.nsu.icg.filtershop.model.tools;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class MedianSmoothTool implements Tool {
 

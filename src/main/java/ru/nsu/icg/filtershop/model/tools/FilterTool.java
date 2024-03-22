@@ -1,11 +1,12 @@
 package ru.nsu.icg.filtershop.model.tools;
 
-import lombok.Setter;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
 
 public class FilterTool implements Tool {
+
+    private final float[][] filter;
 
     public FilterTool(float[][] filter) {
         if (filter == null || filter.length == 0) {
@@ -20,8 +21,6 @@ public class FilterTool implements Tool {
         this.filter = filter;
     }
 
-    private final float[][] filter;
-
     @Override
     public void applyTo(BufferedImage original, BufferedImage result) {
         int n = (filter.length - 1) / 2;
@@ -35,8 +34,8 @@ public class FilterTool implements Tool {
                         int xFixed = Math.min(Math.max(x, n), original.getWidth() - n - 1);
                         int yFixed = Math.min(Math.max(y, n), original.getHeight() - n - 1);
 
-                        int color = original.getRGB(xFixed + dx, yFixed + dy);
                         float factor = filter[n + dy][n + dx];
+                        int color = original.getRGB(xFixed + dx, yFixed + dy);
                         r += ColorUtils.getRed(color) * factor;
                         g += ColorUtils.getGreen(color) * factor;
                         b += ColorUtils.getBlue(color) * factor;

@@ -4,6 +4,7 @@ import lombok.Getter;
 import ru.nsu.icg.filtershop.model.tools.Tool;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -33,7 +34,13 @@ public class RGBMatrix {
     }
 
     public RGBMatrix(int width, int height) {
-        setImage(new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB));
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                image.setRGB(x, y, 0xf0f0f0);
+            }
+        }
+        setImage(image);
     }
 
     public void setImage(BufferedImage image) {

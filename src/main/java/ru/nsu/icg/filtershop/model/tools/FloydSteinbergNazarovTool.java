@@ -1,0 +1,19 @@
+package ru.nsu.icg.filtershop.model.tools;
+
+import java.awt.image.BufferedImage;
+
+public class FloydSteinbergNazarovTool implements Tool{
+
+  private final int quantizationR, quantizationG, quantizationB;
+
+  public FloydSteinbergNazarovTool(int quantizationR, int quantizationG, int quantizationB) {
+    this.quantizationR = quantizationR;
+    this.quantizationG = quantizationG;
+    this.quantizationB = quantizationB;
+  }
+
+  @Override
+  public void applyTo(BufferedImage original, BufferedImage result) {
+
+  }
+}

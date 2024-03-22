@@ -15,7 +15,7 @@ public class HelpFrame extends JDialog {
                     ImageUtils.getImageFromResources("/icons/filtershop_logo_icon.png"))
             .getImage()
     );
-    setSize(500, 230);
+    setSize(300, 450);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     JLabel titleLabel = new JLabel("Welcome to the FilterShop!");
@@ -23,16 +23,31 @@ public class HelpFrame extends JDialog {
     titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
     JTextArea instructionArea = new JTextArea();
+    instructionArea.setFont(new Font("SansSerif", Font.PLAIN, 12));
     instructionArea.setText(
             """
-                    Here are some instructions on how to use the tools:
-                    - Line: Click to set the starting point, then click again to set the end point of the line.
-                    - Clear: Click to clear all drawing.
-                    - Fill: Click inside a closed shape to fill it with the selected color.
-                    - Star: Click to draw a star shape.
-                    - Polygon: Click to draw a polygon shape.
+                    FilterShop is an image processing application that\s
+                    allows you to apply various filters to images,\s
+                    resize and rotate images, save and load photos.
 
-                    Feel free to explore and create amazing artwork!"""
+                    Available Filters:
+                        - Black and White
+                        - Inversion
+                        - Gamma Correction
+                        - Gaussian Blur
+                        - Embossing
+                        - Median Smooth
+                        - Roberts Border Highlight
+                        - Sobel Border Highlight
+                        - Increase Sharpness
+                        - Watercolor
+                        - Pixel Art
+                        - Waves
+                        - Floyd-Steinberg Dithering
+                        - Ordered Dithering
+
+                    Feel free to explore our app!
+                    """
     );
     instructionArea.setEditable(false);
     instructionArea.setLineWrap(true);
