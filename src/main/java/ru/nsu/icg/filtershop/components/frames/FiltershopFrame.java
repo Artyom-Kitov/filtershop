@@ -56,7 +56,7 @@ public class FiltershopFrame extends JFrame {
             }
         }));
         toolBar.add(createToolBarButton("/icons/export_image_icon.png", "Export",
-                () -> FileManager.getInstance().exportImageAsPNG(imageViewWindow.getImage())));
+                () -> FileManager.getInstance().exportImageAsPNG(imageViewWindow.getMatrix().getResult())));
         toolBar.add(createToolBarButton("/icons/exit_button_icon.png", "Exit",
                 () -> System.exit(0)));
         toolBar.addSeparator();

@@ -27,10 +27,15 @@ public class RGBMatrix {
     private int rotatingAngle = 0;
 
     public void setRotatingAngle(int rotatingAngle) {
+        boolean swapped = isSwapped();
         this.rotatingAngle = rotatingAngle;
         rotated = ImageUtils.getRotatedImage(original, rotatingAngle);
         rotatedFiltered = ImageUtils.getRotatedImage(filtered, rotatingAngle);
-        result = rotatedFiltered;
+        if (swapped) {
+            result = rotated;
+        } else {
+            result = rotatedFiltered;
+        }
     }
 
     public RGBMatrix(int width, int height) {

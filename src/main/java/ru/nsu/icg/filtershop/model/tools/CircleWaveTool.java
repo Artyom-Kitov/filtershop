@@ -17,8 +17,11 @@ public class CircleWaveTool implements Tool {
     int centerX = original.getWidth() / 2;
     int centerY = original.getHeight() / 2;
 
-    for (int y = 0; y < original.getHeight(); y++) {
-      for (int x = 0; x < original.getWidth(); x++) {
+    int width = original.getWidth();
+    int height = original.getHeight();
+    int[] pixels = original.getRGB(0, 0, width, height, null, 0, width);
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
         int dx = x - centerX;
         int dy = y - centerY;
         double distance = Math.sqrt(dx * dx + dy * dy);
@@ -29,8 +32,8 @@ public class CircleWaveTool implements Tool {
         int newX = (int) (x + shiftFactor * Math.cos(angle));
         int newY = (int) (y + shiftFactor * Math.sin(angle));
 
-        if (newX >= 0 && newX < original.getWidth() && newY >= 0 && newY < original.getHeight()) {
-          int color = original.getRGB(newX, newY);
+        if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+          int color = pixels[newY * width + newX];
           result.setRGB(x, y, color);
         }
       }

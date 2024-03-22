@@ -2,10 +2,11 @@ package ru.nsu.icg.filtershop.model.tools;
 
 
 import lombok.AllArgsConstructor;
-import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import static ru.nsu.icg.filtershop.model.tools.RobertsBorderHighlightTool.*;
 
 @AllArgsConstructor
 public class SobelBorderHighlightTool implements Tool {
@@ -15,18 +16,21 @@ public class SobelBorderHighlightTool implements Tool {
   @Override
   public void applyTo(BufferedImage original, BufferedImage result) {
     new BlackWhiteTool().applyTo(original, result);
-    for (int y = 0; y < original.getHeight(); y++) {
-      for (int x = 0; x < original.getWidth(); x++) {
-        int a = colorAt(original, x - 1, y - 1);
-        int b = colorAt(original, x, y - 1);
-        int c = colorAt(original, x + 1, y - 1);
+    int height = result.getHeight();
+    int width = result.getWidth();
+    int[] pixels = original.getRGB(0, 0, width, height, null, 0, width);
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int a = colorAt(pixels, width, height, x - 1, y - 1);
+        int b = colorAt(pixels, width, height, x, y - 1);
+        int c = colorAt(pixels, width, height, x + 1, y - 1);
 
-        int d = colorAt(original, x - 1, y);
-        int f = colorAt(original, x + 1, y);
+        int d = colorAt(pixels, width, height, x - 1, y);
+        int f = colorAt(pixels, width, height, x + 1, y);
 
-        int g = colorAt(original, x - 1, y + 1);
-        int h = colorAt(original, x, y + 1);
-        int i = colorAt(original, x + 1, y + 1);
+        int g = colorAt(pixels, width, height, x - 1, y + 1);
+        int h = colorAt(pixels, width, height, x, y + 1);
+        int i = colorAt(pixels, width, height, x + 1, y + 1);
 
         int sx = (c + 2 * f + i) - (a + 2 * d + g);
         int sy = (g + 2 * h + i) - (a + 2 * b + c);
@@ -38,12 +42,6 @@ public class SobelBorderHighlightTool implements Tool {
         }
       }
     }
-  }
-
-  private int colorAt(BufferedImage image, int x, int y) {
-    int xFixed = Math.max(0, Math.min(x, image.getWidth() - 1));
-    int yFixed = Math.max(0, Math.min(y, image.getHeight() - 1));
-    return ColorUtils.getMiddleRGB(image.getRGB(xFixed, yFixed));
   }
 
 }

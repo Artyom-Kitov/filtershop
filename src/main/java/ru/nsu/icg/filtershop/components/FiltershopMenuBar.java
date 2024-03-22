@@ -72,7 +72,7 @@ public class FiltershopMenuBar extends JMenuBar {
     }
 
     private void exportImage() {
-        FileManager.getInstance().exportImageAsPNG(viewPanel.getImage());
+        FileManager.getInstance().exportImageAsPNG(viewPanel.getMatrix().getResult());
     }
 
     private void setScaledIcon(JMenuItem item, String path) {

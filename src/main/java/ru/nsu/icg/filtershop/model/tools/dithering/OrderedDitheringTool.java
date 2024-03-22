@@ -73,18 +73,22 @@ public class OrderedDitheringTool implements Tool {
     public void applyTo(BufferedImage original, BufferedImage result) {
         ImageUtils.writeTo(original, result);
 
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = result.getRGB(0, 0, width, height, null, 0, width);
         for (int mask = 0; mask <= 16; mask += 8) {
             int[] quantization = makeQuantization((quantNumbers & (0xff << mask)) >> mask);
             float step = 256f / quantization.length;
             for (int y = 0; y < result.getHeight(); y++) {
                 for (int x = 0; x < result.getWidth(); x++) {
-                    int color = (result.getRGB(x, y) & (0xff << mask)) >> mask;
+                    int color = (pixels[y * width + x] & (0xff << mask)) >> mask;
                     int normalized = (int) (color + step * matrix[y % matrix.length][x % matrix.length]);
                     int newColor = findClosest(normalized, quantization);
-                    result.setRGB(x, y, (result.getRGB(x, y) & ~(0xff << mask)) | (newColor << mask));
+                    pixels[y * width + x] = (pixels[y * width + x] & ~(0xff << mask)) | (newColor << mask);
                 }
             }
         }
+        result.setRGB(0, 0, width, height, pixels, 0, width);
     }
 
 }
