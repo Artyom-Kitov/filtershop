@@ -7,12 +7,8 @@ import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.Objects;
 
 /*
@@ -24,6 +20,11 @@ public class FiltershopFrame extends JFrame {
     private static final Dimension INITIAL_SIZE = new Dimension(1280, 720);
     private static final int HORIZONTAL_BORDER_LAYOUT_GAP = 4;
     private static final int VERTICAL_BORDER_LAYOUT_GAP = 4;
+    private static final String[] INTERPOLATION_TYPES_NAMES = {
+            "Bilinear interpolation",
+            "Bicubic interpolation",
+            "Nearest neighbor interpolation"
+    };
 
     private final FiltershopMenuBar menuBar;
     private final FiltershopToolBar toolBar;
@@ -65,6 +66,12 @@ public class FiltershopFrame extends JFrame {
             imageViewWindow.getMatrix().setRotatingAngle(angle);
             imageViewWindow.repaint();
         }, toolBar);
+
+        JComboBox<String> interpolationComboBox = new JComboBox<>(INTERPOLATION_TYPES_NAMES);
+        interpolationComboBox.setSize(new Dimension(64, 32));
+        interpolationComboBox.setPreferredSize(new Dimension(64, 32));
+        interpolationComboBox.addActionListener(this::onInterpolationTypeSelect);
+        toolBar.add(interpolationComboBox);
 
         scrollPane = new JScrollPane(imageViewWindow);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -191,5 +198,18 @@ public class FiltershopFrame extends JFrame {
 
     private void setDefaultCursor() {
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    private void onInterpolationTypeSelect(ActionEvent e) {
+        JComboBox<String> cb = (JComboBox<String>) e.getSource();
+        String selectedItem = (String) cb.getSelectedItem();
+        if (selectedItem == null) {
+            return;
+        }
+        switch (selectedItem) {
+            case "Bilinear interpolation" -> imageViewWindow.setInterpolationType(RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            case "Bicubic interpolation" -> imageViewWindow.setInterpolationType(RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            case "Nearest neighbor interpolation" -> imageViewWindow.setInterpolationType(RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        }
     }
 }

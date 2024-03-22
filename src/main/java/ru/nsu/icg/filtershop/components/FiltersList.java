@@ -2,6 +2,9 @@ package ru.nsu.icg.filtershop.components;
 
 import lombok.Getter;
 import ru.nsu.icg.filtershop.model.tools.*;
+import ru.nsu.icg.filtershop.model.tools.channels.BlueChannelTool;
+import ru.nsu.icg.filtershop.model.tools.channels.GreenChannelTool;
+import ru.nsu.icg.filtershop.model.tools.channels.RedChannelTool;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -49,6 +52,10 @@ public class FiltersList {
         createWave();
         createFloydSteinbergDithering();
         createOrderedDithering();
+        createSepia();
+        createRedChannel();
+        createGreenChannel();
+        createBlueChannel();
 
         toolBarGroup = new ArrayList<>();
         menuBarGroup = new ArrayList<>();
@@ -79,6 +86,46 @@ public class FiltersList {
         option.getMenuItem().setSelected(true);
 
         onToolSelect.accept(tool);
+    }
+
+    private void createBlueChannel() {
+        ToolOption blueChannelOption = new ToolOption("Red channel",
+                new BlueChannelTool(), () -> cancelSelection(onCancel));
+        blueChannelOption.setOnSelect(tool -> select(tool, blueChannelOption));
+        tools.add(blueChannelOption);
+        blueChannelOption.setIcons("/icons/sharpness_icon.png",
+                "/icons/sharpness_selected_icon.png"
+        );
+    }
+
+    private void createGreenChannel() {
+        ToolOption greenChannelOption = new ToolOption("Red channel",
+                new GreenChannelTool(), () -> cancelSelection(onCancel));
+        greenChannelOption.setOnSelect(tool -> select(tool, greenChannelOption));
+        tools.add(greenChannelOption);
+        greenChannelOption.setIcons("/icons/sharpness_icon.png",
+                "/icons/sharpness_selected_icon.png"
+        );
+    }
+
+    private void createRedChannel() {
+        ToolOption redChannelOption = new ToolOption("Red channel",
+                new RedChannelTool(), () -> cancelSelection(onCancel));
+        redChannelOption.setOnSelect(tool -> select(tool, redChannelOption));
+        tools.add(redChannelOption);
+        redChannelOption.setIcons("/icons/sharpness_icon.png",
+                "/icons/sharpness_selected_icon.png"
+        );
+    }
+
+    private void createSepia() {
+        ToolOption sepiaOption = new ToolOption("Sepia",
+                new SepiaTool(), () -> cancelSelection(onCancel));
+        sepiaOption.setOnSelect(tool -> select(tool, sepiaOption));
+        tools.add(sepiaOption);
+        sepiaOption.setIcons("/icons/sharpness_icon.png",
+                "/icons/sharpness_selected_icon.png"
+        );
     }
 
     private void createOrderedDithering() {

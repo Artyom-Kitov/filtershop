@@ -1,6 +1,7 @@
 package ru.nsu.icg.filtershop.components;
 
 import lombok.Getter;
+import lombok.Setter;
 import ru.nsu.icg.filtershop.model.RGBMatrix;
 
 import javax.swing.*;
@@ -18,6 +19,11 @@ public class FiltershopViewPanel extends JPanel {
     private DisplayMode displayMode = DisplayMode.FULL_SIZE;
 
     private final RGBMatrix matrix;
+
+    public void setInterpolationType(Object interpolationType) {
+        this.interpolationType = interpolationType;
+        repaint();
+    }
 
     public FiltershopViewPanel(Dimension size) {
         matrix = new RGBMatrix(size.width, size.height);
