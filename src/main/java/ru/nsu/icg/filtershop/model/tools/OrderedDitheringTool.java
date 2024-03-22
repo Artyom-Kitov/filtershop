@@ -11,7 +11,7 @@ import static ru.nsu.icg.filtershop.model.tools.FloydSteinbergDitheringTool.*;
  * <p/>
  * Author: Artyom Kitov
  * <br/>
- * Date: 16.03.2024
+ * Date: 22.03.2024
  */
 public class OrderedDitheringTool implements Tool {
 

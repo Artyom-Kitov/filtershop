@@ -3,7 +3,6 @@ package ru.nsu.icg.filtershop.model.tools;
 import lombok.AllArgsConstructor;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 @AllArgsConstructor
@@ -23,7 +22,7 @@ public class PixelArtTool implements Tool {
 
         for (int yy = y; yy < y + blockSize && yy < height; yy++) {
           for (int xx = x; xx < x + blockSize && xx < width; xx++) {
-            int color = ColorUtils.getRGB(original, xx, yy);
+            int color = original.getRGB(xx, yy);
             avgR += (color >> 16) & 0xFF;
             avgG += (color >> 8) & 0xFF;
             avgB += color & 0xFF;

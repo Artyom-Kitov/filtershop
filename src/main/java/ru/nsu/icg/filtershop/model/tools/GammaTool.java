@@ -14,9 +14,10 @@ public class GammaTool implements Tool {
   public void applyTo(BufferedImage original, BufferedImage result) {
     for (int y = 0; y < original.getHeight(); y++) {
       for (int x = 0; x < original.getWidth(); x++) {
-        int r = ColorUtils.getRed(original, x, y);
-        int g = ColorUtils.getGreen(original, x, y);
-        int b = ColorUtils.getBlue(original, x, y);
+        int color = original.getRGB(x, y);
+        int r = ColorUtils.getRed(color);
+        int g = ColorUtils.getGreen(color);
+        int b = ColorUtils.getBlue(color);
         int rNew = (int) (Math.pow((r / 255f), gamma) * 255);
         int gNew = (int) (Math.pow((g / 255f), gamma) * 255);
         int bNew = (int) (Math.pow((b / 255f), gamma) * 255);

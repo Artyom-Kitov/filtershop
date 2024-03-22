@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 
 public class FilterTool implements Tool {
 
+    private final float[][] filter;
+
     public FilterTool(float[][] filter) {
         if (filter == null || filter.length == 0) {
             throw new IllegalArgumentException("empty filter matrix");
@@ -18,8 +20,6 @@ public class FilterTool implements Tool {
         }
         this.filter = filter;
     }
-
-    private final float[][] filter;
 
     @Override
     public void applyTo(BufferedImage original, BufferedImage result) {
@@ -35,9 +35,10 @@ public class FilterTool implements Tool {
                         int yFixed = Math.min(Math.max(y, n), original.getHeight() - n - 1);
 
                         float factor = filter[n + dy][n + dx];
-                        r += ColorUtils.getRed(original, xFixed + dx, yFixed + dy) * factor;
-                        g += ColorUtils.getGreen(original, xFixed + dx, yFixed + dy) * factor;
-                        b += ColorUtils.getBlue(original, xFixed + dx, yFixed + dy) * factor;
+                        int color = original.getRGB(xFixed + dx, yFixed + dy);
+                        r += ColorUtils.getRed(color) * factor;
+                        g += ColorUtils.getGreen(color) * factor;
+                        b += ColorUtils.getBlue(color) * factor;
                     }
                 }
                 int newR = Math.min(Math.max((int) r, 0), 255);

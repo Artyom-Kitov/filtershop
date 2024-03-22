@@ -59,7 +59,6 @@ public class FiltersList {
             toolsMenu.add(tool.getMenuItem());
             menuBarGroup.add(tool.getMenuItem());
         }
-        toolBar.addSeparator();
     }
 
     public void setLastSelected(boolean b) {

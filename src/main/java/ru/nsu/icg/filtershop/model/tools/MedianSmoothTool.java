@@ -3,10 +3,7 @@ package ru.nsu.icg.filtershop.model.tools;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class MedianSmoothTool implements Tool {
 
@@ -32,9 +29,10 @@ public class MedianSmoothTool implements Tool {
             int nx = Math.min(Math.max(x + dx, 0), width - 1);
             int ny = Math.min(Math.max(y + dy, 0), height - 1);
 
-            redValues[index] = ColorUtils.getRed(original, nx, ny);
-            greenValues[index] = ColorUtils.getGreen(original, nx, ny);
-            blueValues[index] = ColorUtils.getBlue(original, nx, ny);
+            int color = original.getRGB(nx, ny);
+            redValues[index] = ColorUtils.getRed(color);
+            greenValues[index] = ColorUtils.getGreen(color);
+            blueValues[index] = ColorUtils.getBlue(color);
             index++;
           }
         }

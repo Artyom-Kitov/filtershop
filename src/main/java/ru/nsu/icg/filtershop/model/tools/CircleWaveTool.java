@@ -30,7 +30,7 @@ public class CircleWaveTool implements Tool {
         int newY = (int) (y + shiftFactor * Math.sin(angle));
 
         if (newX >= 0 && newX < original.getWidth() && newY >= 0 && newY < original.getHeight()) {
-          int color = ColorUtils.getRGB(original, newX, newY);
+          int color = original.getRGB(newX, newY);
           result.setRGB(x, y, color);
         }
       }

@@ -12,9 +12,10 @@ public class BlackWhiteTool implements Tool {
     public void applyTo(BufferedImage original, BufferedImage result) {
         for (int y = 0; y < original.getHeight(); y++) {
             for (int x = 0; x < original.getWidth(); x++) {
-                int r = ColorUtils.getRed(original, x, y);
-                int g = ColorUtils.getGreen(original, x, y);
-                int b = ColorUtils.getBlue(original, x, y);
+                int c = original.getRGB(x, y);
+                int r = ColorUtils.getRed(c);
+                int g = ColorUtils.getGreen(c);
+                int b = ColorUtils.getBlue(c);
                 int gray = (int) (r * FACTORS[0] + g * FACTORS[1] + b * FACTORS[2]);
                 result.setRGB(x, y, ColorUtils.getRGB(gray, gray, gray));
             }
