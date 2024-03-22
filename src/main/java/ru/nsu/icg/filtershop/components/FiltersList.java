@@ -89,22 +89,22 @@ public class FiltersList {
     }
 
     private void createBlueChannel() {
-        ToolOption blueChannelOption = new ToolOption("Red channel",
+        ToolOption blueChannelOption = new ToolOption("Blue channel",
                 new BlueChannelTool(), () -> cancelSelection(onCancel));
         blueChannelOption.setOnSelect(tool -> select(tool, blueChannelOption));
         tools.add(blueChannelOption);
-        blueChannelOption.setIcons("/icons/sharpness_icon.png",
-                "/icons/sharpness_selected_icon.png"
+        blueChannelOption.setIcons("/icons/blue_channel_icon.png",
+                "/icons/blue_channel_selected_icon.png"
         );
     }
 
     private void createGreenChannel() {
-        ToolOption greenChannelOption = new ToolOption("Red channel",
+        ToolOption greenChannelOption = new ToolOption("Green channel",
                 new GreenChannelTool(), () -> cancelSelection(onCancel));
         greenChannelOption.setOnSelect(tool -> select(tool, greenChannelOption));
         tools.add(greenChannelOption);
-        greenChannelOption.setIcons("/icons/sharpness_icon.png",
-                "/icons/sharpness_selected_icon.png"
+        greenChannelOption.setIcons("/icons/green_channel_icon.png",
+                "/icons/green_channel_selected_icon.png"
         );
     }
 
@@ -113,8 +113,8 @@ public class FiltersList {
                 new RedChannelTool(), () -> cancelSelection(onCancel));
         redChannelOption.setOnSelect(tool -> select(tool, redChannelOption));
         tools.add(redChannelOption);
-        redChannelOption.setIcons("/icons/sharpness_icon.png",
-                "/icons/sharpness_selected_icon.png"
+        redChannelOption.setIcons("/icons/red_channel_icon.png",
+                "/icons/red_channel_selected_icon.png"
         );
     }
 
@@ -123,8 +123,8 @@ public class FiltersList {
                 new SepiaTool(), () -> cancelSelection(onCancel));
         sepiaOption.setOnSelect(tool -> select(tool, sepiaOption));
         tools.add(sepiaOption);
-        sepiaOption.setIcons("/icons/sharpness_icon.png",
-                "/icons/sharpness_selected_icon.png"
+        sepiaOption.setIcons("/icons/sepia_icon.png",
+                "/icons/sepia_selected_icon.png"
         );
     }
 
