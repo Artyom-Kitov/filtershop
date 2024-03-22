@@ -68,8 +68,7 @@ public class FiltershopFrame extends JFrame {
         }, toolBar);
 
         JComboBox<String> interpolationComboBox = new JComboBox<>(INTERPOLATION_TYPES_NAMES);
-        interpolationComboBox.setSize(new Dimension(64, 32));
-        interpolationComboBox.setPreferredSize(new Dimension(64, 32));
+        interpolationComboBox.setMaximumSize(new Dimension(192, 32));
         interpolationComboBox.addActionListener(this::onInterpolationTypeSelect);
         toolBar.add(interpolationComboBox);
 
