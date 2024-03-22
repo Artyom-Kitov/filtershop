@@ -18,6 +18,7 @@ Date: 06.03.2024
 public class FiltershopFrame extends JFrame {
     private static final Dimension MINIMUM_SIZE = new Dimension(640, 480);
     private static final Dimension INITIAL_SIZE = new Dimension(1280, 720);
+    private static final Dimension INITIAL_IMAGE_SIZE = new Dimension(480, 320);
     private static final int HORIZONTAL_BORDER_LAYOUT_GAP = 4;
     private static final int VERTICAL_BORDER_LAYOUT_GAP = 4;
     private static final String[] INTERPOLATION_TYPES_NAMES = {
@@ -44,7 +45,7 @@ public class FiltershopFrame extends JFrame {
                         .getImage()
         );
 
-        imageViewWindow = new FiltershopViewPanel(INITIAL_SIZE);
+        imageViewWindow = new FiltershopViewPanel(INITIAL_IMAGE_SIZE);
         toolBar = new FiltershopToolBar();
         menuBar = new FiltershopMenuBar(imageViewWindow);
 
