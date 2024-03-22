@@ -181,7 +181,7 @@ public class FiltersList {
                                 .build()
                 ));
         highlightOption.setOnToolSelect(tool -> select(tool, highlightOption.getToolOption()));
-        highlightOption.setToolSupplier(() -> new RobertsBorderHighlightTool(
+        highlightOption.setToolSupplier(() -> new SobelBorderHighlightTool(
                 (int) highlightOption.getParameter("binarization")
         ));
         tools.add(highlightOption.getToolOption());
