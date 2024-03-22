@@ -24,6 +24,7 @@ public class FilterTool implements Tool {
     @Override
     public void applyTo(BufferedImage original, BufferedImage result) {
         int n = (filter.length - 1) / 2;
+        int[] pixels = original.getRGB(0, 0, original.getWidth(), original.getHeight(), null, 0, original.getWidth());
         for (int y = 0; y < original.getHeight(); y++) {
             for (int x = 0; x < original.getWidth(); x++) {
                 float r = 0;
@@ -35,7 +36,7 @@ public class FilterTool implements Tool {
                         int yFixed = Math.min(Math.max(y, n), original.getHeight() - n - 1);
 
                         float factor = filter[n + dy][n + dx];
-                        int color = original.getRGB(xFixed + dx, yFixed + dy);
+                        int color = pixels[(yFixed + dy) * original.getWidth() + xFixed + dx];
                         r += ColorUtils.getRed(color) * factor;
                         g += ColorUtils.getGreen(color) * factor;
                         b += ColorUtils.getBlue(color) * factor;

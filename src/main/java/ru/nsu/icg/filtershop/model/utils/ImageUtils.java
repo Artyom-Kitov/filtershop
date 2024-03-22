@@ -70,12 +70,13 @@ public class ImageUtils {
         Point newCenter = new Point(newSize.width / 2, newSize.height / 2);
 
         BufferedImage newImage = new BufferedImage(newSize.width, newSize.height, BufferedImage.TYPE_INT_ARGB);
+        int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
         for (int y = 0; y < newImage.getHeight(); ++y) {
             for (int x = 0; x < newImage.getWidth(); ++x) {
                 int x1 = (int) ((x - newCenter.x) * cos - (y - newCenter.y) * sin) + center.x;
                 int y1 = (int) ((x - newCenter.x) * sin + (y - newCenter.y) * cos) + center.y;
                 if (x1 >= 0 && x1 < image.getWidth() && y1 >= 0 && y1 < image.getHeight()) {
-                    newImage.setRGB(x, y, image.getRGB(x1, y1));
+                    newImage.setRGB(x, y, pixels[y1 * image.getWidth() + x1]);
                 }
                 else {
                     newImage.setRGB(x, y, 0xFFFFFFFF);

@@ -5,6 +5,8 @@ import ru.nsu.icg.filtershop.model.tools.*;
 import ru.nsu.icg.filtershop.model.tools.channels.BlueChannelTool;
 import ru.nsu.icg.filtershop.model.tools.channels.GreenChannelTool;
 import ru.nsu.icg.filtershop.model.tools.channels.RedChannelTool;
+import ru.nsu.icg.filtershop.model.tools.dithering.FloydSteinbergDitheringTool;
+import ru.nsu.icg.filtershop.model.tools.dithering.OrderedDitheringTool;
 
 import javax.swing.*;
 import java.util.ArrayList;

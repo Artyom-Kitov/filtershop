@@ -18,6 +18,8 @@ public class MedianSmoothTool implements Tool {
     int width = original.getWidth();
     int height = original.getHeight();
 
+    int[] pixels = original.getRGB(0, 0, width, height, null, 0, width);
+
     int[] redValues = new int[n * n];
     int[] greenValues = new int[n * n];
     int[] blueValues = new int[n * n];
@@ -29,7 +31,7 @@ public class MedianSmoothTool implements Tool {
             int nx = Math.min(Math.max(x + dx, 0), width - 1);
             int ny = Math.min(Math.max(y + dy, 0), height - 1);
 
-            int color = original.getRGB(nx, ny);
+            int color = pixels[ny * width + nx];
             redValues[index] = ColorUtils.getRed(color);
             greenValues[index] = ColorUtils.getGreen(color);
             blueValues[index] = ColorUtils.getBlue(color);

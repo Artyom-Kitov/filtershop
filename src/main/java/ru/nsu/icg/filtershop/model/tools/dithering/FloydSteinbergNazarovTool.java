@@ -1,8 +1,10 @@
-package ru.nsu.icg.filtershop.model.tools;
+package ru.nsu.icg.filtershop.model.tools.dithering;
+
+import ru.nsu.icg.filtershop.model.tools.Tool;
 
 import java.awt.image.BufferedImage;
 
-public class FloydSteinbergNazarovTool implements Tool{
+public class FloydSteinbergNazarovTool implements Tool {
 
   private final int quantizationR, quantizationG, quantizationB;
 

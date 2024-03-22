@@ -1,10 +1,11 @@
-package ru.nsu.icg.filtershop.model.tools;
+package ru.nsu.icg.filtershop.model.tools.dithering;
 
+import ru.nsu.icg.filtershop.model.tools.Tool;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
 
-import static ru.nsu.icg.filtershop.model.tools.FloydSteinbergDitheringTool.*;
+import static ru.nsu.icg.filtershop.model.tools.dithering.FloydSteinbergDitheringTool.*;
 
 /**
  * DON'T EVEN F***ING TRY TO STEAL MY CODE!!!

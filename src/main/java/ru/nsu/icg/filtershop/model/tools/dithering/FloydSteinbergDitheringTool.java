@@ -1,5 +1,6 @@
-package ru.nsu.icg.filtershop.model.tools;
+package ru.nsu.icg.filtershop.model.tools.dithering;
 
+import ru.nsu.icg.filtershop.model.tools.Tool;
 import ru.nsu.icg.filtershop.model.utils.ColorUtils;
 import ru.nsu.icg.filtershop.model.utils.ImageUtils;
 
@@ -26,21 +27,25 @@ public class FloydSteinbergDitheringTool implements Tool {
     public void applyTo(BufferedImage original, BufferedImage result) {
         ImageUtils.writeTo(original, result);
 
+        int width = original.getWidth();
+        int height = original.getHeight();
+        int[] pixels = result.getRGB(0, 0, width, original.getHeight(), null, 0, width);
         for (int mask = 0; mask <= 16; mask += 8) {
             int[] quantization = makeQuantization((quantNumbers & (0xff << mask)) >> mask);
             for (int y = 0; y < result.getHeight(); y++) {
                 for (int x = 0; x < result.getWidth(); x++) {
-                    int color = (result.getRGB(x, y) & (0xff << mask)) >> mask;
+                    int color = (pixels[y * width + x] & (0xff << mask)) >> mask;
                     int closest = findClosest(color, quantization);
-                    result.setRGB(x, y, (result.getRGB(x, y) & ~(0xff << mask)) | (closest << mask));
+                    pixels[y * width + x] = (pixels[y * width + x] & ~(0xff << mask)) | (closest << mask);
                     int error = color - closest;
-                    propagateError(result, x + 1, y, error, mask, FACTORS[0]);
-                    propagateError(result, x + 1, y + 1, error, mask, FACTORS[1]);
-                    propagateError(result, x, y + 1, error, mask, FACTORS[2]);
-                    propagateError(result, x - 1, y + 1, error, mask, FACTORS[3]);
+                    propagateError(pixels, width, height, x + 1, y, error, mask, FACTORS[0]);
+                    propagateError(pixels, width, height, x + 1, y + 1, error, mask, FACTORS[1]);
+                    propagateError(pixels, width, height, x, y + 1, error, mask, FACTORS[2]);
+                    propagateError(pixels, width, height, x - 1, y + 1, error, mask, FACTORS[3]);
                 }
             }
         }
+        result.setRGB(0, 0, width, height, pixels, 0, width);
     }
 
     static int[] makeQuantization(int quantNumber) {
@@ -65,13 +70,13 @@ public class FloydSteinbergDitheringTool implements Tool {
         return closest;
     }
 
-    private void propagateError(BufferedImage image, int x, int y, int error, int mask, float factor) {
-        if (x < 0 || y < 0 || x >= image.getWidth() || y >= image.getHeight()) {
+    private void propagateError(int[] pixels, int width, int height, int x, int y, int error, int mask, float factor) {
+        if (x < 0 || y < 0 || x >= width || y >= height) {
             return;
         }
-        int color = (image.getRGB(x, y) & (0xff << mask)) >> mask;
+        int color = (pixels[y * width + x] & (0xff << mask)) >> mask;
         color = Math.min(Math.max(0, color + (int) (factor * error)), 255);
-        image.setRGB(x, y, (image.getRGB(x, y) & ~(0xff << mask)) | (color << mask));
+        pixels[y * width + x] = (pixels[y * width + x] & ~(0xff << mask)) | (color << mask);
     }
 
 }
