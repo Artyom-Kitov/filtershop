@@ -12,6 +12,8 @@ import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 
 public class DisplayModesList {
+    private static final Dimension BUTTON_ICON_SIZE = new Dimension(32, 32);
+    private static final Dimension MENU_ITEM_ICON_SIZE = new Dimension(16, 16);
     @Getter
     private final FiltershopToolBar toolBar;
 
@@ -46,11 +48,19 @@ public class DisplayModesList {
 
     private void createRotationMode(IntConsumer onAngleChange) {
         JButton rotationButton = new JButton();
-        rotationButton.setPreferredSize(new Dimension(32, 32));
+        rotationButton.setPreferredSize(BUTTON_ICON_SIZE);
         rotationButton.setIcon(
-                ImageUtils.getScaledImageFromResources("/icons/rotate_icon.png", 32, 32)
+                ImageUtils.getScaledImageFromResources("/icons/rotate_icon.png", BUTTON_ICON_SIZE.width, BUTTON_ICON_SIZE.height)
         );
         JMenuItem rotationItem = new JMenuItem("Rotation");
+        rotationItem.setIcon(
+                ImageUtils.getScaledImageFromResources(
+                        "/icons/rotate_icon.png",
+                        MENU_ITEM_ICON_SIZE.width,
+                        MENU_ITEM_ICON_SIZE.height
+                )
+        );
+
         rotationButton.setToolTipText("Rotation");
 
         FiltershopParameterDialog rotationDialog = new FiltershopParameterDialog();
