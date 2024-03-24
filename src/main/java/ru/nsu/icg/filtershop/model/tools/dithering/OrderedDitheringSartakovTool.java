@@ -1,0 +1,109 @@
+package ru.nsu.icg.filtershop.model.tools.dithering;
+
+import ru.nsu.icg.filtershop.model.tools.Tool;
+import ru.nsu.icg.filtershop.model.utils.ColorUtils;
+import ru.nsu.icg.filtershop.model.utils.ImageUtils;
+
+import java.awt.image.BufferedImage;
+
+public class OrderedDitheringSartakovTool implements Tool {
+    private final int redQuantizationNumber;
+    private final int greenQuantizationNumber;
+    private final int blueQuantizationNumber;
+
+    private final float[][] matrix;
+
+    public OrderedDitheringSartakovTool(int quantR, int quantG, int quantB) {
+        redQuantizationNumber = quantR;
+        greenQuantizationNumber = quantG;
+        blueQuantizationNumber = quantB;
+
+        matrix = createOrderedDitheringMatrix(getMatrixSize());
+
+        normalizeMatrix();
+    }
+
+    private int getMatrixSize() {
+        int maxStep = Math.max(Math.max(redQuantizationNumber, greenQuantizationNumber), blueQuantizationNumber);
+
+        int powerOfTwo = 1;
+        while (maxStep > (1 << powerOfTwo) * (1 << powerOfTwo)) {
+            ++powerOfTwo;
+        }
+
+        return  powerOfTwo;
+    }
+
+    private float[][] createOrderedDitheringMatrix(int powerOfTwo) {
+        if (powerOfTwo <= 1) {
+            return new float[][] {
+                    { 0f, 2f },
+                    { 3f, 1f }
+            };
+        }
+
+        float[][] prev = createOrderedDitheringMatrix(powerOfTwo - 1);
+        float[][] result = new float[1 << powerOfTwo][1 << powerOfTwo];
+        for (int y = 0; y < prev.length; ++y) {
+            for (int x = 0; x < prev.length; ++x) {
+                // 0 2
+                // 3 1
+                result[y][x] = 4 * prev[y][x];
+                result[y][prev.length + x] = 4 * prev[y][x] + 2;
+                result[prev.length + y][x] = 4 * prev[y][x] + 3;
+                result[prev.length + y][prev.length + x] = 4 * prev[y][x] + 1;
+            }
+        }
+
+        return result;
+    }
+
+    private void normalizeMatrix() {
+        for (int y = 0; y < matrix.length; ++y) {
+            for (int x = 0; x < matrix.length; ++x) {
+                matrix[y][x] /= matrix.length * matrix.length;
+                matrix[y][x] -= 0.5f;
+            }
+        }
+    }
+
+    @Override
+    public void applyTo(BufferedImage original, BufferedImage result) {
+        ImageUtils.writeTo(original, result);
+
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = result.getRGB(0, 0, width, height, null, 0, width);
+        int[][] quantization = {
+                FloydSteinbergSartakovTool.quantizeColor(redQuantizationNumber),
+                FloydSteinbergSartakovTool.quantizeColor(greenQuantizationNumber),
+                FloydSteinbergSartakovTool.quantizeColor(blueQuantizationNumber)
+        };
+        float[] steps = {
+                256f / quantization[0].length,
+                256f / quantization[1].length,
+                256f / quantization[2].length,
+        };
+
+        for (int y = 0; y < result.getHeight(); ++y) {
+            for (int x = 0; x < result.getWidth(); ++x) {
+                int curPixelPos = y * width + x;
+
+                int r = ColorUtils.getRed(pixels[curPixelPos]);
+                int g = ColorUtils.getGreen(pixels[curPixelPos]);
+                int b = ColorUtils.getBlue(pixels[curPixelPos]);
+
+                int rNormalized = (int) (r + steps[0] * matrix[y % matrix.length][x % matrix.length]);
+                int gNormalized = (int) (g + steps[1] * matrix[y % matrix.length][x % matrix.length]);
+                int bNormalized = (int) (b + steps[2] * matrix[y % matrix.length][x % matrix.length]);
+
+                int newR = FloydSteinbergSartakovTool.findClosest(rNormalized, quantization[0]);
+                int newG = FloydSteinbergSartakovTool.findClosest(gNormalized, quantization[1]);
+                int newB = FloydSteinbergSartakovTool.findClosest(bNormalized, quantization[2]);
+
+                pixels[curPixelPos] = ColorUtils.getRGB(newR, newG, newB);
+            }
+        }
+        result.setRGB(0, 0, width, height, pixels, 0, width);
+    }
+}

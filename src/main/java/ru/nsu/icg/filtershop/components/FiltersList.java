@@ -6,6 +6,8 @@ import ru.nsu.icg.filtershop.model.tools.channels.BlueChannelTool;
 import ru.nsu.icg.filtershop.model.tools.channels.GreenChannelTool;
 import ru.nsu.icg.filtershop.model.tools.channels.RedChannelTool;
 import ru.nsu.icg.filtershop.model.tools.dithering.FloydSteinbergDitheringTool;
+import ru.nsu.icg.filtershop.model.tools.dithering.FloydSteinbergSartakovTool;
+import ru.nsu.icg.filtershop.model.tools.dithering.OrderedDitheringSartakovTool;
 import ru.nsu.icg.filtershop.model.tools.dithering.OrderedDitheringTool;
 
 import javax.swing.*;
@@ -58,6 +60,8 @@ public class FiltersList {
         createRedChannel();
         createGreenChannel();
         createBlueChannel();
+        createFloydSteinbergSartakovDithering();
+        createOrderedDitheringSartakov();
 
         toolBarGroup = new ArrayList<>();
         menuBarGroup = new ArrayList<>();
@@ -88,6 +92,48 @@ public class FiltersList {
         option.getMenuItem().setSelected(true);
 
         onToolSelect.accept(tool);
+    }
+
+    private void createOrderedDitheringSartakov() {
+        ParameterToolOption ditheringOption = new ParameterToolOption("Ordered dithering",
+                onCancel, List.of(
+                Parameters.builder().name("quantization red").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("quantization green").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("quantization blue").min(2).max(128).initial(2)
+                        .build()
+        ));
+        ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
+        ditheringOption.setToolSupplier(() -> new OrderedDitheringSartakovTool(
+                (int) ditheringOption.getParameter("quantization red"),
+                (int) ditheringOption.getParameter("quantization green"),
+                (int) ditheringOption.getParameter("quantization blue")
+        ));
+        tools.add(ditheringOption.getToolOption());
+        ditheringOption.getToolOption().setIcons("/icons/dithering2_icon.png",
+                "/icons/dithering2_selected_icon.png");
+    }
+
+    private void createFloydSteinbergSartakovDithering() {
+        ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg dithering",
+                onCancel, List.of(
+                Parameters.builder().name("red quantization").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("green quantization").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("blue quantization").min(2).max(128).initial(2)
+                        .build()
+        ));
+        ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
+        ditheringOption.setToolSupplier(() -> new FloydSteinbergSartakovTool(
+                (int) ditheringOption.getParameter("red quantization"),
+                (int) ditheringOption.getParameter("green quantization"),
+                (int) ditheringOption.getParameter("blue quantization")
+        ));
+        tools.add(ditheringOption.getToolOption());
+        ditheringOption.getToolOption().setIcons("/icons/dithering1_icon.png",
+                "/icons/dithering1_selected_icon.png");
     }
 
     private void createBlueChannel() {
