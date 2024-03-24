@@ -60,6 +60,7 @@ public class FiltersList {
         createFloydSteinbergSartakovDithering();
         createOrderedDitheringSartakov();
         createFloydSteinbergNazarovDithering();
+        createOrderedNazarovDithering();
 
         toolBarGroup = new ArrayList<>();
         menuBarGroup = new ArrayList<>();
@@ -235,6 +236,27 @@ public class FiltersList {
         tools.add(ditheringOption.getToolOption());
         ditheringOption.getToolOption().setIcons("/icons/dithering1_icon.png",
                 "/icons/dithering1_selected_icon.png");
+    }
+
+    private void createOrderedNazarovDithering() {
+        ParameterToolOption ditheringOption = new ParameterToolOption("Ordered Nazarov dithering",
+                onCancel, List.of(
+                Parameters.builder().name("red quantization").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("green quantization").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("blue quantization").min(2).max(128).initial(2)
+                        .build()
+        ));
+        ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
+        ditheringOption.setToolSupplier(() -> new OrderedNazarovTool(
+                (int) ditheringOption.getParameter("red quantization"),
+                (int) ditheringOption.getParameter("green quantization"),
+                (int) ditheringOption.getParameter("blue quantization")
+        ));
+        tools.add(ditheringOption.getToolOption());
+        ditheringOption.getToolOption().setIcons("/icons/dithering2_icon.png",
+                "/icons/dithering2_selected_icon.png");
     }
 
     private void createWave() {
