@@ -48,10 +48,10 @@ public class OrderedDitheringSartakovTool implements Tool {
             for (int x = 0; x < prev.length; ++x) {
                 // 0 2
                 // 3 1
-                result[y][x] = 4 * prev[y][x];
-                result[y][prev.length + x] = 4 * prev[y][x] + 2;
-                result[prev.length + y][x] = 4 * prev[y][x] + 3;
-                result[prev.length + y][prev.length + x] = 4 * prev[y][x] + 1;
+                result[x][y] = 4 * prev[x][y];
+                result[x][prev.length + y] = 4 * prev[x][y] + 2;
+                result[prev.length + x][y] = 4 * prev[x][y] + 3;
+                result[prev.length + x][prev.length + y] = 4 * prev[x][y] + 1;
             }
         }
 
@@ -61,8 +61,7 @@ public class OrderedDitheringSartakovTool implements Tool {
     private void normalizeMatrix() {
         for (int y = 0; y < matrix.length; ++y) {
             for (int x = 0; x < matrix.length; ++x) {
-                matrix[y][x] /= matrix.length * matrix.length;
-                matrix[y][x] -= 0.5f;
+                matrix[x][y] = matrix[x][y] / (matrix.length * matrix.length) - 0.5f;
             }
         }
     }
