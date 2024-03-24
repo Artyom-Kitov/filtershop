@@ -5,10 +5,7 @@ import ru.nsu.icg.filtershop.model.tools.*;
 import ru.nsu.icg.filtershop.model.tools.channels.BlueChannelTool;
 import ru.nsu.icg.filtershop.model.tools.channels.GreenChannelTool;
 import ru.nsu.icg.filtershop.model.tools.channels.RedChannelTool;
-import ru.nsu.icg.filtershop.model.tools.dithering.FloydSteinbergDitheringTool;
-import ru.nsu.icg.filtershop.model.tools.dithering.FloydSteinbergSartakovTool;
-import ru.nsu.icg.filtershop.model.tools.dithering.OrderedDitheringSartakovTool;
-import ru.nsu.icg.filtershop.model.tools.dithering.OrderedDitheringTool;
+import ru.nsu.icg.filtershop.model.tools.dithering.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -54,14 +51,15 @@ public class FiltersList {
         createWatercolor();
         createPixelArt();
         createWave();
-        createFloydSteinbergDithering();
-        createOrderedDithering();
         createSepia();
         createRedChannel();
         createGreenChannel();
         createBlueChannel();
+        createFloydSteinbergDithering();
+        createOrderedDithering();
         createFloydSteinbergSartakovDithering();
         createOrderedDitheringSartakov();
+        createFloydSteinbergNazarovDithering();
 
         toolBarGroup = new ArrayList<>();
         menuBarGroup = new ArrayList<>();
@@ -95,7 +93,7 @@ public class FiltersList {
     }
 
     private void createOrderedDitheringSartakov() {
-        ParameterToolOption ditheringOption = new ParameterToolOption("Ordered dithering",
+        ParameterToolOption ditheringOption = new ParameterToolOption("Ordered Sartakov dithering",
                 onCancel, List.of(
                 Parameters.builder().name("quantization red").min(2).max(128).initial(2)
                         .build(),
@@ -116,7 +114,7 @@ public class FiltersList {
     }
 
     private void createFloydSteinbergSartakovDithering() {
-        ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg dithering",
+        ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg Sartakov dithering",
                 onCancel, List.of(
                 Parameters.builder().name("red quantization").min(2).max(128).initial(2)
                         .build(),
@@ -177,7 +175,7 @@ public class FiltersList {
     }
 
     private void createOrderedDithering() {
-        ParameterToolOption ditheringOption = new ParameterToolOption("Ordered dithering",
+        ParameterToolOption ditheringOption = new ParameterToolOption("Ordered Kitov dithering",
                 onCancel, List.of(
                         Parameters.builder().name("quantization red").min(2).max(128).initial(2)
                                 .build(),
@@ -198,7 +196,7 @@ public class FiltersList {
     }
 
     private void createFloydSteinbergDithering() {
-        ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg dithering",
+        ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg Kitov dithering",
                 onCancel, List.of(
                         Parameters.builder().name("red quantization").min(2).max(128).initial(2)
                                 .build(),
@@ -209,6 +207,27 @@ public class FiltersList {
         ));
         ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
         ditheringOption.setToolSupplier(() -> new FloydSteinbergDitheringTool(
+                (int) ditheringOption.getParameter("red quantization"),
+                (int) ditheringOption.getParameter("green quantization"),
+                (int) ditheringOption.getParameter("blue quantization")
+        ));
+        tools.add(ditheringOption.getToolOption());
+        ditheringOption.getToolOption().setIcons("/icons/dithering1_icon.png",
+                "/icons/dithering1_selected_icon.png");
+    }
+
+    private void createFloydSteinbergNazarovDithering() {
+        ParameterToolOption ditheringOption = new ParameterToolOption("Floyd-Steinberg Nazarov dithering",
+                onCancel, List.of(
+                Parameters.builder().name("red quantization").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("green quantization").min(2).max(128).initial(2)
+                        .build(),
+                Parameters.builder().name("blue quantization").min(2).max(128).initial(2)
+                        .build()
+        ));
+        ditheringOption.setOnToolSelect(tool -> select(tool, ditheringOption.getToolOption()));
+        ditheringOption.setToolSupplier(() -> new FloydSteinbergNazarovTool(
                 (int) ditheringOption.getParameter("red quantization"),
                 (int) ditheringOption.getParameter("green quantization"),
                 (int) ditheringOption.getParameter("blue quantization")
