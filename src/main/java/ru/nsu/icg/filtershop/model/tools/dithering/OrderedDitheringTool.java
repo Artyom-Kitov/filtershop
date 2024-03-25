@@ -79,7 +79,7 @@ public class OrderedDitheringTool implements Tool {
         int[] pixels = result.getRGB(0, 0, width, height, null, 0, width);
         for (int mask = 0; mask <= 16; mask += 8) {
             int[] quantization = makeQuantization((quantNumbers & (0xff << mask)) >> mask);
-            float step = 256f;
+            float step = 256f / (quantization.length - 1);
             for (int y = 0; y < result.getHeight(); y++) {
                 for (int x = 0; x < result.getWidth(); x++) {
                     int color = (pixels[y * width + x] & (0xff << mask)) >> mask;

@@ -75,11 +75,11 @@ public class OrderedNazarovTool implements Tool {
         int pos = y * width + x;
 
         int r = (int) (ColorUtils.getRed(imageRGBs[pos]) +
-                          (256f) * matrix[y % matrix.length][x % matrix.length]);
+                          (256f / (quantizations[0].length - 1)) * matrix[y % matrix.length][x % matrix.length]);
         int g = (int) (ColorUtils.getGreen(imageRGBs[pos]) +
-                          (256f) * matrix[y % matrix.length][x % matrix.length]);
+                          (256f / (quantizations[1].length - 1)) * matrix[y % matrix.length][x % matrix.length]);
         int b = (int) (ColorUtils.getBlue(imageRGBs[pos]) +
-                          (256f) * matrix[y % matrix.length][x % matrix.length]);
+                          (256f / (quantizations[2].length - 1)) * matrix[y % matrix.length][x % matrix.length]);
 
         int rNew = FloydSteinbergNazarovTool.findClosest(r, quantizations[0]);
         int gNew = FloydSteinbergNazarovTool.findClosest(g, quantizations[1]);
