@@ -49,14 +49,14 @@ public class OrderedNazarovTool implements Tool {
   }
 
   private int getMatrixSize() {
-    int maxStep = Math.max(Math.max(quantizationR, quantizationG), quantizationB);
+    float maxStep = 256f / Math.max(Math.max(quantizationR, quantizationG), quantizationB);
     return (int) Math.ceil(Math.log(maxStep) / Math.log(2));
   }
 
   private void normalize() {
     for (int y = 0; y < matrix.length; ++y) {
       for (int x = 0; x < matrix.length; ++x) {
-        matrix[x][y] = (float) (matrix[x][y] / (Math.pow(matrix.length, 2)) - 0.45f);
+        matrix[x][y] = (float) (matrix[x][y] / (Math.pow(matrix.length, 2)) - 0.5f);
       }
     }
   }
@@ -75,11 +75,11 @@ public class OrderedNazarovTool implements Tool {
         int pos = y * width + x;
 
         int r = (int) (ColorUtils.getRed(imageRGBs[pos]) +
-                          (256f / quantizations[0].length) * matrix[y % matrix.length][x % matrix.length]);
+                          (256f) * matrix[y % matrix.length][x % matrix.length]);
         int g = (int) (ColorUtils.getGreen(imageRGBs[pos]) +
-                          (256f / quantizations[1].length) * matrix[y % matrix.length][x % matrix.length]);
+                          (256f) * matrix[y % matrix.length][x % matrix.length]);
         int b = (int) (ColorUtils.getBlue(imageRGBs[pos]) +
-                          (256f / quantizations[2].length) * matrix[y % matrix.length][x % matrix.length]);
+                          (256f) * matrix[y % matrix.length][x % matrix.length]);
 
         int rNew = FloydSteinbergNazarovTool.findClosest(r, quantizations[0]);
         int gNew = FloydSteinbergNazarovTool.findClosest(g, quantizations[1]);
