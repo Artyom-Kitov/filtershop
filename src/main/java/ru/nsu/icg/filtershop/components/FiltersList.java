@@ -51,6 +51,7 @@ public class FiltersList {
         createWatercolor();
         createPixelArt();
         createWave();
+        createSwirl();
         createSepia();
         createRedChannel();
         createGreenChannel();
@@ -71,6 +72,22 @@ public class FiltersList {
             toolsMenu.add(tool.getMenuItem());
             menuBarGroup.add(tool.getMenuItem());
         }
+    }
+
+    private void createSwirl() {
+        ParameterToolOption waveOption = new ParameterToolOption("Swirl", onCancel,
+                List.of(
+                        Parameters.builder().name("swirlFactor").min(-50).max(50).initial(0)
+                                .build()
+                ));
+        waveOption.setOnToolSelect(tool -> select(tool, waveOption.getToolOption()));
+        waveOption.setToolSupplier(() -> new SwirlTool(
+                (int) waveOption.getParameter("swirlFactor")
+        ));
+        tools.add(waveOption.getToolOption());
+        waveOption.getToolOption().setIcons("/icons/swirl.png",
+                "/icons/swirl.png"
+        );
     }
 
     public void setLastSelected(boolean b) {
