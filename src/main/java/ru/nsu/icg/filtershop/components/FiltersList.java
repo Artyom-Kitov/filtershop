@@ -85,8 +85,8 @@ public class FiltersList {
                 (int) waveOption.getParameter("swirlFactor")
         ));
         tools.add(waveOption.getToolOption());
-        waveOption.getToolOption().setIcons("/icons/swirl.png",
-                "/icons/swirl.png"
+        waveOption.getToolOption().setIcons("/icons/wirl_tool.png",
+                "/icons/wirl_selected_tool.png"
         );
     }
 
