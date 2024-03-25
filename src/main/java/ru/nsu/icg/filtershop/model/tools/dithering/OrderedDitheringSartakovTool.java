@@ -78,19 +78,23 @@ public class OrderedDitheringSartakovTool implements Tool {
                 FloydSteinbergSartakovTool.quantizeColor(greenQuantizationNumber),
                 FloydSteinbergSartakovTool.quantizeColor(blueQuantizationNumber)
         };
+        float[] steps = {
+                256f / (quantization[0].length - 1),
+                256f / (quantization[1].length - 1),
+                256f / (quantization[2].length - 1)
+        };
 
         for (int y = 0; y < result.getHeight(); ++y) {
             for (int x = 0; x < result.getWidth(); ++x) {
-                float step = 256f;
                 int curPixelPos = y * width + x;
 
                 int r = ColorUtils.getRed(pixels[curPixelPos]);
                 int g = ColorUtils.getGreen(pixels[curPixelPos]);
                 int b = ColorUtils.getBlue(pixels[curPixelPos]);
 
-                int rNormalized = (int) (r + step * matrix[y % matrix.length][x % matrix.length]);
-                int gNormalized = (int) (g + step * matrix[y % matrix.length][x % matrix.length]);
-                int bNormalized = (int) (b + step * matrix[y % matrix.length][x % matrix.length]);
+                int rNormalized = (int) (r + steps[0] * matrix[y % matrix.length][x % matrix.length]);
+                int gNormalized = (int) (g + steps[1] * matrix[y % matrix.length][x % matrix.length]);
+                int bNormalized = (int) (b + steps[2] * matrix[y % matrix.length][x % matrix.length]);
 
                 int newR = FloydSteinbergSartakovTool.findClosest(rNormalized, quantization[0]);
                 int newG = FloydSteinbergSartakovTool.findClosest(gNormalized, quantization[1]);
