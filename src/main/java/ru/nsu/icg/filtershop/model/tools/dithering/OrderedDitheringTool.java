@@ -19,6 +19,7 @@ public class OrderedDitheringTool implements Tool {
     private final int quantNumbers;
 
     private final float[][] matrix;
+    private float maxStep;
 
     public OrderedDitheringTool(int quantizationR, int quantizationG, int quantizationB) {
         quantNumbers = (quantizationR << 16) | (quantizationG << 8) | quantizationB;
@@ -30,7 +31,7 @@ public class OrderedDitheringTool implements Tool {
         int quantizationR = (quantNumbers & 0xff0000) >> 16;
         int quantizationG = (quantNumbers & 0x00ff00) >> 8;
         int quantizationB = quantNumbers & 0x0000ff;
-        float maxStep = Math.max(Math.max(quantizationR, quantizationG), quantizationB);
+        maxStep = Math.max(Math.max(256f / quantizationR, 256f / quantizationG), 256f / quantizationB);
 
         // the power of 2
         int result = 1;
@@ -78,7 +79,7 @@ public class OrderedDitheringTool implements Tool {
         int[] pixels = result.getRGB(0, 0, width, height, null, 0, width);
         for (int mask = 0; mask <= 16; mask += 8) {
             int[] quantization = makeQuantization((quantNumbers & (0xff << mask)) >> mask);
-            float step = 256f / quantization.length;
+            float step = 256f;
             for (int y = 0; y < result.getHeight(); y++) {
                 for (int x = 0; x < result.getWidth(); x++) {
                     int color = (pixels[y * width + x] & (0xff << mask)) >> mask;
