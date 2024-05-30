@@ -53,6 +53,7 @@ public class FiltersList {
         createWave();
         createSwirl();
         createSepia();
+        createLiquidated();
         createRedChannel();
         createGreenChannel();
         createBlueChannel();
@@ -72,6 +73,16 @@ public class FiltersList {
             toolsMenu.add(tool.getMenuItem());
             menuBarGroup.add(tool.getMenuItem());
         }
+    }
+
+    private void createLiquidated() {
+        ToolOption blackWhiteOption = new ToolOption("Liquidated",
+                new LiquidatedTool(), () -> cancelSelection(onCancel));
+        blackWhiteOption.setOnSelect(tool -> select(tool, blackWhiteOption));
+        tools.add(blackWhiteOption);
+        blackWhiteOption.setIcons("/icons/black_white_icon.png",
+                "/icons/black_white_selected_icon.png"
+        );
     }
 
     private void createSwirl() {
